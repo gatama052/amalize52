@@ -176,7 +176,7 @@ export default function DoaPage() {
             onClick={() => {
               const next = !searchOpen;
               setSearchOpen(next);
-              if (!next) { setSearchQuery(''); setActiveSearch(''); }
+              if (!next) { setSearchQuery(''); }
             }}
             className="rounded-lg p-2 text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
           >
