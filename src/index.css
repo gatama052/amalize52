@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 20% 98%;
+    --foreground: 215 70% 14%;
+    --card: 0 0% 100%;
+    --card-foreground: 215 70% 14%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 70% 14%;
+    --primary: 215 70% 14%;
+    --primary-foreground: 43 30% 95%;
+    --secondary: 210 20% 93%;
+    --secondary-foreground: 215 70% 14%;
+    --muted: 210 15% 93%;
+    --muted-foreground: 215 20% 46%;
+    --accent: 43 65% 52%;
+    --accent-foreground: 215 70% 14%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 215 20% 88%;
+    --input: 215 20% 88%;
+    --ring: 43 65% 52%;
+    --radius: 0.75rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 215 75% 6%;
+    --foreground: 40 15% 90%;
+    --card: 215 70% 11%;
+    --card-foreground: 40 15% 90%;
+    --popover: 215 70% 9%;
+    --popover-foreground: 40 15% 90%;
+    --primary: 43 65% 52%;
+    --primary-foreground: 215 75% 6%;
+    --secondary: 215 50% 18%;
+    --secondary-foreground: 40 15% 90%;
+    --muted: 215 50% 15%;
+    --muted-foreground: 215 15% 55%;
+    --accent: 43 65% 52%;
+    --accent-foreground: 215 75% 6%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 215 40% 18%;
+    --input: 215 40% 18%;
+    --ring: 43 65% 52%;
+    --sidebar-background: 215 70% 8%;
+    --sidebar-foreground: 40 15% 90%;
+    --sidebar-primary: 43 65% 52%;
+    --sidebar-primary-foreground: 215 75% 6%;
+    --sidebar-accent: 215 50% 15%;
+    --sidebar-accent-foreground: 40 15% 90%;
+    --sidebar-border: 215 40% 18%;
+    --sidebar-ring: 43 65% 52%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+}
+
+@layer utilities {
+  .gold-glow {
+    box-shadow: 0 0 20px hsl(43 65% 52% / 0.3);
+  }
+
+  .prayer-gradient {
+    background: linear-gradient(135deg, hsl(215 70% 14%), hsl(215 70% 20%));
+  }
+
+  .dark .prayer-gradient {
+    background: linear-gradient(135deg, hsl(215 70% 8%), hsl(215 70% 14%));
+  }
+
+  .gold-gradient {
+    background: linear-gradient(135deg, hsl(43 65% 52%), hsl(43 75% 60%));
+  }
+
+  .islamic-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .scroll-hidden::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scroll-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@keyframes splash-logo {
+  0% { opacity: 0; transform: scale(0.5) translateY(20px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes splash-text {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
