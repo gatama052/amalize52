@@ -42,6 +42,39 @@ function showNotification(key: string) {
   }
 }
 
+// Register custom azan service worker
+async function registerAzanSW() {
+  if (!('serviceWorker' in navigator)) return null;
+  try {
+    const reg = await navigator.serviceWorker.register('/sw-azan.js', { scope: '/' });
+    console.log('Azan SW registered');
+    
+    // Try to register periodic sync
+    if ('periodicSync' in reg) {
+      try {
+        await (reg as any).periodicSync.register('azan-check', {
+          minInterval: 60 * 1000, // 1 minute
+        });
+      } catch {
+        console.log('Periodic sync not available, using fallback');
+      }
+    }
+    
+    return reg;
+  } catch (e) {
+    console.warn('Azan SW registration failed:', e);
+    return null;
+  }
+}
+
+async function sendTimingsToSW(timings: PrayerTimings) {
+  if (!('serviceWorker' in navigator) || !navigator.serviceWorker.controller) return;
+  navigator.serviceWorker.controller.postMessage({
+    type: 'UPDATE_PRAYER_TIMINGS',
+    timings,
+  });
+}
+
 export function useAzanNotification(timings: PrayerTimings | null) {
   const [enabled, setEnabled] = useLocalStorage('deenflow_azan', true);
   const [volume, setVolume] = useLocalStorage('deenflow_azan_volume', 80);
@@ -55,6 +88,43 @@ export function useAzanNotification(timings: PrayerTimings | null) {
       Notification.requestPermission();
     }
   }, [enabled]);
+
+  // Register azan service worker and send timings
+  useEffect(() => {
+    if (!enabled) return;
+    
+    registerAzanSW().then(() => {
+      if (timings) {
+        sendTimingsToSW(timings);
+        // Tell SW to start checking
+        if (navigator.serviceWorker.controller) {
+          navigator.serviceWorker.controller.postMessage({ type: 'START_AZAN_CHECK' });
+        }
+      }
+    });
+
+    // Listen for SW messages to play audio
+    const handleSWMessage = (event: MessageEvent) => {
+      if (event.data?.type === 'PLAY_AZAN') {
+        playAzan();
+      }
+    };
+    navigator.serviceWorker?.addEventListener('message', handleSWMessage);
+
+    return () => {
+      navigator.serviceWorker?.removeEventListener('message', handleSWMessage);
+      if (navigator.serviceWorker?.controller) {
+        navigator.serviceWorker.controller.postMessage({ type: 'STOP_AZAN_CHECK' });
+      }
+    };
+  }, [enabled]);
+
+  // Send updated timings to SW whenever they change
+  useEffect(() => {
+    if (enabled && timings) {
+      sendTimingsToSW(timings);
+    }
+  }, [timings, enabled]);
 
   // Pre-load audio & unlock on interaction
   useEffect(() => {
@@ -93,7 +163,7 @@ export function useAzanNotification(timings: PrayerTimings | null) {
     }
   }, [volume]);
 
-  // Check prayer times every second
+  // Check prayer times every second (foreground check)
   useEffect(() => {
     if (!enabled || !timings) return;
 
