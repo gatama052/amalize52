@@ -15,32 +15,18 @@ export default function DoaPage() {
   const [focusDzikirTime, setFocusDzikirTime] = useState<'pagi' | 'petang'>('pagi');
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeSearch, setActiveSearch] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const toggleFav = (id: string) => {
     setFavorites(favorites.includes(id) ? favorites.filter((f) => f !== id) : [...favorites, id]);
   };
 
-  const handleSearch = useCallback(() => {
-    setActiveSearch(searchQuery.trim().toLowerCase());
-    searchInputRef.current?.blur();
-  }, [searchQuery]);
-
-  const handleSearchKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleSearch();
-    }
-  }, [handleSearch]);
-
   const clearSearch = useCallback(() => {
     setSearchQuery('');
-    setActiveSearch('');
     searchInputRef.current?.focus();
   }, []);
 
-  const sq = activeSearch;
+  const sq = searchQuery.trim().toLowerCase();
   const filtered = doaList.filter((d) => {
     if (showFavOnly && !favorites.includes(d.id)) return false;
     if (activeCategory !== 'Semua' && d.category !== activeCategory) return false;
