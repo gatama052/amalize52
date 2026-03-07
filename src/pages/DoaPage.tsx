@@ -41,7 +41,8 @@ export default function DoaPage() {
     return true;
   });
 
-  const showAlMatsurat = !showFavOnly && (activeCategory === 'Semua' || activeCategory === 'Dzikir Pagi & Petang');
+  const showAlMatsurat = !showFavOnly && (activeCategory === 'Dzikir Pagi & Petang') && !sq;
+  const showAlMatsuratBySearch = !showFavOnly && sq && ('dzikir pagi petang'.includes(sq) || 'al-matsurat'.includes(sq) || 'al matsurat'.includes(sq));
 
   // Focus mode only available for dzikir pagi/petang and doa sholat
   const canFocus = activeCategory === 'Dzikir Pagi & Petang' || activeCategory === 'Doa Sholat';
