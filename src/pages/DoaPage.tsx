@@ -306,7 +306,7 @@ export default function DoaPage() {
 
       {/* Doa list */}
       <div className="space-y-3">
-        {filtered.length === 0 && filteredGroups.length === 0 && !showAlMatsurat ? (
+        {filtered.length === 0 && filteredGroups.length === 0 && !showAlMatsurat && !showAlMatsuratBySearch ? (
           <p className="py-8 text-center text-sm text-muted-foreground">
             {showFavOnly ? 'Belum ada doa favorit' : sq ? 'Tidak ditemukan hasil pencarian' : 'Tidak ada doa di kategori ini'}
           </p>
