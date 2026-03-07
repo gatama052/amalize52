@@ -325,7 +325,7 @@ export default function DoaPage() {
       </div>
 
       {/* Al-Matsurat */}
-      {showAlMatsurat && (
+      {(showAlMatsurat || showAlMatsuratBySearch) && (
         <AlMatsuratCard isFav={favorites.includes('al-matsurat')} onToggleFav={() => toggleFav('al-matsurat')}
           arabicSize={arabicSize} showLatin={showLatin} showTranslation={showTranslation} />
       )}
