@@ -27,17 +27,25 @@ export default function DoaPage() {
   }, []);
 
   const sq = searchQuery.trim().toLowerCase();
+  
+  // Deduplicate by id using a Set
+  const seenIds = new Set<string>();
+  
   const filtered = doaList.filter((d) => {
+    if (seenIds.has(d.id)) return false;
     if (showFavOnly && !favorites.includes(d.id)) return false;
     if (activeCategory !== 'Semua' && d.category !== activeCategory) return false;
-    if (sq && !d.title.toLowerCase().includes(sq) && !d.arabic.includes(sq)) return false;
+    if (sq && !d.title.toLowerCase().includes(sq) && !d.arabic.includes(sq) && !d.latin.toLowerCase().includes(sq)) return false;
+    seenIds.add(d.id);
     return true;
   });
 
   const filteredGroups = doaSholatGroups.filter((g) => {
+    if (seenIds.has(g.id)) return false;
     if (showFavOnly && !favorites.includes(g.id)) return false;
     if (activeCategory !== 'Semua' && g.category !== activeCategory) return false;
-    if (sq && !g.title.toLowerCase().includes(sq)) return false;
+    if (sq && !g.title.toLowerCase().includes(sq) && !g.items.some(item => item.subtitle?.toLowerCase().includes(sq))) return false;
+    seenIds.add(g.id);
     return true;
   });
 
@@ -254,7 +262,7 @@ export default function DoaPage() {
 
       {/* Search bar */}
       {searchOpen && (
-        <div className="relative">
+        <form onSubmit={(e) => { e.preventDefault(); }} className="relative">
           <input
             ref={searchInputRef}
             type="text"
@@ -272,7 +280,7 @@ export default function DoaPage() {
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
           )}
-        </div>
+        </form>
       )}
 
       {/* Categories */}

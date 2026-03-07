@@ -153,7 +153,7 @@ export const alMatsuratList: AlMatsuratItem[] = [
     translation: "Aku ridha Allah sebagai Tuhanku, Islam sebagai agamaku, Dan Muhammad sebagai Nabi dan Rasulku."
   },
   {
-    id: 'matsurat-dzikir 6',
+    id: 'matsurat-dzikir 6b',
     title: "Dzikir 3x",
     arabic: "سُبْحَانَ اللّٰهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ وَرِضَا نَفْسِهِ وَزِنَةَ عَرْشِهِ وَمِدَادَ كَلِمَاتِهِ",
     latin: "Subhaanallahi wa bihamdihi 'adada khalqihi wa ridhaa nafsihi wa zinata 'arsyihi wa midadaa kalimaatihi",
@@ -774,7 +774,7 @@ export const doaSholatGroups: DoaSholatGroup[] = [
     ]
   },
   {
-    id: 'sholat-bacaantasyahud',
+    id: 'sholat-bacaantasyahudakhir',
     category: 'Doa Sholat',
     title: "Tasyahud Akhir",
     items: [
