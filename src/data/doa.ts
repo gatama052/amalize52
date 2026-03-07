@@ -774,7 +774,7 @@ export const doaSholatGroups: DoaSholatGroup[] = [
     ]
   },
   {
-    id: 'sholat-bacaantasyahud',
+    id: 'sholat-bacaantasyahudakhir',
     category: 'Doa Sholat',
     title: "Tasyahud Akhir",
     items: [
