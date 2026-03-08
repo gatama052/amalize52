@@ -211,16 +211,17 @@ export default function Home() {
           ? 'bg-card border border-accent/30'
           : 'bg-card'
       }`}>
-        <div className="flex items-start gap-3">
-          <span className="text-2xl leading-none mt-0.5">{goldenMotivation.motivation.icon}</span>
-          <p className={`text-sm leading-relaxed ${
-            goldenMotivation.type === 'islamic' || goldenMotivation.type === 'ramadan'
-              ? 'font-semibold'
-              : 'text-muted-foreground italic'
-          }`}>
-            "{goldenMotivation.motivation.text}"
+        {goldenMotivation.title && (
+          <p className="text-sm font-bold flex items-center gap-2 mb-1">
+            {goldenMotivation.motivation.icon} {goldenMotivation.title}
           </p>
-        </div>
+        )}
+        <p className={`text-xs leading-relaxed ${
+          !goldenMotivation.title ? 'flex items-start gap-2' : ''
+        }`}>
+          {!goldenMotivation.title && <span className="text-lg leading-none">{goldenMotivation.motivation.icon}</span>}
+          {goldenMotivation.motivation.text}
+        </p>
       </div>
 
       {/* Prayer Times */}

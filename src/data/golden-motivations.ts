@@ -172,8 +172,44 @@ function pickByDate(arr: GoldenMotivation[], date: Date): GoldenMotivation {
 
 export interface GoldenResult {
   type: 'islamic' | 'ramadan' | 'national' | 'general';
+  title: string;
   motivation: GoldenMotivation;
 }
+
+// Title maps for events
+const ISLAMIC_TITLES: Record<string, string> = {
+  '1-1': 'Tahun Baru Islam',
+  '1-10': 'Hari Asyura',
+  '3-12': 'Maulid Nabi Muhammad ﷺ',
+  '7-27': "Isra Mi'raj",
+  '8-15': "Nisfu Sya'ban",
+  '9-1': 'Ramadhan Mubarak!',
+  '9-17': 'Nuzulul Qur\'an',
+  '9-21': 'Lailatul Qadr',
+  '10-1': 'Idul Fitri 1447 H',
+  '10-2': 'Idul Fitri 1447 H',
+  '12-8': 'Hari Tarwiyah',
+  '12-9': 'Hari Arafah',
+  '12-10': 'Idul Adha',
+  '12-11': 'Hari Tasyrik',
+  '12-12': 'Hari Tasyrik',
+  '12-13': 'Hari Tasyrik',
+};
+
+const NATIONAL_TITLES: Record<string, string> = {
+  '1-1': 'Tahun Baru Masehi',
+  '4-21': 'Hari Kartini',
+  '5-1': 'Hari Buruh',
+  '5-2': 'Hari Pendidikan Nasional',
+  '5-20': 'Hari Kebangkitan Nasional',
+  '6-1': 'Hari Lahir Pancasila',
+  '8-17': 'Hari Kemerdekaan RI',
+  '10-22': 'Hari Santri Nasional',
+  '10-28': 'Hari Sumpah Pemuda',
+  '11-10': 'Hari Pahlawan',
+  '12-22': 'Hari Ibu',
+  '12-25': 'Hari Natal',
+};
 
 export function getGoldenMotivation(
   date: Date,
@@ -185,18 +221,17 @@ export function getGoldenMotivation(
     const hKey = `${hijriMonth}-${hijriDay}`;
     const islamicMotivs = ISLAMIC_MOTIVATIONS[hKey];
     if (islamicMotivs) {
-      return { type: 'islamic', motivation: pickByDate(islamicMotivs, date) };
+      return { type: 'islamic', title: ISLAMIC_TITLES[hKey] || '', motivation: pickByDate(islamicMotivs, date) };
     }
 
     // Ramadan: 10 malam terakhir (21-30)
     if (hijriMonth === 9 && hijriDay >= 21 && hijriDay <= 30) {
-      // Lailatul Qadr already handled above for day 21
-      return { type: 'islamic', motivation: pickByDate(LAST_TEN_NIGHTS, date) };
+      return { type: 'islamic', title: '10 Malam Terakhir Ramadhan', motivation: pickByDate(LAST_TEN_NIGHTS, date) };
     }
 
     // Ramadan general (month 9)
     if (hijriMonth === 9) {
-      return { type: 'ramadan', motivation: pickByDate(RAMADAN_MOTIVATIONS, date) };
+      return { type: 'ramadan', title: 'Ramadhan Mubarak!', motivation: pickByDate(RAMADAN_MOTIVATIONS, date) };
     }
   }
 
@@ -204,9 +239,9 @@ export function getGoldenMotivation(
   const gKey = `${date.getMonth() + 1}-${date.getDate()}`;
   const nationalMotivs = NATIONAL_MOTIVATIONS[gKey];
   if (nationalMotivs) {
-    return { type: 'national', motivation: pickByDate(nationalMotivs, date) };
+    return { type: 'national', title: NATIONAL_TITLES[gKey] || '', motivation: pickByDate(nationalMotivs, date) };
   }
 
   // 3. General motivation
-  return { type: 'general', motivation: pickByDate(GENERAL_MOTIVATIONS, date) };
+  return { type: 'general', title: '', motivation: pickByDate(GENERAL_MOTIVATIONS, date) };
 }
