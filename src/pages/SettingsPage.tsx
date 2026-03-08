@@ -10,7 +10,7 @@ export default function SettingsPage() {
   const [darkMode, setDarkMode] = useLocalStorage('deenflow_dark', true);
   const { location: loc, detectLocation } = useUserLocation();
   const { timings } = usePrayerTimes(loc?.latitude, loc?.longitude);
-  const { enabled: azanEnabled, setEnabled: setAzanEnabled, testAzan, stopAzan, isPlaying, volume, setVolume } = useAzanNotification(timings);
+  const { enabled: azanEnabled, setEnabled: setAzanEnabled, testAzan, stopAzan, isPlaying, volume, previewVolume } = useAzanNotification(timings);
   const [eventReminder, setEventReminder] = useLocalStorage('deenflow_event_reminder', true);
   const [showAbout, setShowAbout] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
@@ -70,7 +70,7 @@ export default function SettingsPage() {
                 max={100}
                 step={5}
                 value={volume}
-                onChange={(e) => setVolume(Number(e.target.value))}
+                onChange={(e) => previewVolume(Number(e.target.value))}
                 className="w-full h-1.5 bg-secondary rounded-full appearance-none cursor-pointer accent-accent"
               />
             </div>
