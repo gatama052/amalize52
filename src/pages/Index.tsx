@@ -47,7 +47,16 @@ export default function Home() {
   const [corrections] = useLocalStorage<Record<string, number>>('prayer_corrections', {});
   
   const isRamadan = hijri?.month.number === 9;
-  const reminders = useMemo(() => getAIReminder(isRamadan), [isRamadan]);
+  const motivation = useMemo(() => {
+    const prayerData = timings ? {
+      Fajr: timings.Fajr,
+      Dhuhr: timings.Dhuhr,
+      Asr: timings.Asr,
+      Maghrib: timings.Maghrib,
+      Isha: timings.Isha,
+    } : undefined;
+    return getMotivation(new Date(), prayerData);
+  }, [timings]);
   const today = new Date();
   const [upcomingEvents, setUpcomingEvents] = useState<(CalendarEvent & { countdownStr: string })[]>([]);
 
