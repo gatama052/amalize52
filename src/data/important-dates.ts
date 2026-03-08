@@ -34,6 +34,7 @@ export const NATIONAL_DATES: Record<string, ImportantDate> = {
   '8-17': { name: 'Hari Kemerdekaan RI', type: 'national' },
   '10-22': { name: 'Hari Santri Nasional', type: 'national' },
   '10-28': { name: 'Hari Sumpah Pemuda', type: 'national' },
+  '9-30': { name: 'Hari Peringatan G30S PKI', type: 'national' },
   '11-10': { name: 'Hari Pahlawan', type: 'national' },
   '12-22': { name: 'Hari Ibu', type: 'national' },
 };
