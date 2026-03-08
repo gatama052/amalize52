@@ -5,8 +5,12 @@ import mosqueLogo from '@/assets/mosque-logo.png';
 import splashTitle from '@/assets/splash-amalize-text.png';
 import splashTagline from '@/assets/splash-tagline.png';
 import BottomNav from './BottomNav';
+import AdhanMode from './AdhanMode';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useEventReminder } from '@/hooks/useEventReminder';
+import { useLocation as useUserLocation } from '@/hooks/useLocation';
+import { usePrayerTimes } from '@/hooks/usePrayerTimes';
+import { useAzanNotification } from '@/hooks/useAzanNotification';
 
 export default function Layout({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
@@ -14,6 +18,11 @@ export default function Layout({ children }: { children: ReactNode }) {
   const [showSplash, setShowSplash] = useState(true);
   const [splashFade, setSplashFade] = useState(false);
   useEventReminder();
+  
+  // Global azan notification system
+  const { location: loc } = useUserLocation();
+  const { timings } = usePrayerTimes(loc?.latitude, loc?.longitude);
+  const { adhanMode, isPlaying, stopAzan, snoozeAzan } = useAzanNotification(timings);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', darkMode);
@@ -89,6 +98,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       </main>
 
       <BottomNav />
+      <AdhanMode state={adhanMode} isPlaying={isPlaying} onStop={stopAzan} onSnooze={snoozeAzan} />
     </div>
   );
 }
