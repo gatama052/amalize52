@@ -70,7 +70,7 @@ async function checkPrayerTimes() {
         
         const clients = await self.clients.matchAll({ type: 'window' });
         clients.forEach(client => {
-          client.postMessage({ type: 'PLAY_AZAN', prayer: key });
+          client.postMessage({ type: 'PLAY_AZAN', prayer: key, time: prayerTime });
         });
         
         return;

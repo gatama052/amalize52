@@ -98,6 +98,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       </main>
 
       <BottomNav />
+      <AdhanMode state={adhanMode} isPlaying={isPlaying} onStop={stopAzan} onSnooze={snoozeAzan} />
     </div>
   );
 }
