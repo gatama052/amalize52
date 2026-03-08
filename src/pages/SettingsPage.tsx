@@ -10,7 +10,7 @@ export default function SettingsPage() {
   const [darkMode, setDarkMode] = useLocalStorage('deenflow_dark', true);
   const { location: loc, detectLocation } = useUserLocation();
   const { timings } = usePrayerTimes(loc?.latitude, loc?.longitude);
-  const { enabled: azanEnabled, setEnabled: setAzanEnabled, testAzan, stopAzan, isPlaying, volume, previewviewVolume } = useAzanNotification(timings);
+  const { enabled: azanEnabled, setEnabled: setAzanEnabled, testAzan, stopAzan, isPlaying, volume, previewVolume } = useAzanNotification(timings);
   const [eventReminder, setEventReminder] = useLocalStorage('deenflow_event_reminder', true);
   const [showAbout, setShowAbout] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
