@@ -5,6 +5,7 @@ export interface Doa {
   arabic: string;
   latin: string;
   translation: string;
+  keywords?: string[];
 }
 
 export interface AlMatsuratItem {
@@ -293,7 +294,8 @@ export const doaList: Doa[] = [
     title: "Doa Pagi Hari",
     arabic: "\u0627\u0644\u0644\u0651\u064E\u0647\u064F\u0645\u0651\u064E \u0628\u0650\u0643\u064E \u0623\u0635\u0652\u0628\u064E\u062D\u0652\u0646\u0627 \u0648\u064E\u0628\u0650\u0643\u064E \u0623\u0645\u0652\u0633\u064E\u064A\u0652\u0646\u0627\u060C \u0648\u064E\u0628\u0650\u0643\u064E \u0646\u064E\u062D\u0652\u064A\u0627\u060C \u0648\u064E\u0628\u0650\u0643\u064E \u0646\u064E\u0645\u064F\u0648\u062A\u064F\u060C \u0648\u064E\u0625\u0650\u0644\u064E\u064A\u0652\u0643\u064E \u0627\u0644\u0646\u0651\u064F\u0634\u064F\u0648\u0631\u064F",
     latin: "All\u0101humma bika ashbahn\u0101, wa bika amsain\u0101, wa bika nahy\u0101, wa bika nam\u016btu, wa ilaikal nusy\u016bru",
-    translation: "Ya Allah, karena Engkau kami mengalami waktu pagi dan waktu petang dan karena Engkau kami hidup dan mati, dan kepada-Mu juga kami akan kembali."
+    translation: "Ya Allah, karena Engkau kami mengalami waktu pagi dan waktu petang dan karena Engkau kami hidup dan mati, dan kepada-Mu juga kami akan kembali.",
+    keywords: ["pagi", "doa pagi", "dzikir pagi", "bangun pagi"]
   },
   {
     id: 'petang-1',
@@ -301,7 +303,8 @@ export const doaList: Doa[] = [
     title: "Doa Petang Hari",
     arabic: "\u0627\u0644\u0644\u0651\u064E\u0647\u064F\u0645\u0651\u064E \u0628\u0650\u0643\u064E \u0623\u064E\u0645\u0652\u0633\u064E\u064A\u0652\u0646\u064E\u0627\u060C \u0648\u064E\u0628\u0650\u0643\u064E \u0623\u064E\u0635\u0652\u0628\u064E\u062D\u0652\u0646\u064E\u0627\u060C \u0648\u064E\u0628\u0650\u0643\u064E \u0646\u064E\u062D\u0652\u064A\u064E\u0627\u060C \u0648\u064E\u0628\u0650\u0643\u064E \u0646\u064E\u0645\u064F\u0648\u062A\u064F\u060C \u0648\u064E\u0625\u0650\u0644\u064E\u064A\u0652\u0643\u064E \u0627\u0644\u0652\u0645\u064E\u0635\u0650\u064A\u0631\u064F",
     latin: "All\u0101humma bika amsain\u0101, wa bika asbahna, wa bika nahy\u0101, wa bika nam\u016btu, wa ilaikal mash\u012br",
-    translation: "Ya Allah, dengan-Mu kami memasuki waktu petang, dengan-Mu kami memasuki waktu pagi, dengan-Mu kami hidup, dengan-Mu kami mati, dan kepada-Mu tempat kembali."
+    translation: "Ya Allah, dengan-Mu kami memasuki waktu petang, dengan-Mu kami memasuki waktu pagi, dengan-Mu kami hidup, dengan-Mu kami mati, dan kepada-Mu tempat kembali.",
+    keywords: ["petang", "sore", "doa petang", "doa sore", "dzikir petang"]
   },
   {
     id: 'Sayyidul Istighfar-1',
@@ -309,7 +312,8 @@ export const doaList: Doa[] = [
     title: "Doa Sayyidul Istighfar",
     arabic: "\u0627\u0644\u0644\u0651\u064E\u0647\u064F\u0645\u0651\u064E \u0623\u064E\u0646\u0652\u062A\u064E \u0631\u064E\u0628\u0651\u0650\u064A \u0644\u064E\u0627 \u0625\u0650\u0644\u0670\u0647\u064E \u0625\u0650\u0644\u0651\u064E\u0627 \u0623\u064E\u0646\u0652\u062A\u064E \u062E\u064E\u0644\u064E\u0642\u0652\u062A\u064E\u0646\u0650\u064A \u0648\u064E\u0623\u064E\u0646\u064E\u0627 \u0639\u064E\u0628\u0652\u062F\u064F\u0643\u064E \u0648\u064E\u0623\u064E\u0646\u064E\u0627 \u0639\u064E\u0644\u0670\u0649 \u0639\u064E\u0647\u0652\u062F\u0650\u0643\u064E \u0648\u064E\u0648\u064E\u0639\u0652\u062F\u0650\u0643\u064E \u0645\u064E\u0627 \u0627\u0633\u0652\u062A\u064E\u0637\u064E\u0639\u0652\u062A\u064F \u0623\u064E\u0639\u064F\u0648\u0652\u0630\u064F \u0628\u0650\u0643\u064E \u0645\u0650\u0646\u0652 \u0634\u064E\u0631\u0651\u0650 \u0645\u064E\u0627 \u0635\u064E\u0646\u064E\u0639\u0652\u062A\u064F \u0623\u064E\u0628\u064F\u0648\u0621\u064F \u0644\u064E\u0643\u064E \u0628\u0650\u0646\u0650\u0639\u0652\u0645\u064E\u062A\u0650\u0643\u064E \u0639\u064E\u0644\u064E\u064A\u0651\u064E \u0648\u064E\u0623\u064E\u0628\u064F\u0648\u0621\u064F \u0644\u064E\u0643\u064E \u0628\u0650\u0630\u064E\u0646\u0652\u0628\u0650\u064A \u0641\u064E\u0627\u063A\u0652\u0641\u0650\u0631\u0652 \u0644\u0650\u064A \u0641\u064E\u0625\u0650\u0646\u0651\u064E\u0647\u064F \u0644\u064E\u0627 \u064A\u064E\u063A\u0652\u0641\u0650\u0631\u064F \u0627\u0644\u0630\u0651\u064F\u0646\u064F\u0648\u0628\u064E \u0625\u0650\u0644\u0651\u064E\u0627 \u0623\u064E\u0646\u0652\u062A\u064E",
     latin: "Allahumma anta rabbi laa ilaaha illa anta khalaqtanii wa anaa 'abduka wa anaa 'alaa 'ahdika wa wa'dika mastatha'tu a'uudzubika min syarri maa shana'tu abuu-u laka bini'matika 'alayya wa abuu-u bi dzanbi faghfir lii fa innahu laa yaghfirudz dzubuuba illa anta",
-    translation: "Ya Allah, Engkau Rabbku, tidak ada sembahan yang haq kecuali Engkau. Engkau menciptakanku dan aku hamba-Mu. Aku di atas perjanjian dan janji-Mu semampuku. Aku berlindung kepada-Mu dari keburukan apa yang aku lakukan, aku mengakui untuk-Mu nikmat-nikmat-Mu atasku, dan aku mengakui untuk-Mu dosa-dosaku, maka ampunilah aku, sungguh tidak ada yang mengampuni dosa-dosa selain Engkau."
+    translation: "Ya Allah, Engkau Rabbku, tidak ada sembahan yang haq kecuali Engkau. Engkau menciptakanku dan aku hamba-Mu. Aku di atas perjanjian dan janji-Mu semampuku. Aku berlindung kepada-Mu dari keburukan apa yang aku lakukan, aku mengakui untuk-Mu nikmat-nikmat-Mu atasku, dan aku mengakui untuk-Mu dosa-dosaku, maka ampunilah aku, sungguh tidak ada yang mengampuni dosa-dosa selain Engkau.",
+    keywords: ["istighfar", "sayyidul istighfar", "ampunan", "taubat", "doa ampunan"]
   },
   {
     id: 'aktivitas-1',
@@ -317,7 +321,8 @@ export const doaList: Doa[] = [
     title: "Doa Masuk WC",
     arabic: "\u0627\u0644\u0644\u0651\u064E\u0647\u064F\u0645\u0651\u064E \u0625\u0650\u0646\u0651\u0650\u0649 \u0623\u064E\u0639\u064F\u0648\u0630\u064F \u0628\u0650\u0643\u064E \u0645\u0650\u0646\u064E \u0627\u0644\u0652\u062E\u064F\u0628\u064F\u062B\u0650 \u0648\u064E\u0627\u0644\u0652\u062E\u064E\u0628\u064E\u0627\u0626\u0650\u062B\u0650",
     latin: "Allahumma innii a'uudzubika minal khubutsi wal khabaa-its",
-    translation: "Ya Allah, aku berlindung kepada-Mu dari setan laki-laki dan setan perempuan."
+    translation: "Ya Allah, aku berlindung kepada-Mu dari setan laki-laki dan setan perempuan.",
+    keywords: ["wc", "toilet", "kamar mandi", "masuk wc", "masuk toilet", "buang air", "jamban"]
   },
   {
     id: 'aktivitas-2',
@@ -325,7 +330,8 @@ export const doaList: Doa[] = [
     title: "Doa Keluar WC",
     arabic: "\u063A\u064F\u0641\u0652\u0631\u064E\u0627\u0646\u064E\u0643\u064E",
     latin: "Ghufraanaka",
-    translation: "Aku memohon ampunan-Mu."
+    translation: "Aku memohon ampunan-Mu.",
+    keywords: ["wc", "toilet", "kamar mandi", "keluar wc", "keluar toilet", "selesai buang air"]
   },
   {
     id: 'aktivitas-3',
@@ -333,7 +339,8 @@ export const doaList: Doa[] = [
     title: "Doa Bercermin",
     arabic: "\u0627\u0644\u0644\u0651\u064E\u0647\u064F\u0645\u0651\u064E \u0623\u064E\u0646\u0652\u062A\u064E \u062D\u064E\u0633\u0651\u064E\u0646\u0652\u062A\u064E \u062E\u064E\u0644\u0652\u0642\u0650\u064A \u0641\u064E\u062D\u064E\u0633\u0651\u0650\u0646\u0652 \u062E\u064F\u0644\u064F\u0642\u0650\u064A",
     latin: "Allahumma anta hassanta khalqii fahassin khuluqii",
-    translation: "Ya Allah, Engkau telah membaguskan penciptaanku, maka baguskanlah pula akhlakku."
+    translation: "Ya Allah, Engkau telah membaguskan penciptaanku, maka baguskanlah pula akhlakku.",
+    keywords: ["cermin", "bercermin", "kaca", "melihat cermin", "doa cermin"]
   },
   {
     id: 'aktivitas-4',
@@ -341,7 +348,8 @@ export const doaList: Doa[] = [
     title: "Doa Naik Kendaraan",
     arabic: "\u0633\u064F\u0628\u0652\u062D\u064E\u0627\u0646\u064E \u0627\u0644\u0651\u064E\u0630\u0650\u064A \u0633\u064E\u062E\u0651\u064E\u0631\u064E \u0644\u064E\u0646\u064E\u0627 \u0647\u0670\u0630\u064E\u0627 \u0648\u064E\u0645\u064E\u0627 \u0643\u064F\u0646\u0651\u064E\u0627 \u0644\u064E\u0647\u064F \u0645\u064F\u0642\u0652\u0631\u0650\u0646\u0650\u064A\u0652\u0646\u064E \u0648\u064E\u0625\u0650\u0646\u0651\u064E\u0627 \u0625\u0650\u0644\u0670\u0649 \u0631\u064E\u0628\u0651\u0650\u0646\u064E\u0627 \u0644\u064E\u0645\u064F\u0646\u0652\u0642\u064E\u0644\u0650\u0628\u064F\u0648\u0652\u0646\u064E",
     latin: "Subhanalladzi sakhkhara lanaa haadza wa maa kunnaa lahu muqriniin, wa innaa ilaa rabbinaa lamunqalibuun",
-    translation: "Maha Suci Allah yang menundukkan semua ini bagi kami, padahal kami sebelumnya tidak mampu. Dan sesungguhnya kami akan kembali kepada Tuhan kami."
+    translation: "Maha Suci Allah yang menundukkan semua ini bagi kami, padahal kami sebelumnya tidak mampu. Dan sesungguhnya kami akan kembali kepada Tuhan kami.",
+    keywords: ["kendaraan", "naik kendaraan", "mobil", "motor", "perjalanan", "berkendara", "doa naik mobil"]
   },
   {
     id: 'aktivitas-5',
@@ -349,7 +357,8 @@ export const doaList: Doa[] = [
     title: "Doa Naik Kendaraan Laut",
     arabic: "بِسْمِ اللهِ مَجْر۪ىهَا وَمُرْسَاهَا إِنَّ رَبِّي لَغَفُورٌ رَحِيمٌ",
     latin: "Bismillâhi majreha wa mursâhâ, inna rabbî laghafûrur rahîm",
-    translation: "Dengan nama Allah di waktu berlayar dan berlabuhnya. Sesungguhnya Tuhanku benar-benar Maha Pengampun lagi Maha Penyayang."
+    translation: "Dengan nama Allah di waktu berlayar dan berlabuhnya. Sesungguhnya Tuhanku benar-benar Maha Pengampun lagi Maha Penyayang.",
+    keywords: ["laut", "kapal", "perahu", "berlayar", "naik kapal", "doa naik kapal"]
   },
   {
     id: 'aktivitas-6',
@@ -357,7 +366,8 @@ export const doaList: Doa[] = [
     title: "Doa Safar (Bepergian Jauh)",
     arabic: "اَللّٰهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا هٰذَا الْبِرَّ وَالتَّقْوَى، وَمِنَ الْعَمَلِ مَا تَرْضَى، اَللّٰهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا هٰذَا وَاطْوِ عَنَّا بُعْدَهُ، اَللّٰهُمَّ أَنْتَ الصَّاحِبُ فِي السَّفَرِ، وَالْخَلِيفَةُ فِي الْأَهْلِ",
     latin: "Allâhumma innâ nas'âluka fî safarinâ hâdzal birra wat taqwâ, wa minal 'amali mâ tardhâ. Allâhumma hawwin 'alainâ safarinâ hâdzâ wath-wi 'annâ bu'udah. Allâhumma antas-shâhibu fis-safari wal khalîfatu fil ahli.",
-    translation: "Ya Allah, sesungguhnya kami memohon kepada-Mu kebaikan dan takwa dalam perjalanan kami ini, serta amal yang Engkau ridai. Ya Allah, mudahkanlah perjalanan kami ini dan dekatkanlah jaraknya yang jauh. Ya Allah, Engkaulah teman dalam perjalanan dan penjaga bagi keluarga (yang ditinggalkan)."
+    translation: "Ya Allah, sesungguhnya kami memohon kepada-Mu kebaikan dan takwa dalam perjalanan kami ini, serta amal yang Engkau ridai. Ya Allah, mudahkanlah perjalanan kami ini dan dekatkanlah jaraknya yang jauh. Ya Allah, Engkaulah teman dalam perjalanan dan penjaga bagi keluarga (yang ditinggalkan).",
+    keywords: ["safar", "bepergian", "perjalanan jauh", "traveling", "mudik", "doa safar", "doa perjalanan"]
   },
   {
     id: 'aktivitas-7',
@@ -365,7 +375,8 @@ export const doaList: Doa[] = [
     title: "Doa Masuk Rumah",
     arabic: "\u0627\u0644\u0644\u0651\u0670\u0647\u064F\u0645\u0651\u064E \u0625\u0650\u0646\u0651\u0650\u064A \u0623\u064E\u0633\u0652\u0623\u064E\u0644\u064F\u0643\u064E \u062E\u064E\u064A\u0652\u0631\u064E \u0627\u0644\u0645\u064E\u0648\u0652\u0644\u064E\u062C\u0650\u060C \u0628\u0650\u0633\u0652\u0645\u0650 \u0627\u0644\u0644\u0651\u0670\u0647\u0650 \u0648\u064E\u0644\u064E\u062C\u0652\u0646\u064E\u0627\u060C \u0648\u064E\u0628\u0650\u0633\u0652\u0645\u0650 \u0627\u0644\u0644\u0651\u0670\u0647\u0650 \u062E\u064E\u0631\u064E\u062C\u0652\u0646\u064E\u0627\u060C \u0648\u064E\u0639\u064E\u0644\u064E\u0649 \u0627\u0644\u0644\u0651\u0670\u0647\u0650 \u0631\u064E\u0628\u0651\u064E\u0646\u064E\u0627 \u062A\u064E\u0648\u064E\u0643\u0651\u064E\u0644\u0652\u0646\u064E\u0627",
     latin: "Allahumma innii as-aluka khairal mauliji, bismillahi wa lajnaa, wa bismillahi kharajnaa, wa 'alallahi rabbanaa tawakkalnaa",
-    translation: "Ya Allah, sesungguhnya aku memohon kepada-Mu kebaikan tempat masuk dan kebaikan tempat keluar. Dengan menyebut nama-Mu kami masuk, dengan menyebut nama-Mu kami keluar, dan hanya kepada Allah, Tuhan kami, kami bertawaka."
+    translation: "Ya Allah, sesungguhnya aku memohon kepada-Mu kebaikan tempat masuk dan kebaikan tempat keluar. Dengan menyebut nama-Mu kami masuk, dengan menyebut nama-Mu kami keluar, dan hanya kepada Allah, Tuhan kami, kami bertawaka.",
+    keywords: ["rumah", "masuk rumah", "pulang", "sampai rumah", "doa masuk rumah", "doa pulang"]
   },
   {
     id: 'aktivitas-8',
@@ -373,231 +384,296 @@ export const doaList: Doa[] = [
     title: "Doa Keluar Rumah",
     arabic: "\u0628\u0650\u0633\u0652\u0645\u0650 \u0627\u0644\u0644\u0647\u0650 \u062A\u064E\u0648\u064E\u0643\u0651\u064E\u0644\u0652\u062A\u064F \u0639\u064E\u0644\u064E\u0649 \u0627\u0644\u0644\u0647\u0650\u060C \u0644\u064E\u0627 \u062D\u064E\u0648\u0652\u0644\u064E \u0648\u064E\u0644\u064E\u0627 \u0642\u064F\u0648\u0651\u064E\u0629\u064E \u0625\u0650\u0644\u0651\u064E\u0627 \u0628\u0650\u0627\u0644\u0644\u0647\u0650",
     latin: "Bismillahi tawakkaltu 'alallahi, laa hawla wa laa quwwata illa billah",
-    translation: "Dengan menyebut nama Allah, aku bertawakal kepada Allah, tiada daya dan kekuatan melainkan dengan pertolongan Allah."
+    translation: "Dengan menyebut nama Allah, aku bertawakal kepada Allah, tiada daya dan kekuatan melainkan dengan pertolongan Allah.",
+    keywords: ["keluar rumah", "pergi", "berangkat", "doa keluar rumah", "doa berangkat"]
   },
-  {  id: 'aktivitas-9',
+  {
+    id: 'aktivitas-9',
     category: 'Doa Harian',
     title: "Doa Masuk Masjid",
     arabic: " اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِك",
     latin: "Allahummaf-tahlii abwaaba rahmatik.",
-    translation: "Ya Allah, bukalah untukku pintu-pintu rahmat-Mu."
+    translation: "Ya Allah, bukalah untukku pintu-pintu rahmat-Mu.",
+    keywords: ["masjid", "masuk masjid", "doa masuk masjid", "mushola", "sholat"]
   },
-    {  id: 'aktivitas-10',
+  {
+    id: 'aktivitas-10',
     category: 'Doa Harian',
     title: "Doa Keluar Masjid",
     arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ",
     latin: "Allahumma innii as-aluka min fadhlik.",
-    translation: "Ya Allah, sesungguhnya aku memohon keutamaan/karunia dari-Mu."
+    translation: "Ya Allah, sesungguhnya aku memohon keutamaan/karunia dari-Mu.",
+    keywords: ["masjid", "keluar masjid", "doa keluar masjid", "pulang masjid"]
   },
-  {  id: 'aktivitas-11',
+  {
+    id: 'aktivitas-11',
     category: 'Doa Harian',
     title: "Doa Untuk Kedua Orang Tua",
     arabic: "رَبِّ اغْفِرْ لِيْ وَلِوَالِدَيَّ وَارْحَمْهُمَا كَمَا رَبَّيَانِيْ صَغِيْرَا",
     latin: "Rabbighfir lī, wa li wālidayya, warham humā kamā rabbayānī shaghīrā.",
-    translation: "Tuhanku, ampunilah dosaku dan (dosa) kedua orang tuaku. Sayangilah keduanya sebagaimana keduanya menyayangiku di waktu aku kecil."
+    translation: "Tuhanku, ampunilah dosaku dan (dosa) kedua orang tuaku. Sayangilah keduanya sebagaimana keduanya menyayangiku di waktu aku kecil.",
+    keywords: ["orang tua", "ibu", "ayah", "bapak", "mama", "papa", "kedua orang tua", "doa orang tua", "doa untuk ibu", "doa untuk ayah"]
   },
-   {  id: 'aktivitas-12',
+  {
+    id: 'aktivitas-12',
     category: 'Doa Harian',
     title: "Doa Mengenakan Pakaian",
     arabic: "اَللّٰهُمَّ اِنِّى اَسْأَلُكَ مِنْ خَيْرِهِ وَخَيْرِ مَا هُوَ لَهُ وَاَعُوْذُبِكَ مِنْ شَرِّهِ وَشَرِّمَا هُوَلَهُ",
     latin: "Allâhumma innî as'aluka min khairihi wa khairi mâ huwa lahu, wa a'ûdzubika min syarrihi wa syarri mâ huwa lahu.",
-    translation: "Ya Allah, sesungguhnya aku memohon kepada-Mu kebaikan pakaian ini dan kebaikan sesuatu yang ada di dalamnya, dan aku berlindung kepada-Mu dari keburukan pakaian ini dan keburukan sesuatu yang ada di dalamnya."
+    translation: "Ya Allah, sesungguhnya aku memohon kepada-Mu kebaikan pakaian ini dan kebaikan sesuatu yang ada di dalamnya, dan aku berlindung kepada-Mu dari keburukan pakaian ini dan keburukan sesuatu yang ada di dalamnya.",
+    keywords: ["pakaian", "baju", "berpakaian", "memakai baju", "doa pakaian"]
   },
-  {  id: 'aktivitas-13',
+  {
+    id: 'aktivitas-13',
     category: 'Doa Harian',
     title: "Doa Melepas Pakaian",
     arabic: "بِسْمِ اللهِ الَّذِيْ لاَ إِلَهَ إِلَّا هُوَ",
     latin: "Bismillâhil ladzî lâ ilâha illâ huwa.",
-    translation: "Dengan nama Allah yang tiada Tuhan selain Dia."
+    translation: "Dengan nama Allah yang tiada Tuhan selain Dia.",
+    keywords: ["pakaian", "baju", "melepas pakaian", "buka baju", "ganti baju"]
   },
-  {  id: 'aktivitas-14',
+  {
+    id: 'aktivitas-14',
     category: 'Doa Harian',
     title: "Doa Mengenakan Pakaian Baru",
     arabic: "اَللّٰهُمَّ لَكَ الْحَمْدُ اَنْتَ كَسَوْتَنِيْهِ اَسْأَلُكَ مِنْ خَيْرِهِ وَخَيْرِ مَا صُنِعَ لَهُ وَاَعُوْذُبِكَ مِنْ شَرِّهِ وَشَرِّ مَا صُنِعَ لَهُ",
     latin: "Allâhumma lakal hamdu anta kasautanîhi, as'aluka min khairihi wa khairi mâ shuni'ala lahu, wa a'ûdzubika min syarrihi wa syarri mâ shuni'ala lahu.",
-    translation: "Ya Allah, hanya milik-Mu segala puji, Engkaulah yang memberi pakaian ini kepadaku. Aku memohon kepada-Mu kebaikan pakaian ini dan kebaikan yang ia dibuat untuknya. Dan aku berlindung kepada-Mu dari keburukan pakaian ini dan keburukan yang ia dibuat untuknya."
+    translation: "Ya Allah, hanya milik-Mu segala puji, Engkaulah yang memberi pakaian ini kepadaku. Aku memohon kepada-Mu kebaikan pakaian ini dan kebaikan yang ia dibuat untuknya. Dan aku berlindung kepada-Mu dari keburukan pakaian ini dan keburukan yang ia dibuat untuknya.",
+    keywords: ["pakaian baru", "baju baru", "doa pakaian baru", "doa baju baru"]
   },
-  {  id: 'aktivitas-15',
+  {
+    id: 'aktivitas-15',
     category: 'Doa Harian',
     title: "Doa Ketika Medengar Petir",
     arabic: "اَللّٰهُمَّ لَا تَقْتُلْنَا بِغَضَبِكَ وَلَا تُهْلِكْنَا بِعَذَابِكَ وَعَافِنَا قَبْلَ ذٰلِكَ",
     latin: "Allâhumma lâ taqtulnâ bighadhabika walâ tuhliknâ bi'adzâbika wa 'âfinâ qabla dzâlika.",
-    translation: "Ya Allah, janganlah Engkau bunuh kami dengan kemurkaan-Mu, janganlah Engkau binasakan kami dengan azab-Mu, dan selamatkanlah kami sebelum itu."
+    translation: "Ya Allah, janganlah Engkau bunuh kami dengan kemurkaan-Mu, janganlah Engkau binasakan kami dengan azab-Mu, dan selamatkanlah kami sebelum itu.",
+    keywords: ["petir", "guntur", "halilintar", "doa petir", "doa mendengar petir", "kilat"]
   },
-  {  id: 'aktivitas-16',
+  {
+    id: 'aktivitas-16',
     category: 'Doa Harian',
     title: "Doa Ketika Turun Hujan",
     arabic: "اللَّهُمَّ صَيِّبًا نَافِعًا",
-    latin: "Allâhumma shayyiban nâfi‘an.",
-    translation: "Ya Allah, turunkanlah pada kami hujan yang bermanfaat."
+    latin: "Allâhumma shayyiban nâfi'an.",
+    translation: "Ya Allah, turunkanlah pada kami hujan yang bermanfaat.",
+    keywords: ["hujan", "doa hujan", "turun hujan", "doa saat hujan", "doa ketika hujan"]
   },
-  {  id: 'aktivitas-17',
+  {
+    id: 'aktivitas-17',
     category: 'Doa Harian',
     title: "Doa Setelah Hujan Reda",
     arabic: "مُطِرْنَا بِفَضْلِ اللّٰهِ وَرَحْمَتِهِ",
     latin: "Muthirnâ bifadhlillâhi wa rahmatih.",
-    translation: "Kita diberi hujan karena karunia dan rahmat Allah."
+    translation: "Kita diberi hujan karena karunia dan rahmat Allah.",
+    keywords: ["hujan", "hujan reda", "setelah hujan", "doa setelah hujan", "hujan berhenti"]
   },
-   {  id: 'aktivitas-18',
+  {
+    id: 'aktivitas-18',
     category: 'Doa Harian',
     title: "Doa Ketika Melihat Keindahan Langit",
     arabic: "رَبَّنَا مَا خَلَقْتَ هَذَا بَاطِلًا سُبْحَانَكَ فَقِنَا عَذَابَ النَّارِ",
     latin: "Rabbanâ mâ khalaqta hâdzâ bâthilan, subhânaka faqina 'adzâban-nâr.",
-    translation: "Ya Tuhan kami, tidaklah Engkau menciptakan semua ini sia-sia; Mahasuci Engkau, maka lindungilah kami dari azab neraka."
+    translation: "Ya Tuhan kami, tidaklah Engkau menciptakan semua ini sia-sia; Mahasuci Engkau, maka lindungilah kami dari azab neraka.",
+    keywords: ["langit", "keindahan", "melihat langit", "alam", "doa langit", "ciptaan allah"]
   },
-  {  id: 'aktivitas-19',
+  {
+    id: 'aktivitas-19',
     category: 'Doa Harian',
     title: "Doa Sapu Jagat",
     arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
     latin: "Rabbanâ âtinâ fid-dunyâ hasanatan wa fil-âkhirati hasanatan wa qinâ 'adzâban-nâr.",
-    translation: "Ya Tuhan kami, berilah kami kebaikan di dunia dan kebaikan di akhirat, dan lindungilah kami dari azab neraka."
+    translation: "Ya Tuhan kami, berilah kami kebaikan di dunia dan kebaikan di akhirat, dan lindungilah kami dari azab neraka.",
+    keywords: ["sapu jagat", "doa sapu jagat", "kebaikan dunia akhirat", "doa dunia akhirat", "rabbana atina"]
   },
-  {  id: 'aktivitas-20',
+  {
+    id: 'aktivitas-20',
     category: 'Doa Harian',
     title: "Doa Sebelum Tidur",
     arabic: "بِاسْمِكَ اللّٰهُمَّ أَحْيَا وَأَمُوتُ",
     latin: "Bismika Allâhumma ahyâ wa amût.",
-    translation: "Dengan nama-Mu ya Allah, aku hidup dan aku mati."
+    translation: "Dengan nama-Mu ya Allah, aku hidup dan aku mati.",
+    keywords: ["tidur", "doa tidur", "sebelum tidur", "doa sebelum tidur", "doa mau tidur", "malam"]
   },
-  {  id: 'aktivitas-21',
+  {
+    id: 'aktivitas-21',
     category: 'Doa Harian',
     title: "Doa Bangun Tidur",
     arabic: "اَلْحَمْدُ لِلّٰهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
-    latin: "Alhamdulillâhil ladzî ahyânâ ba‘da mâ amâtanâ wa ilaihin nusyûr.",
-    translation: "Segala puji bagi Allah yang telah menghidupkan kami setelah mematikan kami, dan kepada-Nyalah kami kembali."
+    latin: "Alhamdulillâhil ladzî ahyânâ ba'da mâ amâtanâ wa ilaihin nusyûr.",
+    translation: "Segala puji bagi Allah yang telah menghidupkan kami setelah mematikan kami, dan kepada-Nyalah kami kembali.",
+    keywords: ["tidur", "bangun tidur", "bangun", "doa bangun tidur", "doa bangun", "terjaga"]
   },
-  {  id: 'aktivitas-22',
+  {
+    id: 'aktivitas-22',
     category: 'Doa Harian',
     title: "Doa Ketika Mimpi Buruk",
     arabic: "اللَّهُمَّ إِنِّي أَعُوْذُبِكَ مِنْ عَمَلِ الشَّيْطَانِ وَسَيِّئَاتِ الأَحْلَامِ",
     latin: "Allaahumma innii a'uudzubika min 'amalisy syaithaani wa sayyi-aatil ahlaami.",
-    translation: "Ya Allah, sesungguhnya aku berlindung kepada-Mu dari perbuatan setan dan keburukan mimpi."
+    translation: "Ya Allah, sesungguhnya aku berlindung kepada-Mu dari perbuatan setan dan keburukan mimpi.",
+    keywords: ["mimpi buruk", "mimpi", "doa mimpi buruk", "mimpi jelek", "mimpi seram"]
   },
-  {  id: 'aktivitas-23',
+  {
+    id: 'aktivitas-23',
     category: 'Doa Harian',
     title: "Doa Ketika Bermimpi Baik",
     arabic: "الْحَمْدُ للهِ الَّذِيْ قَضَى حَاجَاتِيْ",
     latin: "Alhamdulillahil ladzii qodhoo haajaati.",
-    translation: "Segala puji bagi Allah yang telah memenuhi hajat-hajatku."
+    translation: "Segala puji bagi Allah yang telah memenuhi hajat-hajatku.",
+    keywords: ["mimpi baik", "mimpi indah", "doa mimpi baik"]
   },
-  {  id: 'aktivitas-24',
+  {
+    id: 'aktivitas-24',
     category: 'Doa Harian',
     title: "Doa Ketika Ada Angin Kencang",
     arabic: "اَللَّهُمَّ إِنِّيْ أَسْأَلُكَ خَيْرَهَا وَخَيْرَ مَا فِيْهَا وَخَيْرَ مَا أُرْسِلَتْ بِهِ، وَأَعُوْذُ بِكَ مِنْ شَرِّهَا وَشَرِّ مَا فِيْهَا وَشَرِّ مَا أُرْسِلَتْ بِهِ",
     latin: "Allâhumma innî as'aluka khairahâ wa khaira mâ fîhâ wa khaira mâ ursilat bihi, wa a'ûdzubika min syarrihâ wa syarri mâ fîhâ wa syarri mâ ursilat bihi.",
-    translation: "Ya Allah, sesungguhnya aku memohon kepada-Mu kebaikan angin ini, kebaikan apa yang ada di dalamnya, dan kebaikan apa yang dibawanya. Dan aku berlindung kepada-Mu dari keburukan angin ini, keburukan apa yang ada di dalamnya, dan keburukan apa yang dibawanya."
+    translation: "Ya Allah, sesungguhnya aku memohon kepada-Mu kebaikan angin ini, kebaikan apa yang ada di dalamnya, dan kebaikan apa yang dibawanya. Dan aku berlindung kepada-Mu dari keburukan angin ini, keburukan apa yang ada di dalamnya, dan keburukan apa yang dibawanya.",
+    keywords: ["angin", "angin kencang", "badai", "topan", "doa angin", "doa badai"]
   },
-  {  id: 'aktivitas-25',
+  {
+    id: 'aktivitas-25',
     category: 'Doa Harian',
     title: "Doa Sebelum Belajar",
     arabic: "رَضِيْتُ بِاللهِ رَبًّا، وَبِالْإِسْلاَمِ دِينًا، وَبِمُحَمَّدٍ نَبِيًّا وَرَسُولًا. رَبِّ زِدْنِي عِلْمًا وَارْزُقْنِي فَهْمًا",
     latin: "Rodhîtu billâhi robba, wabil islâmi dîna, wabi muhammadin nabiyya warosûlâ. Robbi zidnî 'ilmâ warzuqnî fahmâ.",
-    translation: "Aku rida Allah sebagai Tuhanku, Islam sebagai agamaku, dan Muhammad sebagai Nabi dan Rasulku. Ya Tuhanku, tambahkanlah kepadaku ilmu dan berilah aku karunia untuk memahaminya."
+    translation: "Aku rida Allah sebagai Tuhanku, Islam sebagai agamaku, dan Muhammad sebagai Nabi dan Rasulku. Ya Tuhanku, tambahkanlah kepadaku ilmu dan berilah aku karunia untuk memahaminya.",
+    keywords: ["belajar", "sebelum belajar", "doa belajar", "ilmu", "sekolah", "kuliah", "ujian"]
   },
-  {  id: 'aktivitas-26',
+  {
+    id: 'aktivitas-26',
     category: 'Doa Harian',
     title: "Doa Setelah Belajar",
     arabic: "اَللّٰهُمَّ قَدِ اسْتَوْدَعْنَاكَ بِمَا عَلَّمْتَنَاهُ، فَارْدُدْهُ إِلَيْنَا عِنْدَ حَاجَتِنَا إِلَيْهِ، وَلَا تُنْسِنَا عَنْهُ. يَا رَبَّ الْعَالَمِيْنَ",
-    latin: "Allâhumma qodis-tauda‘nâka bimâ ‘allamtanâhu, fardudhu ilainâ ‘inda hâjatinâ ilaihi, wa lâ tunsinâ ‘anhu, yâ rabbal 'âlamîn.",
-    translation: "Ya Allah, sungguh kami telah menitipkan kepada-Mu atas apa yang telah Engkau ajarkan kepada kami, maka kembalikanlah ia kepada kami di saat kami membutuhkannya, dan janganlah Engkau jadikan kami lupa darinya, wahai Tuhan semesta alam."
+    latin: "Allâhumma qodis-tauda'nâka bimâ 'allamtanâhu, fardudhu ilainâ 'inda hâjatinâ ilaihi, wa lâ tunsinâ 'anhu, yâ rabbal 'âlamîn.",
+    translation: "Ya Allah, sungguh kami telah menitipkan kepada-Mu atas apa yang telah Engkau ajarkan kepada kami, maka kembalikanlah ia kepada kami di saat kami membutuhkannya, dan janganlah Engkau jadikan kami lupa darinya, wahai Tuhan semesta alam.",
+    keywords: ["belajar", "setelah belajar", "selesai belajar", "doa setelah belajar"]
   },
-  {  id: 'aktivitas-27',
+  {
+    id: 'aktivitas-27',
     category: 'Doa Harian',
     title: "Doa Sebelum Makan",
     arabic: "اَللّٰهُمَّ بَارِكْ لَنَا فِيْمَا رَزَقْتَنَا وَقِنَا عَذَابَ النَّارِ",
     latin: "Allâhumma bârik lanâ fîmâ razaqtanâ wa qinâ 'adzâban-nâr.",
-    translation: "Ya Allah, berkahilah kami dalam rezeki yang telah Engkau berikan kepada kami dan peliharalah kami dari siksa api neraka."
+    translation: "Ya Allah, berkahilah kami dalam rezeki yang telah Engkau berikan kepada kami dan peliharalah kami dari siksa api neraka.",
+    keywords: ["makan", "sebelum makan", "doa makan", "doa sebelum makan", "doa mau makan"]
   },
-  {  id: 'aktivitas-28',
+  {
+    id: 'aktivitas-28',
     category: 'Doa Harian',
     title: "Doa Setelah Makan",
     arabic: "اَلْحَمْدُ لِلّٰهِ الَّذِيْ أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِيْنَ",
-    latin: "Alhamdulillâhil ladzî ath‘amanâ wa saqânâ wa ja‘alanâ muslimîn.",
-    translation: "Segala puji bagi Allah yang telah memberi kami makan dan minum, serta menjadikan kami termasuk golongan orang-orang muslim."
+    latin: "Alhamdulillâhil ladzî ath'amanâ wa saqânâ wa ja'alanâ muslimîn.",
+    translation: "Segala puji bagi Allah yang telah memberi kami makan dan minum, serta menjadikan kami termasuk golongan orang-orang muslim.",
+    keywords: ["makan", "setelah makan", "sesudah makan", "doa sesudah makan", "doa setelah makan", "selesai makan"]
   },
-  {  id: 'aktivitas-29',
+  {
+    id: 'aktivitas-29',
     category: 'Doa Harian',
     title: "Doa Ketika Lupa Membaca Doa Makan",
     arabic: "بِسْمِ اللهِ فِيْ أَوَّلِهِ وَآخِرِهِ",
     latin: "Bismillâhi fî awwalihi wa âkhirihi.",
-    translation: "Dengan nama Allah pada awal dan akhirnya."
+    translation: "Dengan nama Allah pada awal dan akhirnya.",
+    keywords: ["makan", "lupa doa makan", "lupa baca doa", "doa lupa makan", "doa ketika lupa"]
   },
-  {  id: 'aktivitas-30',
+  {
+    id: 'aktivitas-30',
     category: 'Doa Harian',
     title: "Doa Berbuka Puasa",
     arabic: "ذَهَبَ الظَّمَأُ وَابْتَلَّتِ الْعُرُوقُ وَثَبَتَ الأَجْرُ إِنْ شَاءَ اللَّهُ",
     latin: "Dzahabazh-zhoma'uu wabtallatil 'uruuqu wa tsabatal ajru in syaa Allah.",
-    translation: "Telah hilang rasa haus, telah basah urat-urat, dan telah tetap pahala, insya Allah."
+    translation: "Telah hilang rasa haus, telah basah urat-urat, dan telah tetap pahala, insya Allah.",
+    keywords: ["puasa", "buka puasa", "berbuka", "iftar", "doa buka puasa", "doa berbuka puasa"]
   },
-  {  id: 'aktivitas-31',
+  {
+    id: 'aktivitas-31',
     category: 'Doa Harian',
     title: "Memulai & Niat Wudhu",
     arabic: "بِسْمِ اللّٰهِ، نَوَيْتُ الْوُضُوْءَ لِرَفْعِ الْحَدَثِ الْأَصْغَرِ فَرْضًا لِلّٰهِ تَعَالَى",
     latin: "Bismillâhi, nawaitul wudhû'a liraf' il hadatsil ashghari fardhan lillâhi ta'âlâ.",
-    translation: "Dengan nama Allah, aku niat berwudu untuk menghilangkan hadas kecil, fardu karena Allah Ta'ala."
+    translation: "Dengan nama Allah, aku niat berwudu untuk menghilangkan hadas kecil, fardu karena Allah Ta'ala.",
+    keywords: ["wudhu", "wudu", "niat wudhu", "memulai wudhu", "doa wudhu"]
   },
-  {  id: 'aktivitas-32',
+  {
+    id: 'aktivitas-32',
     category: 'Doa Harian',
     title: "Doa Sesudah Wudhu",
     arabic: "أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ. اَللّٰهُمَّ اجْعَلْنِي مِنَ التَّوَّابِينَ وَاجْعَلْنِي مِنَ الْمُتَطَهِّرِينَ",
     latin: "Asyhadu allâ ilâha illallâh wahdahu lâ syarîka lah, wa asyhadu anna Muhammadan 'abduhu wa rasûluh. Allâhummaj'âlnî minat-tawwâbîna waj'âlnî minal-mutathahhirîn.",
-    translation: "Aku bersaksi bahwa tiada Tuhan selain Allah Yang Maha Esa, tiada sekutu bagi-Nya, dan aku bersaksi bahwa Muhammad adalah hamba dan utusan-Nya. Ya Allah, jadikanlah aku termasuk golongan orang-orang yang bertaubat dan jadikanlah aku termasuk golongan orang-orang yang menyucikan diri."
+    translation: "Aku bersaksi bahwa tiada Tuhan selain Allah Yang Maha Esa, tiada sekutu bagi-Nya, dan aku bersaksi bahwa Muhammad adalah hamba dan utusan-Nya. Ya Allah, jadikanlah aku termasuk golongan orang-orang yang bertaubat dan jadikanlah aku termasuk golongan orang-orang yang menyucikan diri.",
+    keywords: ["wudhu", "wudu", "sesudah wudhu", "setelah wudhu", "doa setelah wudhu"]
   },
-  {  id: 'aktivitas-33',
+  {
+    id: 'aktivitas-33',
     category: 'Doa Harian',
     title: "Doa Sesudah Adzan",
     arabic: "اَللّٰهُمَّ رَبَّ هٰذِهِ الدَّعْوَةِ التَّامَّةِ، وَالصَّلَاةِ الْقَائِمَةِ، آتِ مُحَمَّدًا نِ الْوَسِيْلَةَ وَالْفَضِيْلَةَ، وَابْعَثْهُ مَقَامًا مَحْمُوْدًا نِ الَّذِيْ وَعَدْتَهُ",
     latin: "Allâhumma rabba hâdzihid-da'âtit-tâmmah, wash-shalâtil-qâ'îmâ, âti Muhammadanil-wasîlata wal-fadhîlah, wab'atshu maqâmam-mahmûdanil-ladzî wa'adtah.",
-    translation: "Ya Allah, Tuhan pemilik panggilan yang sempurna ini dan shalat yang akan didirikan, berilah Nabi Muhammad wasilah (kedudukan tinggi di surga) dan keutamaan, serta bangkitkanlah beliau di tempat yang terpuji yang telah Engkau janjikan."
+    translation: "Ya Allah, Tuhan pemilik panggilan yang sempurna ini dan shalat yang akan didirikan, berilah Nabi Muhammad wasilah (kedudukan tinggi di surga) dan keutamaan, serta bangkitkanlah beliau di tempat yang terpuji yang telah Engkau janjikan.",
+    keywords: ["adzan", "azan", "sesudah adzan", "setelah adzan", "doa adzan", "doa setelah adzan"]
   },
-  {  id: 'aktivitas-34',
+  {
+    id: 'aktivitas-34',
     category: 'Doa Harian',
     title: "Doa Ketika Sakit",
     arabic: "بِسْمِ اللّٰهِ.  أَعُوْذُ بِاللهِ وَقُدْرَتِهِ مِنْ شَرِّ مَا أَجِدُ وَأُحَاذِرُ",
     latin: "Bismillâh (3x),  A'ûdzu billâhi wa qudratihi min syarri mâ ajidu wa uhâdziru (7x).",
-    translation: "Dengan nama Allah. Aku berlindung kepada Allah dan kekuasaan-Nya dari kejahatan sesuatu yang aku jumpai dan aku khawatirkan."
+    translation: "Dengan nama Allah. Aku berlindung kepada Allah dan kekuasaan-Nya dari kejahatan sesuatu yang aku jumpai dan aku khawatirkan.",
+    keywords: ["sakit", "doa sakit", "doa ketika sakit", "doa orang sakit", "sembuh", "kesembuhan"]
   },
-  {  id: 'aktivitas-35',
+  {
+    id: 'aktivitas-35',
     category: 'Doa Harian',
     title: "Doa Menjenguk Orang Sakit",
     arabic: "لَا بَأْسَ طَهُورٌ إِنْ شَاءَ اللَّهُ. اللَّهُمَّ رَبَّ النَّاسِ أَذْهِبِ الْبَأْسَ اشْفِ أَنْتَ الشَّافِي لَا شِفَاءَ إِلَّا شِفَاؤُكَ شِفَاءً لَا يُغَادِرُ سَقَمًا",
     latin: "Lâ ba'sa thahûrun insyâ Allâh. Allâhumma rabban-nâsi adzhibil ba'sa, isyfi antas-syâfî lâ syifâ'a illâ syifâ'uka syifâ'an lâ yughâdiru saqaman.",
-    translation: "Tidak apa-apa, semoga menjadi pembersih dosa, insya Allah. Ya Allah, Tuhan manusia, hilangkanlah penyakit ini. Sembuhkanlah, Engkaulah Yang Maha Menyembuhkan, tidak ada kesembuhan kecuali kesembuhan-Mu, kesembuhan yang tidak meninggalkan rasa sakit."
+    translation: "Tidak apa-apa, semoga menjadi pembersih dosa, insya Allah. Ya Allah, Tuhan manusia, hilangkanlah penyakit ini. Sembuhkanlah, Engkaulah Yang Maha Menyembuhkan, tidak ada kesembuhan kecuali kesembuhan-Mu, kesembuhan yang tidak meninggalkan rasa sakit.",
+    keywords: ["sakit", "menjenguk", "jenguk orang sakit", "doa menjenguk", "doa untuk orang sakit"]
   },
-  {  id: 'aktivitas-36',
+  {
+    id: 'aktivitas-36',
     category: 'Doa Harian',
     title: "Adab & Doa Bersin",
     arabic: "الْحَمْدُ لِلّٰهِ — يَرْحَمُكَ اللّٰهُ — يَهْدِيكُمُ اللّٰهُ وَيُصْلِحُ بَالَكُمْ",
     latin: "Alhamdulillâh (Dibaca oleh yang bersin) — Yarhamukallâh (Jawaban orang yang mendengar) — Yahdîkumullâhu wa yushlihu bâlakum (Balasan kembali oleh orang yang bersin).",
-    translation: "Segala puji bagi Allah. Semoga Allah melimpahkan rahmat-Nya kepadamu. Semoga Allah memberikan petunjuk kepadamu dan memperbaiki keadaanmu."
+    translation: "Segala puji bagi Allah. Semoga Allah melimpahkan rahmat-Nya kepadamu. Semoga Allah memberikan petunjuk kepadamu dan memperbaiki keadaanmu.",
+    keywords: ["bersin", "doa bersin", "doa ketika bersin", "adab bersin"]
   },
-  {  id: 'aktivitas-37',
+  {
+    id: 'aktivitas-37',
     category: 'Doa Harian',
     title: "Doa Ziarah Kubur",
     arabic: "السَّلَامُ عَلَيْكُمْ أَهْلَ الدِّيَارِ مِنَ الْمُؤْمِنِينَ وَالْمُسْلِمِينَ، وَإِنَّا إِنْ شَاءَ اللّٰهُ بِكُمْ لَاحِقُونَ، أَسْأَلُ اللّٰهَ لَنَا وَلَكُمُ الْعَافِيَةَ",
     latin: "Assalāmu 'alaikum ahlad-diyāri minal mu'minīna wal muslimīn, wa innā in syā'allāhu bikum lāhiqūn, as'ālullāha lanā wa lakumul 'āfiyah.",
-    translation: "Semoga keselamatan tercurah kepada kalian, wahai penghuni kubur, dari orang-orang mukmin dan muslim. Sesungguhnya kami pun, insya Allah, akan menyusul kalian. Aku memohon kepada Allah keselamatan bagi kami dan bagi kalian."
+    translation: "Semoga keselamatan tercurah kepada kalian, wahai penghuni kubur, dari orang-orang mukmin dan muslim. Sesungguhnya kami pun, insya Allah, akan menyusul kalian. Aku memohon kepada Allah keselamatan bagi kami dan bagi kalian.",
+    keywords: ["kubur", "ziarah kubur", "makam", "kuburan", "doa ziarah kubur", "doa di kuburan"]
   },
-  {  id: 'aktivitas-38',
+  {
+    id: 'aktivitas-38',
     category: 'Doa Harian',
     title: "Doa Memohon Kecerdasan Dalam Berfikir",
     arabic: "اللَّهُمَّ أَلْهِمْنِي رُشْدِي وَأَعِذْنِي مِنْ شَرِّ نَفْسِي",
     latin: "Allâhumma al-himnî rusydî, wa a'îdznî min syarri nafsî.",
-    translation: "Ya Allah, ilhamkanlah kepadaku kecerdasan (petunjuk) dan lindungilah aku dari kejahatan diriku sendiri."
+    translation: "Ya Allah, ilhamkanlah kepadaku kecerdasan (petunjuk) dan lindungilah aku dari kejahatan diriku sendiri.",
+    keywords: ["cerdas", "kecerdasan", "berfikir", "pintar", "doa kecerdasan", "doa pintar", "otak"]
   },
-  {  id: 'aktivitas-39',
+  {
+    id: 'aktivitas-39',
     category: 'Doa Harian',
     title: "Doa Memohon Ilmu yang Bermanfaat",
     arabic: "اَللّٰهُمَّ إِنِّيْ أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا",
     latin: "Allâhumma innî as'âluka 'ilmân nâfi'â, wa rizqan thayyibâ, wa 'amalan mutaqabbalâ.",
-    translation: "Ya Allah, sesungguhnya aku memohon kepada-Mu ilmu yang bermanfaat, rezeki yang baik, dan amal yang diterima."
+    translation: "Ya Allah, sesungguhnya aku memohon kepada-Mu ilmu yang bermanfaat, rezeki yang baik, dan amal yang diterima.",
+    keywords: ["ilmu", "bermanfaat", "doa ilmu", "doa memohon ilmu", "rezeki", "doa rezeki"]
   },
-  {  id: 'aktivitas-40',
+  {
+    id: 'aktivitas-40',
     category: 'Doa Harian',
     title: "Doa Memohon Kemudahan Urusan",
     arabic: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي يَفْقَهُوا قَوْلِي",
     latin: "Rabbisy-syrah lî shadrî wa yassir lî amrî wahlul 'uqdatam min lisânî yafqahû qaulî.",
-    translation: "Ya Tuhanku, lapangkanlah dadaku, mudahkanlah urusanku, dan lepaskanlah kekakuan lidahku agar mereka mengerti perkataanku."
+    translation: "Ya Tuhanku, lapangkanlah dadaku, mudahkanlah urusanku, dan lepaskanlah kekakuan lidahku agar mereka mengerti perkataanku.",
+    keywords: ["kemudahan", "urusan", "mudah", "doa kemudahan", "doa dimudahkan", "doa lancar", "kelancaran"]
   },
 ];
 

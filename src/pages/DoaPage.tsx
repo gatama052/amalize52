@@ -1,6 +1,24 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useMemo } from 'react';
+import Fuse from 'fuse.js';
 import { doaList, alMatsuratList, doaSholatGroups, DOA_CATEGORIES, type Doa, type DoaSholatGroup, type AlMatsuratItem } from '@/data/doa';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+
+// Build Fuse indexes once
+const fuseDoaList = new Fuse(doaList, {
+  keys: ['title', 'arabic', 'latin', 'translation', 'keywords'],
+  threshold: 0.4,
+  includeScore: true,
+  ignoreLocation: true,
+  minMatchCharLength: 2,
+});
+
+const fuseSholatGroups = new Fuse(doaSholatGroups, {
+  keys: ['title', 'items.subtitle', 'items.arabic', 'items.latin', 'items.translation'],
+  threshold: 0.4,
+  includeScore: true,
+  ignoreLocation: true,
+  minMatchCharLength: 2,
+});
 
 export default function DoaPage() {
   const [activeCategory, setActiveCategory] = useState<string>('Semua');
@@ -27,27 +45,41 @@ export default function DoaPage() {
   }, []);
 
   const sq = searchQuery.trim().toLowerCase();
-  
-  // Deduplicate by id using a Set
-  const seenIds = new Set<string>();
-  
-  const filtered = doaList.filter((d) => {
-    if (seenIds.has(d.id)) return false;
-    if (showFavOnly && !favorites.includes(d.id)) return false;
-    if (activeCategory !== 'Semua' && d.category !== activeCategory) return false;
-    if (sq && !d.title.toLowerCase().includes(sq) && !d.arabic.includes(sq) && !d.latin.toLowerCase().includes(sq)) return false;
-    seenIds.add(d.id);
-    return true;
-  });
 
-  const filteredGroups = doaSholatGroups.filter((g) => {
-    if (seenIds.has(g.id)) return false;
-    if (showFavOnly && !favorites.includes(g.id)) return false;
-    if (activeCategory !== 'Semua' && g.category !== activeCategory) return false;
-    if (sq && !g.title.toLowerCase().includes(sq) && !g.items.some(item => item.subtitle?.toLowerCase().includes(sq))) return false;
-    seenIds.add(g.id);
-    return true;
-  });
+  // --- Smart search with Fuse.js ---
+  const { filtered, filteredGroups } = useMemo(() => {
+    const seenIds = new Set<string>();
+
+    let doaResults: Doa[];
+    let groupResults: DoaSholatGroup[];
+
+    if (sq) {
+      // Use Fuse.js fuzzy search
+      doaResults = fuseDoaList.search(sq).map(r => r.item);
+      groupResults = fuseSholatGroups.search(sq).map(r => r.item);
+    } else {
+      doaResults = doaList;
+      groupResults = doaSholatGroups;
+    }
+
+    const finalDoa = doaResults.filter((d) => {
+      if (seenIds.has(d.id)) return false;
+      if (showFavOnly && !favorites.includes(d.id)) return false;
+      if (activeCategory !== 'Semua' && d.category !== activeCategory) return false;
+      seenIds.add(d.id);
+      return true;
+    });
+
+    const finalGroups = groupResults.filter((g) => {
+      if (seenIds.has(g.id)) return false;
+      if (showFavOnly && !favorites.includes(g.id)) return false;
+      if (activeCategory !== 'Semua' && g.category !== activeCategory) return false;
+      seenIds.add(g.id);
+      return true;
+    });
+
+    return { filtered: finalDoa, filteredGroups: finalGroups };
+  }, [sq, showFavOnly, favorites, activeCategory]);
 
   const showAlMatsurat = !showFavOnly && (activeCategory === 'Dzikir Pagi & Petang') && !sq;
   const showAlMatsuratBySearch = !showFavOnly && sq && ('dzikir pagi petang'.includes(sq) || 'al-matsurat'.includes(sq) || 'al matsurat'.includes(sq));
