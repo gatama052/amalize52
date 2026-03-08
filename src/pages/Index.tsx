@@ -236,12 +236,11 @@ export default function Home() {
         )}
       </div>
 
-      {/* AI Reminders */}
+      {/* Motivasi */}
       <div className="rounded-xl bg-card p-4 shadow-sm">
-        <div className="space-y-2">
-          {reminders.map((r, i) => (
-            <p key={i} className="text-sm text-muted-foreground">{r}</p>
-          ))}
+        <div className="flex items-start gap-3">
+          <span className="text-2xl leading-none mt-0.5">{motivation.icon}</span>
+          <p className="text-sm text-muted-foreground italic leading-relaxed">"{motivation.text}"</p>
         </div>
       </div>
 
