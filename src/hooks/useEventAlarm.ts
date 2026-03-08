@@ -103,26 +103,60 @@ function speakReminder(ev: CalendarEvent, abortRef: { current: boolean }): Promi
 }
 
 /**
+ * Play ringtone audio file
+ */
+function playRingtone(abortRef: { current: boolean }): Promise<void> {
+  return new Promise((resolve) => {
+    try {
+      const audio = new Audio('/audio/event-ringtone.mp4');
+      audio.volume = 0.7;
+
+      const onEnd = () => { cleanup(); resolve(); };
+      const onError = () => { cleanup(); resolve(); };
+      const cleanup = () => {
+        audio.removeEventListener('ended', onEnd);
+        audio.removeEventListener('error', onError);
+      };
+
+      audio.addEventListener('ended', onEnd);
+      audio.addEventListener('error', onError);
+
+      // Check abort during playback
+      const checkAbort = setInterval(() => {
+        if (abortRef.current) {
+          clearInterval(checkAbort);
+          audio.pause();
+          cleanup();
+          resolve();
+        }
+      }, 200);
+
+      audio.addEventListener('ended', () => clearInterval(checkAbort));
+      audio.addEventListener('error', () => clearInterval(checkAbort));
+
+      audio.play().catch(() => { clearInterval(checkAbort); resolve(); });
+    } catch {
+      resolve();
+    }
+  });
+}
+
+/**
  * Play the full alarm sequence:
  * 1. Tone pembuka (beep sedang)
- * 2. TTS ucapan pengingat
- * 3. (Tone + Alarm) × 3
+ * 2. (TTS + Ringtone) × 3
  */
 async function playAlarmSequence(abortRef: { current: boolean }, ev: CalendarEvent) {
   // 1. Tone pembuka
   if (abortRef.current) return;
   await playBeepTone(500, 660);
 
-  // 2. TTS
-  if (abortRef.current) return;
-  await speakReminder(ev, abortRef);
-
-  // 3. (Tone + Alarm) × 3
+  // 2. (TTS + Ringtone) × 3
   for (let i = 0; i < 3; i++) {
     if (abortRef.current) return;
-    await playBeepTone(300, 880);
+    await speakReminder(ev, abortRef);
     if (abortRef.current) return;
-    await playAlarmTone(700);
+    await playRingtone(abortRef);
   }
 }
 
