@@ -48,6 +48,9 @@ export default function Home() {
   const [corrections] = useLocalStorage<Record<string, number>>('prayer_corrections', {});
   
   const isRamadan = hijri?.month.number === 9;
+  const goldenMotivation = useMemo(() => {
+    return getGoldenMotivation(new Date(), hijri?.month.number, hijri ? parseInt(hijri.day) : undefined);
+  }, [hijri]);
   const motivation = useMemo(() => {
     const prayerData = timings ? {
       Fajr: timings.Fajr,
