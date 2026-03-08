@@ -45,19 +45,19 @@ export default function Layout({ children }: { children: ReactNode }) {
         <img
           src={mosqueLogo}
           alt="Amalize"
-          className="h-28 w-28 object-contain mb-3 animate-[splash-logo_0.8s_ease-out_both]"
+          className="h-44 w-44 object-contain mb-4 animate-[splash-logo_0.8s_ease-out_both]"
         />
         {/* AMALIZE text image */}
         <img
           src={splashTitle}
           alt="AMALIZE"
-          className="h-10 object-contain animate-[splash-text_0.6s_ease-out_0.3s_both]"
+          className="w-[70vw] max-w-[320px] object-contain animate-[splash-text_0.6s_ease-out_0.3s_both]"
         />
         {/* Tagline image */}
         <img
           src={splashTagline}
           alt="Your Daily Deen Companion"
-          className="mt-1.5 h-10 object-contain animate-[splash-text_0.6s_ease-out_0.6s_both]"
+          className="mt-2 w-[70vw] max-w-[320px] object-contain animate-[splash-text_0.6s_ease-out_0.6s_both]"
         />
       </div>
     );
