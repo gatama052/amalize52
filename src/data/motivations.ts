@@ -23,6 +23,86 @@ interface MotivationEntry {
   texts: Record<DayType, string[]>;
 }
 
+// Special fasting days based on Hijri calendar
+interface SpecialFastingDay {
+  name: string;
+  icon: string;
+  texts: string[];
+}
+
+const SPECIAL_FASTING_DAYS: Record<string, SpecialFastingDay> = {
+  // Puasa Arafah - 9 Dzulhijjah
+  '12-9': {
+    name: 'Puasa Arafah',
+    icon: '🕋',
+    texts: [
+      "Hari ini adalah hari Arafah, salah satu puasa yang sangat dianjurkan. Semoga Allah menghapus dosa setahun yang lalu dan setahun yang akan datang.",
+      "Puasa Arafah menghapus dosa dua tahun. Semoga Allah menerima ibadah puasa kita hari ini.",
+      "Di hari Arafah yang mulia ini, berpuasalah dengan ikhlas. Rasulullah ﷺ bersabda puasa ini menghapus dosa dua tahun.",
+      "Hari Arafah adalah hari yang sangat agung. Manfaatkan dengan berpuasa dan memperbanyak doa.",
+      "Semoga puasa Arafah hari ini menjadi penghapus dosa kita. Perbanyak doa dan dzikir.",
+    ],
+  },
+  // Puasa Tasu'a - 9 Muharram
+  '1-9': {
+    name: 'Puasa Tasu\'a',
+    icon: '📿',
+    texts: [
+      "Hari ini adalah hari Tasu'a (9 Muharram). Dianjurkan berpuasa bersama dengan puasa Asyura besok.",
+      "Puasa Tasu'a dianjurkan Rasulullah ﷺ untuk membedakan dengan puasa Ahli Kitab. Semoga Allah menerima.",
+      "Di hari Tasu'a ini, berpuasalah sebagai persiapan menyambut puasa Asyura besok.",
+      "Hari Tasu'a adalah hari yang baik untuk berpuasa. Lengkapi dengan puasa Asyura besok.",
+      "Semoga puasa Tasu'a hari ini membawa keberkahan. Lanjutkan dengan puasa Asyura besok.",
+    ],
+  },
+  // Puasa Asyura - 10 Muharram
+  '1-10': {
+    name: 'Puasa Asyura',
+    icon: '📿',
+    texts: [
+      "Hari ini adalah hari Asyura (10 Muharram). Puasa di hari ini menghapus dosa setahun yang lalu.",
+      "Puasa Asyura adalah sunnah yang sangat dianjurkan. Rasulullah ﷺ bersabda: menghapus dosa setahun yang lalu.",
+      "Di hari Asyura yang mulia ini, berpuasalah dengan penuh keikhlasan kepada Allah.",
+      "Hari Asyura penuh keberkahan. Semoga puasa kita hari ini diterima oleh Allah.",
+      "Semoga puasa Asyura hari ini menjadi penghapus dosa. Perbanyak dzikir dan istighfar.",
+    ],
+  },
+  // Ayyamul Bidh - 13, 14, 15 setiap bulan Hijriyah
+  'bidh-13': {
+    name: 'Puasa Ayyamul Bidh',
+    icon: '🌕',
+    texts: [
+      "Hari ini adalah awal Ayyamul Bidh (13 Hijriyah). Dianjurkan berpuasa tiga hari: 13, 14, dan 15.",
+      "Puasa Ayyamul Bidh sangat dianjurkan Rasulullah ﷺ. Hari ini tanggal 13 Hijriyah, mari berpuasa.",
+      "Ayyamul Bidh dimulai hari ini. Berpuasalah selama tiga hari untuk mendapat pahala besar.",
+      "Hari pertama Ayyamul Bidh. Semoga Allah memudahkan puasa sunnah tiga hari ini.",
+      "Rasulullah ﷺ menganjurkan puasa Ayyamul Bidh. Hari ini tanggal 13, mari mulai berpuasa.",
+    ],
+  },
+  'bidh-14': {
+    name: 'Puasa Ayyamul Bidh',
+    icon: '🌕',
+    texts: [
+      "Hari ini tanggal 14 Hijriyah, hari kedua Ayyamul Bidh. Semoga puasa sunnah ini diterima Allah.",
+      "Lanjutkan puasa Ayyamul Bidh hari kedua ini. Semoga Allah memberi kekuatan dan pahala.",
+      "Di hari kedua Ayyamul Bidh, semoga puasa kita bernilai ibadah yang besar di sisi Allah.",
+      "Tanggal 14 Hijriyah, hari kedua puasa Ayyamul Bidh. Tetap semangat berpuasa sunnah.",
+      "Puasa Ayyamul Bidh hari kedua. Semoga menjadi tabungan amal di akhirat.",
+    ],
+  },
+  'bidh-15': {
+    name: 'Puasa Ayyamul Bidh',
+    icon: '🌕',
+    texts: [
+      "Hari ini tanggal 15 Hijriyah, hari terakhir Ayyamul Bidh. Sempurnakan puasa tiga hari ini.",
+      "Hari terakhir Ayyamul Bidh. Alhamdulillah jika mampu menyelesaikan puasa tiga hari ini.",
+      "Tanggal 15 Hijriyah, hari ketiga Ayyamul Bidh. Semoga puasa sunnah ini diterima Allah.",
+      "Sempurnakan puasa Ayyamul Bidh hari ini. Semoga Allah menerima ibadah kita.",
+      "Hari terakhir puasa Ayyamul Bidh. Semoga menjadi amal yang berat di timbangan kebaikan.",
+    ],
+  },
+};
+
 export const MOTIVATIONS: Record<TimeSlot, MotivationEntry> = {
   tahajud: {
     icon: '🌙',
@@ -47,6 +127,13 @@ export const MOTIVATIONS: Record<TimeSlot, MotivationEntry> = {
         "Di malam Jumat yang mulia ini, bangunlah untuk Tahajud. Doa di waktu ini sangat mustajab.",
         "Sepertiga malam Jumat adalah waktu yang istimewa. Perbanyak shalawat dan doa kepada Allah.",
         "Malam Jumat penuh keberkahan. Jangan lewatkan kesempatan untuk sholat Tahajud dan berdzikir.",
+      ],
+      ramadan: [
+        "Sepertiga malam Ramadhan adalah waktu yang sangat mulia. Bangunlah untuk Tahajud dan persiapkan sahur.",
+        "Di malam Ramadhan yang penuh rahmat ini, manfaatkan sepertiga malam untuk bermunajat dan sholat Tahajud.",
+        "Malam Ramadhan penuh ampunan. Bangunlah untuk Tahajud, berdoa, dan bersiap sahur.",
+        "Sepertiga malam di bulan Ramadhan sangat istimewa. Perbanyak doa dan istighfar sebelum sahur.",
+        "Bangunlah di sepertiga malam Ramadhan ini. Sholat Tahajud dan sahur untuk menyempurnakan puasa.",
       ],
     },
   },
@@ -75,6 +162,13 @@ export const MOTIVATIONS: Record<TimeSlot, MotivationEntry> = {
         "Sebelum fajar Jumat tiba, panjatkan doa terbaik dan perbanyak shalawat kepada Rasulullah \uFDFA.",
         "Menjelang Subuh di hari yang mulia ini, manfaatkan waktu untuk istighfar dan shalawat.",
       ],
+      ramadan: [
+        "Menjelang Subuh di bulan Ramadhan. Sempurnakan sahur dan niatkan puasa dengan ikhlas karena Allah.",
+        "Waktu sahur hampir berakhir. Perbanyak doa dan istighfar sebelum imsak tiba.",
+        "Menjelang Subuh Ramadhan, sempurnakan sahur Anda. Sahur adalah sunnah yang penuh berkah.",
+        "Sebelum fajar Ramadhan menyingsing, perbanyak istighfar dan sempurnakan makan sahur.",
+        "Menjelang imsak di bulan penuh rahmat ini, berdoalah agar puasa hari ini dimudahkan.",
+      ],
     },
   },
 
@@ -101,6 +195,13 @@ export const MOTIVATIONS: Record<TimeSlot, MotivationEntry> = {
         "Waktu Subuh di hari Jumat yang mulia hampir tiba. Jangan lewatkan sholat di awal waktu.",
         "Adzan Subuh Jumat sebentar lagi. Sambut dengan hati yang bersih dan penuh harap.",
         "Sebentar lagi Subuh di hari terbaik. Bersiaplah menyambut keberkahan hari Jumat.",
+      ],
+      ramadan: [
+        "Waktu imsak telah tiba. Hentikan makan sahur dan bersiaplah untuk sholat Subuh.",
+        "Sebentar lagi adzan Subuh Ramadhan. Bersiaplah sholat dan mulai hari penuh ibadah.",
+        "Subuh Ramadhan hampir tiba. Sempurnakan niat puasa dan bersiaplah sholat Subuh.",
+        "Adzan Subuh Ramadhan sebentar lagi. Sambut dengan hati yang khusyuk dan penuh harap.",
+        "Waktu Subuh di bulan Ramadhan hampir tiba. Jangan lewatkan sholat di awal waktu.",
       ],
     },
   },
@@ -129,6 +230,13 @@ export const MOTIVATIONS: Record<TimeSlot, MotivationEntry> = {
         "Pagi yang cerah di hari Jumat. Jangan lupa membaca Surah Al-Kahfi dan memperbanyak shalawat.",
         "Selamat pagi di hari Jumat yang penuh keberkahan. Awali dengan dzikir dan shalawat.",
       ],
+      ramadan: [
+        "Selamat pagi di bulan Ramadhan yang penuh berkah. Awali dengan dzikir pagi dan nikmati hari puasa dengan penuh ibadah.",
+        "Pagi Ramadhan yang cerah. Perbanyak dzikir dan jaga puasa dengan sabar serta ikhlas.",
+        "Selamat pagi. Semoga puasa Ramadhan hari ini membawa keberkahan dan ampunan dari Allah.",
+        "Pagi di bulan penuh rahmat. Manfaatkan waktu untuk membaca Al-Quran dan berdzikir.",
+        "Selamat pagi di bulan Ramadhan. Jaga puasa, perbanyak dzikir, dan sebarkan kebaikan.",
+      ],
     },
   },
 
@@ -155,6 +263,13 @@ export const MOTIVATIONS: Record<TimeSlot, MotivationEntry> = {
         "Aktivitas di hari Jumat. Selipkan shalawat dan dzikir di antara kesibukan Anda.",
         "Hari Jumat penuh keberkahan. Semoga setiap aktivitas hari ini bernilai ibadah.",
         "Di pagi Jumat yang mulia, jangan lupa memperbanyak shalawat kepada Nabi \uFDFA.",
+      ],
+      ramadan: [
+        "Di tengah aktivitas Ramadhan, jaga puasa dengan sabar. Perbanyak dzikir dan istighfar.",
+        "Semoga aktivitas di bulan Ramadhan ini penuh berkah. Jaga lisan dan perbanyak kebaikan.",
+        "Ramadhan bukan penghalang produktivitas. Semoga Allah memberi kekuatan menjalani puasa.",
+        "Di bulan Ramadhan, setiap aktivitas bisa bernilai ibadah jika diniatkan karena Allah.",
+        "Tetap semangat beraktivitas di bulan Ramadhan. Perbanyak dzikir di tengah kesibukan.",
       ],
     },
   },
@@ -183,6 +298,13 @@ export const MOTIVATIONS: Record<TimeSlot, MotivationEntry> = {
         "Menjelang sholat Jumat yang penuh berkah. Perbanyak shalawat sebelum berangkat ke masjid.",
         "Waktu sholat Jumat mendekat. Jangan lupa mandi Jumat dan memakai wewangian.",
       ],
+      ramadan: [
+        "Menjelang Dzuhur di bulan Ramadhan. Tunaikan sholat dengan khusyuk meski sedang berpuasa.",
+        "Waktu Dzuhur hampir tiba di bulan Ramadhan. Jangan lupa sholat tepat waktu.",
+        "Sebentar lagi Dzuhur. Di bulan penuh rahmat ini, perbanyak doa saat menunggu adzan.",
+        "Menjelang Dzuhur Ramadhan. Semoga puasa dan sholat kita diterima oleh Allah.",
+        "Waktu Dzuhur mendekat. Tetap semangat berpuasa dan jangan tunda sholat.",
+      ],
     },
   },
 
@@ -209,6 +331,13 @@ export const MOTIVATIONS: Record<TimeSlot, MotivationEntry> = {
         "Di hari Jumat, setiap amal kebaikan bernilai lebih. Semoga hari ini penuh ibadah.",
         "Siang Jumat yang penuh berkah. Semoga Allah menerima semua amal kita hari ini.",
         "Hari Jumat adalah hari terbaik. Perbanyak dzikir dan shalawat di siang hari ini.",
+      ],
+      ramadan: [
+        "Siang Ramadhan, tetap semangat berpuasa. Perbanyak dzikir dan membaca Al-Quran.",
+        "Di tengah puasa Ramadhan, jaga kesabaran dan perbanyak istighfar. Semoga Allah meridhai.",
+        "Siang di bulan Ramadhan. Tetap produktif dan niatkan semua aktivitas sebagai ibadah.",
+        "Semoga puasa Ramadhan hari ini berjalan lancar. Waktu berbuka semakin dekat, bersabarlah.",
+        "Siang Ramadhan penuh berkah. Manfaatkan untuk memperbanyak tilawah Al-Quran.",
       ],
     },
   },
@@ -237,6 +366,13 @@ export const MOTIVATIONS: Record<TimeSlot, MotivationEntry> = {
         "Menjelang Ashar Jumat, manfaatkan waktu untuk berdoa. Ada waktu mustajab di hari ini.",
         "Waktu Ashar di hari Jumat mendekat. Ingat, di hari Jumat ada waktu ijabah doa.",
       ],
+      ramadan: [
+        "Menjelang Ashar di bulan Ramadhan. Tetap semangat, waktu berbuka semakin dekat.",
+        "Waktu Ashar hampir tiba. Di bulan Ramadhan ini, perbanyak doa menjelang sholat.",
+        "Sebentar lagi Ashar Ramadhan. Bersabarlah, pahala puasa sangat besar di sisi Allah.",
+        "Menjelang Ashar di bulan penuh rahmat. Semoga puasa kita diterima Allah.",
+        "Waktu Ashar mendekat di bulan Ramadhan. Segera bersiap sholat dan perbanyak dzikir.",
+      ],
     },
   },
 
@@ -263,6 +399,13 @@ export const MOTIVATIONS: Record<TimeSlot, MotivationEntry> = {
         "Menjelang Maghrib Jumat, manfaatkan waktu mustajab ini untuk berdoa.",
         "Sebentar lagi Maghrib di hari Jumat. Jangan lupa berdoa sebelum adzan berkumandang.",
         "Waktu Maghrib di hari Jumat mendekat. Perbanyak shalawat dan doa.",
+      ],
+      ramadan: [
+        "Sebentar lagi waktu berbuka puasa Ramadhan! Berdoalah, doa orang berpuasa sangat mustajab.",
+        "Waktu berbuka Ramadhan hampir tiba. Panjatkan doa terbaik sebelum adzan Maghrib.",
+        "Alhamdulillah, sebentar lagi berbuka puasa. Semoga puasa hari ini diterima Allah.",
+        "Menjelang Maghrib Ramadhan. Bersabarlah sebentar lagi, waktu berbuka sudah sangat dekat.",
+        "Waktu berbuka hampir tiba. Semoga puasa Ramadhan hari ini menjadi penghapus dosa.",
       ],
     },
   },
@@ -291,6 +434,13 @@ export const MOTIVATIONS: Record<TimeSlot, MotivationEntry> = {
         "Di malam Jumat, perbanyak shalawat kepada Nabi \uFDFA dan baca Surah Al-Kahfi jika belum.",
         "Malam Jumat penuh keberkahan. Manfaatkan untuk tilawah dan memperbanyak shalawat.",
       ],
+      ramadan: [
+        "Alhamdulillah, berbuka puasa Ramadhan telah tiba. Bersyukurlah dan sholat Maghrib tepat waktu.",
+        "Setelah berbuka Ramadhan, lanjutkan dengan sholat Maghrib dan persiapkan diri untuk Tarawih.",
+        "Malam Ramadhan penuh berkah. Setelah berbuka, bersiaplah untuk sholat Tarawih berjamaah.",
+        "Nikmati hidangan berbuka dan jangan lupa sholat Maghrib. Malam ini, lanjutkan dengan Tarawih.",
+        "Setelah berbuka Ramadhan, perbanyak tilawah Al-Quran dan bersiap untuk sholat Tarawih.",
+      ],
     },
   },
 
@@ -318,6 +468,13 @@ export const MOTIVATIONS: Record<TimeSlot, MotivationEntry> = {
         "Di malam Jumat, jangan lupa memperbanyak shalawat dan doa kepada Allah.",
         "Malam Jumat penuh berkah. Manfaatkan untuk berdzikir dan bershalawat.",
       ],
+      ramadan: [
+        "Setelah Isya dan Tarawih di bulan Ramadhan, lanjutkan dengan tilawah Al-Quran.",
+        "Malam Ramadhan setelah Tarawih. Perbanyak dzikir dan berdoa kepada Allah.",
+        "Semoga sholat Tarawih malam ini khusyuk. Lanjutkan dengan membaca Al-Quran.",
+        "Malam Ramadhan penuh ampunan. Manfaatkan untuk ibadah dan tilawah.",
+        "Setelah Tarawih, luangkan waktu untuk berdzikir dan berdoa. Berburu malam Lailatul Qadar.",
+      ],
     },
   },
 
@@ -344,6 +501,13 @@ export const MOTIVATIONS: Record<TimeSlot, MotivationEntry> = {
         "Malam Jumat yang berkah. Baca dzikir malam dan perbanyak shalawat sebelum tidur.",
         "Sebelum tidur di malam Jumat, jangan lupa baca Surah Al-Mulk dan bershalawat.",
         "Akhiri hari Jumat dengan dzikir, shalawat, dan doa terbaik sebelum tidur.",
+      ],
+      ramadan: [
+        "Sebelum tidur di malam Ramadhan, baca dzikir malam dan niatkan bangun untuk sahur.",
+        "Tutup malam Ramadhan dengan Surah Al-Mulk. Jangan lupa pasang alarm untuk sahur.",
+        "Sebelum tidur, bersyukurlah atas puasa hari ini. Bersiaplah bangun untuk sahur dan Tahajud.",
+        "Malam Ramadhan yang berkah. Baca dzikir sebelum tidur dan niatkan qiyamul lail.",
+        "Akhiri malam Ramadhan dengan dzikir dan doa. Semoga besok diberi kekuatan berpuasa.",
       ],
     },
   },
@@ -391,9 +555,17 @@ export function getTimeSlot(
 }
 
 /**
- * Get the day type: jumat, seninkamis, or biasa
+ * Get the day type based on priority:
+ * 1. Ramadan (highest)
+ * 2. Special fasting days
+ * 3. Senin/Kamis fasting
+ * 4. Jumat
+ * 5. Biasa (default)
  */
-export function getDayType(now: Date): DayType {
+export function getDayType(now: Date, hijriMonth?: number): DayType {
+  // Priority 1: Ramadan
+  if (hijriMonth === 9) return 'ramadan';
+  
   const day = now.getDay();
   if (day === 5) return 'jumat';
   if (day === 1 || day === 4) return 'seninkamis';
@@ -401,14 +573,68 @@ export function getDayType(now: Date): DayType {
 }
 
 /**
- * Pick a motivation text. Uses date-based seed for daily variety within same time slot.
+ * Check for special fasting days based on Hijri calendar.
+ * Returns special fasting motivation if applicable, null otherwise.
+ */
+function getSpecialFastingMotivation(
+  now: Date,
+  hijriMonth?: number,
+  hijriDay?: number
+): { icon: string; text: string } | null {
+  if (!hijriMonth || !hijriDay) return null;
+  
+  // Don't show special fasting during Ramadan
+  if (hijriMonth === 9) return null;
+
+  // Check specific dates (Arafah, Tasu'a, Asyura)
+  const dateKey = `${hijriMonth}-${hijriDay}`;
+  const specialDay = SPECIAL_FASTING_DAYS[dateKey];
+  if (specialDay) {
+    const dayOfYear = Math.floor(
+      (now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) / 86400000
+    );
+    const seed = dayOfYear % specialDay.texts.length;
+    return { icon: specialDay.icon, text: specialDay.texts[seed] };
+  }
+
+  // Check Ayyamul Bidh (13, 14, 15 of any Hijri month)
+  if (hijriDay >= 13 && hijriDay <= 15) {
+    const bidhKey = `bidh-${hijriDay}`;
+    const bidhDay = SPECIAL_FASTING_DAYS[bidhKey];
+    if (bidhDay) {
+      const dayOfYear = Math.floor(
+        (now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) / 86400000
+      );
+      const seed = dayOfYear % bidhDay.texts.length;
+      return { icon: bidhDay.icon, text: bidhDay.texts[seed] };
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Pick a motivation text with priority system:
+ * 1. Ramadan → use ramadan day type
+ * 2. Special fasting days (Arafah, Asyura, Ayyamul Bidh) → override
+ * 3. Senin/Kamis → use seninkamis day type
+ * 4. Jumat → use jumat day type
+ * 5. Default → biasa
  */
 export function getMotivation(
   now: Date,
-  prayerTimes?: { Fajr?: string; Dhuhr?: string; Asr?: string; Maghrib?: string; Isha?: string }
+  prayerTimes?: { Fajr?: string; Dhuhr?: string; Asr?: string; Maghrib?: string; Isha?: string },
+  hijriMonth?: number,
+  hijriDay?: number
 ): { icon: string; text: string } {
   const slot = getTimeSlot(now, prayerTimes);
-  const dayType = getDayType(now);
+  
+  // Priority 2: Special fasting days (but not during Ramadan)
+  const specialFasting = getSpecialFastingMotivation(now, hijriMonth, hijriDay);
+  if (specialFasting) return specialFasting;
+
+  // Priority 1 (Ramadan), 3 (Senin/Kamis), 4 (Jumat), 5 (biasa)
+  const dayType = getDayType(now, hijriMonth);
   const entry = MOTIVATIONS[slot];
   const texts = entry.texts[dayType];
 
