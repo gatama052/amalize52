@@ -102,6 +102,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
       <BottomNav />
       <AdhanMode state={adhanMode} isPlaying={isPlaying} onStop={stopAzan} onSnooze={snoozeAzan} />
+      <EventReminderOverlay state={alarmState} isPlaying={alarmPlaying} onStop={stopAlarm} onSnooze={snoozeAlarm} />
     </div>
   );
 }
