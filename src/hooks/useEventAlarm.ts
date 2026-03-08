@@ -171,7 +171,7 @@ export function useEventAlarm() {
     abortRef.current = false;
     setIsPlaying(true);
     const ref = abortRef;
-    playAlarmSequence(ref).then(() => {
+    playAlarmSequence(ref, ev).then(() => {
       if (!ref.current) {
         setIsPlaying(false);
       }
