@@ -14,13 +14,13 @@ export default function EventReminderOverlay({ state, isPlaying, onStop, onSnooz
 
   return (
     <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center event-alarm-bg">
-      <div className="absolute inset-0 islamic-pattern opacity-20 pointer-events-none" />
+      <div className="absolute inset-0 islamic-pattern opacity-15 pointer-events-none" />
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full event-alarm-glow animate-pulse pointer-events-none" />
 
       <div className="relative z-10 flex flex-col items-center text-center px-8 max-w-sm">
         {/* Icon */}
-        <div className="w-24 h-24 mb-6 rounded-full bg-accent/20 flex items-center justify-center backdrop-blur-sm border border-accent/30">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--accent))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <div className="w-24 h-24 mb-6 rounded-full bg-primary/10 flex items-center justify-center backdrop-blur-sm border border-primary/20">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="13" r="8" />
             <path d="M12 9v4l2 2" />
             <path d="M5 3L2 6" />
@@ -31,30 +31,30 @@ export default function EventReminderOverlay({ state, isPlaying, onStop, onSnooz
         </div>
 
         {/* Label */}
-        <p className="text-sm font-medium text-accent mb-2 tracking-widest uppercase">
+        <p className="text-sm font-medium text-primary mb-2 tracking-widest uppercase">
           Pengingat Acara
         </p>
 
         {/* Event name */}
-        <h1 className="text-3xl font-bold text-primary-foreground tracking-wide mb-2">
+        <h1 className="text-3xl font-bold text-foreground tracking-wide mb-2">
           {ev.title}
         </h1>
 
         {/* Location */}
         {ev.location && (
-          <p className="text-primary-foreground/70 text-sm mb-2">
+          <p className="text-muted-foreground text-sm mb-2">
             📍 {ev.location}
           </p>
         )}
 
         {/* Time */}
-        <p className="text-5xl font-mono font-bold text-accent mb-4">
+        <p className="text-5xl font-mono font-bold text-primary mb-4">
           {ev.time}
         </p>
 
         {/* Notes */}
         {ev.notes && (
-          <p className="text-primary-foreground/60 text-xs mb-6">
+          <p className="text-muted-foreground text-xs mb-6">
             {ev.notes}
           </p>
         )}
@@ -65,7 +65,7 @@ export default function EventReminderOverlay({ state, isPlaying, onStop, onSnooz
             {[1, 2, 3, 4, 5, 4, 3, 2, 1].map((h, i) => (
               <div
                 key={i}
-                className="w-1 bg-accent/80 rounded-full"
+                className="w-1 bg-primary/70 rounded-full"
                 style={{
                   height: `${h * 6}px`,
                   animation: `soundWave 0.8s ease-in-out ${i * 0.1}s infinite alternate`,
@@ -81,13 +81,13 @@ export default function EventReminderOverlay({ state, isPlaying, onStop, onSnooz
         <div className="flex gap-4 w-full">
           <button
             onClick={onSnooze}
-            className="flex-1 rounded-xl py-3.5 px-4 text-sm font-semibold bg-secondary/20 text-primary-foreground backdrop-blur-sm border border-secondary/30 active:scale-95 transition-transform"
+            className="flex-1 rounded-xl py-3.5 px-4 text-sm font-semibold bg-muted text-foreground border border-border active:scale-95 transition-transform"
           >
             ⏰ Tunda 5 Menit
           </button>
           <button
             onClick={onStop}
-            className="flex-1 rounded-xl py-3.5 px-4 text-sm font-semibold bg-accent text-accent-foreground active:scale-95 transition-transform"
+            className="flex-1 rounded-xl py-3.5 px-4 text-sm font-semibold bg-primary text-primary-foreground active:scale-95 transition-transform"
           >
             ⏹ Hentikan
           </button>
