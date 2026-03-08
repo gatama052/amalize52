@@ -62,6 +62,9 @@ export default function Layout({ children }: { children: ReactNode }) {
           alt="Your Daily Deen Companion"
           className="mt-2 w-[70vw] max-w-[320px] object-contain animate-[splash-text_0.6s_ease-out_0.6s_both]"
         />
+        <p className="absolute bottom-6 text-xs text-white/50 animate-[splash-text_0.6s_ease-out_0.8s_both]">
+          Amalize Versi 1.0.0
+        </p>
       </div>
     );
   }
