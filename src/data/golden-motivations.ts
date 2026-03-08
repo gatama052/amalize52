@@ -206,6 +206,7 @@ const NATIONAL_TITLES: Record<string, string> = {
   '6-1': 'Hari Lahir Pancasila',
   '8-17': 'Hari Kemerdekaan RI',
   '10-22': 'Hari Santri Nasional',
+  '9-30': 'Hari Peringatan G30S PKI',
   '10-28': 'Hari Sumpah Pemuda',
   '11-10': 'Hari Pahlawan',
   '12-22': 'Hari Ibu',
