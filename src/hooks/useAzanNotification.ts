@@ -157,7 +157,8 @@ export function useAzanNotification(timings: PrayerTimings | null) {
     audio.volume = 1.0;
     audio.addEventListener('ended', () => {
       setIsPlaying(false);
-      // Don't auto-close adhan mode so user can see it
+      // Auto-close adhan mode when sound finishes
+      setAdhanMode({ active: false, prayerKey: '', prayerName: '', prayerTime: '' });
     });
     audio.addEventListener('pause', () => setIsPlaying(false));
     audioRef.current = audio;
@@ -235,7 +236,7 @@ export function useAzanNotification(timings: PrayerTimings | null) {
           setIsPlaying(false);
           const fallback = new Audio(AZAN_AUDIO_PATH);
           fallback.volume = 1.0;
-          fallback.addEventListener('ended', () => setIsPlaying(false));
+          fallback.addEventListener('ended', () => { setIsPlaying(false); setAdhanMode({ active: false, prayerKey: '', prayerName: '', prayerTime: '' }); });
           fallback.addEventListener('pause', () => setIsPlaying(false));
           connectToContext(fallback);
           audioRef.current = fallback;
@@ -245,7 +246,7 @@ export function useAzanNotification(timings: PrayerTimings | null) {
       } else {
         const audio = new Audio(AZAN_AUDIO_PATH);
         audio.volume = 1.0;
-        audio.addEventListener('ended', () => setIsPlaying(false));
+        audio.addEventListener('ended', () => { setIsPlaying(false); setAdhanMode({ active: false, prayerKey: '', prayerName: '', prayerTime: '' }); });
         audio.addEventListener('pause', () => setIsPlaying(false));
         connectToContext(audio);
         audioRef.current = audio;
