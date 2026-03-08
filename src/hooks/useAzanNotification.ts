@@ -244,34 +244,46 @@ export function useAzanNotification(timings: PrayerTimings | null) {
 
   const playAzan = useCallback(() => {
     try {
-      const vol = volume / 100;
-      console.log('[Azan] Attempting to play audio, volume:', vol);
-      
+      const { ctx, gain } = getAudioContext();
+      gain.gain.value = volume / 100;
+      console.log('[Azan] Playing audio via AudioContext, gain:', gain.gain.value);
+
+      const connectToContext = (audio: HTMLAudioElement) => {
+        try {
+          const source = ctx.createMediaElementSource(audio);
+          source.connect(gain);
+        } catch {
+          // Already connected — that's fine
+        }
+      };
+
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
-        audioRef.current.volume = vol;
+        audioRef.current.volume = 1.0; // Max HTML volume; GainNode controls actual volume
+        connectToContext(audioRef.current);
         setIsPlaying(true);
         audioRef.current.play().catch((err) => {
           console.warn('[Azan] Autoplay blocked, trying fallback:', err);
           setIsPlaying(false);
-          // Fallback: create new audio element
           const fallback = new Audio(AZAN_AUDIO_PATH);
-          fallback.volume = vol;
+          fallback.volume = 1.0;
           fallback.addEventListener('ended', () => setIsPlaying(false));
           fallback.addEventListener('pause', () => setIsPlaying(false));
+          connectToContext(fallback);
+          audioRef.current = fallback;
           setIsPlaying(true);
           fallback.play().catch((e2) => {
             console.warn('[Azan] Fallback also blocked:', e2);
             setIsPlaying(false);
           });
-          audioRef.current = fallback;
         });
       } else {
         const audio = new Audio(AZAN_AUDIO_PATH);
-        audio.volume = vol;
+        audio.volume = 1.0;
         audio.addEventListener('ended', () => setIsPlaying(false));
         audio.addEventListener('pause', () => setIsPlaying(false));
+        connectToContext(audio);
         audioRef.current = audio;
         setIsPlaying(true);
         audio.play().catch((e) => {

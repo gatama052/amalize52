@@ -215,13 +215,11 @@ export default function SettingsPage() {
             <p className="font-bold text-foreground mt-4">6. Perubahan Kebijakan</p>
             <p className="mt-1">Kami dapat memperbarui kebijakan ini sewaktu-waktu melalui pembaruan aplikasi.</p>
             <p className="mt-3">Dengan menggunakan Amalize, Anda dianggap telah memahami dan menyetujui kebijakan privasi ini. Jika Anda mengalami kendala dalam penggunaan aplikasi atau memiliki saran untuk pengembangan Amalize ke depannya, kami dengan senang hati siap membantu dan mendengarkan masukan Anda.</p>
-            <p className="mt-3 flex items-center gap-1.5">
-              Silakan hubungi kami melalui email:
-              <a href="mailto:inspirelimadua@gmail.com" className="inline-flex items-center gap-1 text-accent underline">
-                <img src={inspireLogo} alt="" className="w-4 h-4 rounded-full inline-block" />
-                inspirelimadua@gmail.com
-              </a>
-            </p>
+            <p className="mt-3">Silakan hubungi kami melalui email:</p>
+            <a href="mailto:inspirelimadua@gmail.com" className="mt-2 inline-flex items-center gap-1.5 text-accent hover:underline">
+              <img src={inspireLogo} alt="" className="w-4 h-4 rounded-full" />
+              inspirelimadua@gmail.com
+            </a>
           </div>
         )}
       </div>
