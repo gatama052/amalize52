@@ -9,6 +9,21 @@ const PRAYER_NAMES: Record<string, string> = {
 
 const AZAN_AUDIO_PATH = '/audio/adzan.mp3';
 
+let audioContext: AudioContext | null = null;
+let gainNode: GainNode | null = null;
+
+function getAudioContext(): { ctx: AudioContext; gain: GainNode } {
+  if (!audioContext || audioContext.state === 'closed') {
+    audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    gainNode = audioContext.createGain();
+    gainNode.connect(audioContext.destination);
+  }
+  if (audioContext.state === 'suspended') {
+    audioContext.resume();
+  }
+  return { ctx: audioContext, gain: gainNode! };
+}
+
 function formatTime(h: number, m: number): string {
   return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
 }
