@@ -346,7 +346,8 @@ export default function DoaPage() {
         <form onSubmit={(e) => { e.preventDefault(); }} className="relative">
           <input
             ref={searchInputRef}
-            type="text"
+            type="search"
+            enterKeyHint="search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Cari doa atau dzikir..."
