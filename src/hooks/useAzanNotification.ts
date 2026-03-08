@@ -236,7 +236,7 @@ export function useAzanNotification(timings: PrayerTimings | null) {
           setIsPlaying(false);
           const fallback = new Audio(AZAN_AUDIO_PATH);
           fallback.volume = 1.0;
-          fallback.addEventListener('ended', () => setIsPlaying(false));
+          fallback.addEventListener('ended', () => { setIsPlaying(false); setAdhanMode({ active: false, prayerKey: '', prayerName: '', prayerTime: '' }); });
           fallback.addEventListener('pause', () => setIsPlaying(false));
           connectToContext(fallback);
           audioRef.current = fallback;
