@@ -18,6 +18,11 @@ export default function Layout({ children }: { children: ReactNode }) {
   const [showSplash, setShowSplash] = useState(true);
   const [splashFade, setSplashFade] = useState(false);
   useEventReminder();
+  
+  // Global azan notification system
+  const { location: loc } = useUserLocation();
+  const { timings } = usePrayerTimes(loc?.latitude, loc?.longitude);
+  const { adhanMode, isPlaying, stopAzan, snoozeAzan } = useAzanNotification(timings);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', darkMode);
