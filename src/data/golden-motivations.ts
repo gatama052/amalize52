@@ -144,9 +144,6 @@ const NATIONAL_MOTIVATIONS: Record<string, GoldenMotivation[]> = {
   '12-22': [
     { icon: '🕌', text: 'Selamat Hari Ibu. Surga berada di bawah telapak kaki ibu. Muliakan ibunda kita setiap hari.' },
   ],
-  '12-25': [
-    { icon: '🤝', text: 'Hari Natal. Semoga toleransi dan kedamaian selalu menjadi pondasi kehidupan berbangsa.' },
-  ],
 };
 
 // General motivations (when no event)
