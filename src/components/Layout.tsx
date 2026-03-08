@@ -6,11 +6,12 @@ import splashTitle from '@/assets/splash-amalize-text.png';
 import splashTagline from '@/assets/splash-tagline.png';
 import BottomNav from './BottomNav';
 import AdhanMode from './AdhanMode';
+import EventReminderOverlay from './EventReminderOverlay';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
-import { useEventReminder } from '@/hooks/useEventReminder';
 import { useLocation as useUserLocation } from '@/hooks/useLocation';
 import { usePrayerTimes } from '@/hooks/usePrayerTimes';
 import { useAzanNotification } from '@/hooks/useAzanNotification';
+import { useEventAlarm } from '@/hooks/useEventAlarm';
 
 export default function Layout({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
