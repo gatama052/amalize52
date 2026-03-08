@@ -48,7 +48,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <img
           src={splashTagline}
           alt="Your Daily Deen Companion"
-          className="mt-1.5 h-5 object-contain animate-[splash-text_0.6s_ease-out_0.6s_both]"
+          className="mt-1.5 h-10 object-contain animate-[splash-text_0.6s_ease-out_0.6s_both]"
         />
       </div>
     );

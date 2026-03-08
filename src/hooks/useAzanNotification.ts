@@ -311,5 +311,37 @@ export function useAzanNotification(timings: PrayerTimings | null) {
     showNotification('Fajr');
   }, [playAzan]);
 
-  return { enabled, setEnabled, stopAzan, testAzan, isPlaying, volume, setVolume };
+  // Preview: play a short snippet when volume changes via slider
+  const previewTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const previewVolume = useCallback((newVolume: number) => {
+    setVolume(newVolume);
+    // Debounce: only play preview after user stops dragging for 300ms
+    if (previewTimeoutRef.current) clearTimeout(previewTimeoutRef.current);
+    previewTimeoutRef.current = setTimeout(() => {
+      try {
+        const { ctx, gain } = getAudioContext();
+        gain.gain.value = newVolume / 100;
+        if (audioRef.current && !isPlaying) {
+          audioRef.current.pause();
+          audioRef.current.currentTime = 0;
+          audioRef.current.volume = 1.0;
+          try {
+            const source = ctx.createMediaElementSource(audioRef.current);
+            source.connect(gain);
+          } catch {}
+          audioRef.current.play().then(() => {
+            // Stop after 3 seconds preview
+            setTimeout(() => {
+              if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current.currentTime = 0;
+              }
+            }, 3000);
+          }).catch(() => {});
+        }
+      } catch {}
+    }, 400);
+  }, [isPlaying, setVolume]);
+
+  return { enabled, setEnabled, stopAzan, testAzan, isPlaying, volume, setVolume, previewVolume };
 }
