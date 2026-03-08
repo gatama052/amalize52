@@ -36,7 +36,6 @@ export const NATIONAL_DATES: Record<string, ImportantDate> = {
   '10-28': { name: 'Hari Sumpah Pemuda', type: 'national' },
   '11-10': { name: 'Hari Pahlawan', type: 'national' },
   '12-22': { name: 'Hari Ibu', type: 'national' },
-  '12-25': { name: 'Hari Natal', type: 'national' },
 };
 
 export const HIJRI_MONTHS: Record<number, string> = {

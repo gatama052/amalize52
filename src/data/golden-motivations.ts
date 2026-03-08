@@ -205,7 +205,7 @@ const NATIONAL_TITLES: Record<string, string> = {
   '10-28': 'Hari Sumpah Pemuda',
   '11-10': 'Hari Pahlawan',
   '12-22': 'Hari Ibu',
-  '12-25': 'Hari Natal',
+  
 };
 
 export function getGoldenMotivation(

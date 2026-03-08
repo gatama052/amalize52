@@ -69,7 +69,7 @@ export default function PrayerSchedule() {
           {/* Qibla icon only */}
           <button
             onClick={() => navigate('/qibla')}
-            className="rounded-full bg-accent/10 p-2 text-accent hover:bg-accent/20 transition-colors"
+            className="rounded-full bg-secondary p-2 text-muted-foreground hover:bg-secondary/80 transition-colors"
             aria-label="Arah Kiblat"
           >
             <Compass size={18} />
