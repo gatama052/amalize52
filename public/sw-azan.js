@@ -3,22 +3,25 @@ const PRAYER_NAMES = {
   Fajr: 'Subuh', Dhuhr: 'Dzuhur', Asr: 'Ashar', Maghrib: 'Maghrib', Isha: 'Isya',
 };
 const PRAYER_KEYS = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-const CHECK_INTERVAL = 30000; // 30 seconds
+const CHECK_INTERVAL = 10000; // 10 seconds
 
 let checkTimer = null;
 
 function parseTime(timeStr) {
-  const [h, m] = timeStr.split(':').map(Number);
+  const clean = timeStr.replace(/\s*\(.*?\)\s*/g, '').trim();
+  const [h, m] = clean.split(':').map(Number);
   return { h, m };
 }
 
+function formatTime(h, m) {
+  return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+}
+
 async function getPrayerTimings() {
-  // Try to get cached prayer times from the message or cache
   const cache = await caches.open('azan-prayer-cache');
   const response = await cache.match('prayer-timings');
   if (response) {
     const data = await response.json();
-    // Check if data is for today
     const today = new Date().toDateString();
     if (data.date === today) {
       return data.timings;
@@ -30,12 +33,15 @@ async function getPrayerTimings() {
 async function checkPrayerTimes() {
   try {
     const timings = await getPrayerTimings();
-    if (!timings) return;
+    if (!timings) {
+      console.log('[SW Azan] No timings cached');
+      return;
+    }
 
     const now = new Date();
-    const nowKey = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
+    const currentTime = formatTime(now.getHours(), now.getMinutes());
+    const todayKey = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
     
-    // Get last played from cache
     const cache = await caches.open('azan-prayer-cache');
     const lastPlayedRes = await cache.match('last-played');
     const lastPlayed = lastPlayedRes ? await lastPlayedRes.text() : '';
@@ -44,14 +50,15 @@ async function checkPrayerTimes() {
       const t = timings[key];
       if (!t) continue;
       const { h, m } = parseTime(t);
-      const prayerKey = `${nowKey}-${key}`;
+      const prayerTime = formatTime(h, m);
+      const prayerKey = `${todayKey}-${key}`;
 
-      if (now.getHours() === h && now.getMinutes() === m && lastPlayed !== prayerKey) {
-        // Store last played
+      if (currentTime === prayerTime && lastPlayed !== prayerKey) {
         await cache.put('last-played', new Response(prayerKey));
         
-        // Show notification
         const name = PRAYER_NAMES[key] || key;
+        console.log(`[SW Azan] ✅ Triggering notification for ${name}`);
+        
         await self.registration.showNotification(`🕌 Waktu ${name} telah tiba`, {
           body: `Saatnya menunaikan sholat ${name}. Semoga Allah menerima ibadah Anda.`,
           icon: '/icon-512.png',
@@ -61,7 +68,6 @@ async function checkPrayerTimes() {
           data: { key, action: 'azan' },
         });
         
-        // Notify all clients to play audio
         const clients = await self.clients.matchAll({ type: 'window' });
         clients.forEach(client => {
           client.postMessage({ type: 'PLAY_AZAN', prayer: key });
@@ -71,11 +77,10 @@ async function checkPrayerTimes() {
       }
     }
   } catch (e) {
-    console.warn('SW azan check error:', e);
+    console.warn('[SW Azan] Check error:', e);
   }
 }
 
-// Listen for messages from the main app
 self.addEventListener('message', async (event) => {
   if (event.data && event.data.type === 'UPDATE_PRAYER_TIMINGS') {
     const cache = await caches.open('azan-prayer-cache');
@@ -83,6 +88,7 @@ self.addEventListener('message', async (event) => {
       timings: event.data.timings,
       date: new Date().toDateString(),
     })));
+    console.log('[SW Azan] Prayer timings updated');
   }
   
   if (event.data && event.data.type === 'START_AZAN_CHECK') {
@@ -97,7 +103,8 @@ self.addEventListener('message', async (event) => {
 function startChecking() {
   if (checkTimer) clearInterval(checkTimer);
   checkTimer = setInterval(checkPrayerTimes, CHECK_INTERVAL);
-  checkPrayerTimes(); // Check immediately
+  checkPrayerTimes();
+  console.log('[SW Azan] Checking started');
 }
 
 function stopChecking() {
@@ -105,9 +112,9 @@ function stopChecking() {
     clearInterval(checkTimer);
     checkTimer = null;
   }
+  console.log('[SW Azan] Checking stopped');
 }
 
-// Handle notification click
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   event.waitUntil(
@@ -121,9 +128,19 @@ self.addEventListener('notificationclick', (event) => {
   );
 });
 
-// Keep alive via periodic sync if available
 self.addEventListener('periodicsync', (event) => {
   if (event.tag === 'azan-check') {
     event.waitUntil(checkPrayerTimes());
   }
+});
+
+// Auto-start checking when SW activates
+self.addEventListener('activate', (event) => {
+  console.log('[SW Azan] Activated');
+  event.waitUntil(self.clients.claim());
+});
+
+self.addEventListener('install', () => {
+  console.log('[SW Azan] Installed');
+  self.skipWaiting();
 });

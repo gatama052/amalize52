@@ -5,7 +5,13 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 // Build Fuse indexes once
 const fuseDoaList = new Fuse(doaList, {
-  keys: ['title', 'arabic', 'latin', 'translation', 'keywords'],
+  keys: [
+    { name: 'title', weight: 2 },
+    { name: 'keywords', weight: 1.5 },
+    { name: 'arabic', weight: 0.5 },
+    { name: 'latin', weight: 0.5 },
+    { name: 'translation', weight: 0.8 },
+  ],
   threshold: 0.4,
   includeScore: true,
   ignoreLocation: true,
@@ -13,12 +19,55 @@ const fuseDoaList = new Fuse(doaList, {
 });
 
 const fuseSholatGroups = new Fuse(doaSholatGroups, {
-  keys: ['title', 'items.subtitle', 'items.arabic', 'items.latin', 'items.translation'],
+  keys: [
+    { name: 'title', weight: 2 },
+    { name: 'items.subtitle', weight: 1 },
+    { name: 'items.arabic', weight: 0.5 },
+    { name: 'items.latin', weight: 0.5 },
+    { name: 'items.translation', weight: 0.8 },
+  ],
   threshold: 0.4,
   includeScore: true,
   ignoreLocation: true,
   minMatchCharLength: 2,
 });
+
+// Priority search: exact > partial > fuzzy
+function prioritySearch<T extends { id?: string }>(fuse: Fuse<T>, items: T[], query: string, titleKey: string): T[] {
+  const q = query.toLowerCase();
+
+  // Priority 1: Exact title match
+  const exactMatches = items.filter(item => {
+    const title = ((item as any)[titleKey] || '').toLowerCase();
+    return title === q || title.includes(q);
+  });
+
+  // Priority 2: Partial match - all query words appear somewhere in title
+  const queryWords = q.split(/\s+/).filter(w => w.length > 0);
+  const partialMatches = items.filter(item => {
+    const title = ((item as any)[titleKey] || '').toLowerCase();
+    return queryWords.every(w => title.includes(w)) && !exactMatches.includes(item);
+  });
+
+  // Priority 3: Fuzzy match via Fuse.js
+  const fuzzyResults = fuse.search(query)
+    .sort((a, b) => (a.score || 1) - (b.score || 1))
+    .map(r => r.item);
+
+  // Merge with deduplication, preserving priority order
+  const seen = new Set<string>();
+  const result: T[] = [];
+  for (const list of [exactMatches, partialMatches, fuzzyResults]) {
+    for (const item of list) {
+      const id = (item as any).id;
+      if (id && !seen.has(id)) {
+        seen.add(id);
+        result.push(item);
+      }
+    }
+  }
+  return result;
+}
 
 export default function DoaPage() {
   const [activeCategory, setActiveCategory] = useState<string>('Semua');
@@ -54,9 +103,9 @@ export default function DoaPage() {
     let groupResults: DoaSholatGroup[];
 
     if (sq) {
-      // Use Fuse.js fuzzy search
-      doaResults = fuseDoaList.search(sq).map(r => r.item);
-      groupResults = fuseSholatGroups.search(sq).map(r => r.item);
+      // Use priority search: exact > partial > fuzzy
+      doaResults = prioritySearch(fuseDoaList, doaList, sq, 'title');
+      groupResults = prioritySearch(fuseSholatGroups, doaSholatGroups, sq, 'title');
     } else {
       doaResults = doaList;
       groupResults = doaSholatGroups;
@@ -297,7 +346,8 @@ export default function DoaPage() {
         <form onSubmit={(e) => { e.preventDefault(); }} className="relative">
           <input
             ref={searchInputRef}
-            type="text"
+            type="search"
+            enterKeyHint="search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Cari doa atau dzikir..."

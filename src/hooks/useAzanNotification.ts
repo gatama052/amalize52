@@ -9,8 +9,13 @@ const PRAYER_NAMES: Record<string, string> = {
 
 const AZAN_AUDIO_PATH = '/audio/adzan.mp3';
 
+function formatTime(h: number, m: number): string {
+  return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+}
+
 function parseTime(timeStr: string): { h: number; m: number } {
-  const [h, m] = timeStr.split(':').map(Number);
+  const clean = timeStr.replace(/\s*\(.*?\)\s*/g, '').trim();
+  const [h, m] = clean.split(':').map(Number);
   return { h, m };
 }
 
@@ -47,32 +52,39 @@ async function registerAzanSW() {
   if (!('serviceWorker' in navigator)) return null;
   try {
     const reg = await navigator.serviceWorker.register('/sw-azan.js', { scope: '/' });
-    console.log('Azan SW registered');
+    console.log('[Azan] SW registered');
     
-    // Try to register periodic sync
     if ('periodicSync' in reg) {
       try {
         await (reg as any).periodicSync.register('azan-check', {
-          minInterval: 60 * 1000, // 1 minute
+          minInterval: 60 * 1000,
         });
       } catch {
-        console.log('Periodic sync not available, using fallback');
+        console.log('[Azan] Periodic sync not available');
       }
     }
     
     return reg;
   } catch (e) {
-    console.warn('Azan SW registration failed:', e);
+    console.warn('[Azan] SW registration failed:', e);
     return null;
   }
 }
 
 async function sendTimingsToSW(timings: PrayerTimings) {
-  if (!('serviceWorker' in navigator) || !navigator.serviceWorker.controller) return;
-  navigator.serviceWorker.controller.postMessage({
-    type: 'UPDATE_PRAYER_TIMINGS',
-    timings,
-  });
+  if (!('serviceWorker' in navigator)) return;
+  
+  // Wait for SW to be ready
+  const reg = await navigator.serviceWorker.ready;
+  const sw = reg.active;
+  if (sw) {
+    sw.postMessage({
+      type: 'UPDATE_PRAYER_TIMINGS',
+      timings,
+    });
+    sw.postMessage({ type: 'START_AZAN_CHECK' });
+    console.log('[Azan] Timings sent to SW');
+  }
 }
 
 export function useAzanNotification(timings: PrayerTimings | null) {
@@ -81,13 +93,43 @@ export function useAzanNotification(timings: PrayerTimings | null) {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const lastPlayedRef = useRef<string>('');
+  const userInteractedRef = useRef(false);
 
-  // Request notification permission
+  // Request notification permission on enable
   useEffect(() => {
-    if (enabled && 'Notification' in window && Notification.permission === 'default') {
-      Notification.requestPermission();
+    if (enabled && 'Notification' in window) {
+      if (Notification.permission === 'default') {
+        Notification.requestPermission().then(perm => {
+          console.log('[Azan] Notification permission:', perm);
+        });
+      } else {
+        console.log('[Azan] Notification permission already:', Notification.permission);
+      }
     }
   }, [enabled]);
+
+  // Track user interaction for autoplay unlock
+  useEffect(() => {
+    const markInteracted = () => {
+      userInteractedRef.current = true;
+      // Pre-unlock audio
+      if (audioRef.current) {
+        audioRef.current.play().then(() => {
+          audioRef.current!.pause();
+          audioRef.current!.currentTime = 0;
+        }).catch(() => {});
+      }
+    };
+    document.addEventListener('click', markInteracted, { once: true });
+    document.addEventListener('touchstart', markInteracted, { once: true });
+    document.addEventListener('scroll', markInteracted, { once: true });
+
+    return () => {
+      document.removeEventListener('click', markInteracted);
+      document.removeEventListener('touchstart', markInteracted);
+      document.removeEventListener('scroll', markInteracted);
+    };
+  }, []);
 
   // Register azan service worker and send timings
   useEffect(() => {
@@ -96,16 +138,13 @@ export function useAzanNotification(timings: PrayerTimings | null) {
     registerAzanSW().then(() => {
       if (timings) {
         sendTimingsToSW(timings);
-        // Tell SW to start checking
-        if (navigator.serviceWorker.controller) {
-          navigator.serviceWorker.controller.postMessage({ type: 'START_AZAN_CHECK' });
-        }
       }
     });
 
     // Listen for SW messages to play audio
     const handleSWMessage = (event: MessageEvent) => {
       if (event.data?.type === 'PLAY_AZAN') {
+        console.log('[Azan] SW triggered azan for:', event.data.prayer);
         playAzan();
       }
     };
@@ -113,9 +152,6 @@ export function useAzanNotification(timings: PrayerTimings | null) {
 
     return () => {
       navigator.serviceWorker?.removeEventListener('message', handleSWMessage);
-      if (navigator.serviceWorker?.controller) {
-        navigator.serviceWorker.controller.postMessage({ type: 'STOP_AZAN_CHECK' });
-      }
     };
   }, [enabled]);
 
@@ -126,7 +162,7 @@ export function useAzanNotification(timings: PrayerTimings | null) {
     }
   }, [timings, enabled]);
 
-  // Pre-load audio & unlock on interaction
+  // Pre-load audio
   useEffect(() => {
     const audio = new Audio(AZAN_AUDIO_PATH);
     audio.preload = 'auto';
@@ -135,20 +171,7 @@ export function useAzanNotification(timings: PrayerTimings | null) {
     audio.addEventListener('pause', () => setIsPlaying(false));
     audioRef.current = audio;
 
-    const unlock = () => {
-      if (audioRef.current) {
-        audioRef.current.play().then(() => {
-          audioRef.current!.pause();
-          audioRef.current!.currentTime = 0;
-        }).catch(() => {});
-      }
-    };
-    document.addEventListener('click', unlock, { once: true });
-    document.addEventListener('touchstart', unlock, { once: true });
-
     return () => {
-      document.removeEventListener('click', unlock);
-      document.removeEventListener('touchstart', unlock);
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current = null;
@@ -163,22 +186,29 @@ export function useAzanNotification(timings: PrayerTimings | null) {
     }
   }, [volume]);
 
-  // Check prayer times every second (foreground check)
+  // MAIN: Check prayer times every 10 seconds (foreground)
   useEffect(() => {
     if (!enabled || !timings) return;
 
     const check = () => {
       const now = new Date();
-      const nowKey = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
+      const currentTime = formatTime(now.getHours(), now.getMinutes());
+      const todayKey = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
 
       for (const key of PRAYER_KEYS) {
-        const t = timings[key];
-        if (!t) continue;
-        const { h, m } = parseTime(t);
-        const prayerKey = `${nowKey}-${key}`;
+        const rawTime = timings[key];
+        if (!rawTime) continue;
+        
+        const { h, m } = parseTime(rawTime);
+        const prayerTime = formatTime(h, m);
+        const prayerKey = `${todayKey}-${key}`;
 
-        if (now.getHours() === h && now.getMinutes() === m && lastPlayedRef.current !== prayerKey) {
+        // Debug logging
+        console.log(`[Azan] Check: ${key} = ${prayerTime}, now = ${currentTime}, lastPlayed = ${lastPlayedRef.current}`);
+
+        if (currentTime === prayerTime && lastPlayedRef.current !== prayerKey) {
           lastPlayedRef.current = prayerKey;
+          console.log(`[Azan] ✅ Waktu ${PRAYER_NAMES[key]} tiba! Playing azan...`);
           playAzan();
           showNotification(key);
           return;
@@ -186,28 +216,40 @@ export function useAzanNotification(timings: PrayerTimings | null) {
       }
     };
 
-    const interval = setInterval(check, 1000);
-    check();
-    return () => clearInterval(interval);
+    // Check every 10 seconds for better accuracy
+    const interval = setInterval(check, 10000);
+    check(); // Check immediately
+    console.log('[Azan] Foreground checker started');
+
+    return () => {
+      clearInterval(interval);
+      console.log('[Azan] Foreground checker stopped');
+    };
   }, [enabled, timings]);
 
   const playAzan = useCallback(() => {
     try {
       const vol = volume / 100;
+      console.log('[Azan] Attempting to play audio, volume:', vol);
+      
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
         audioRef.current.volume = vol;
         setIsPlaying(true);
         audioRef.current.play().catch((err) => {
-          console.warn('Azan autoplay blocked:', err);
+          console.warn('[Azan] Autoplay blocked, trying fallback:', err);
           setIsPlaying(false);
+          // Fallback: create new audio element
           const fallback = new Audio(AZAN_AUDIO_PATH);
           fallback.volume = vol;
           fallback.addEventListener('ended', () => setIsPlaying(false));
           fallback.addEventListener('pause', () => setIsPlaying(false));
           setIsPlaying(true);
-          fallback.play().catch(() => setIsPlaying(false));
+          fallback.play().catch((e2) => {
+            console.warn('[Azan] Fallback also blocked:', e2);
+            setIsPlaying(false);
+          });
           audioRef.current = fallback;
         });
       } else {
@@ -217,10 +259,13 @@ export function useAzanNotification(timings: PrayerTimings | null) {
         audio.addEventListener('pause', () => setIsPlaying(false));
         audioRef.current = audio;
         setIsPlaying(true);
-        audio.play().catch(() => setIsPlaying(false));
+        audio.play().catch((e) => {
+          console.warn('[Azan] New audio play failed:', e);
+          setIsPlaying(false);
+        });
       }
     } catch (e) {
-      console.warn('Failed to play azan:', e);
+      console.warn('[Azan] Failed to play azan:', e);
       setIsPlaying(false);
     }
   }, [volume]);
@@ -234,6 +279,7 @@ export function useAzanNotification(timings: PrayerTimings | null) {
   }, []);
 
   const testAzan = useCallback(() => {
+    console.log('[Azan] Test triggered');
     playAzan();
     showNotification('Fajr');
   }, [playAzan]);
