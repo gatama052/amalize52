@@ -123,17 +123,17 @@
 }
 
 .adhan-bg {
-  background: linear-gradient(180deg, hsl(210 40% 92%), hsl(200 45% 85%), hsl(43 50% 90%));
+  background: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)), hsl(var(--background)));
 }
 
 .adhan-glow {
-  background: radial-gradient(circle, hsl(43 70% 60% / 0.25) 0%, transparent 70%);
+  background: radial-gradient(circle, hsl(var(--primary) / 0.2) 0%, transparent 70%);
 }
 
 .event-alarm-bg {
-  background: linear-gradient(180deg, hsl(210 40% 90%), hsl(200 45% 84%), hsl(210 40% 88%));
+  background: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)), hsl(var(--background)));
 }
 
 .event-alarm-glow {
-  background: radial-gradient(circle, hsl(43 70% 60% / 0.2) 0%, transparent 70%);
+  background: radial-gradient(circle, hsl(var(--primary) / 0.15) 0%, transparent 70%);
 }
