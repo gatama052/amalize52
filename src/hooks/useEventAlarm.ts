@@ -174,6 +174,8 @@ export function useEventAlarm() {
     playAlarmSequence(ref, ev).then(() => {
       if (!ref.current) {
         setIsPlaying(false);
+        // Auto-dismiss overlay when sound finishes
+        setAlarmState({ active: false, event: null });
       }
     });
   }, []);
