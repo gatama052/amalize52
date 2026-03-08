@@ -70,15 +70,59 @@ function playAlarmTone(duration = 800): Promise<void> {
 }
 
 /**
- * Play the full alarm sequence: beep → alarm, repeated 3 times
+ * Speak event reminder using SpeechSynthesis TTS
  */
-async function playAlarmSequence(abortRef: { current: boolean }) {
+function speakReminder(ev: CalendarEvent, abortRef: { current: boolean }): Promise<void> {
+  return new Promise((resolve) => {
+    if (!('speechSynthesis' in window) || abortRef.current) {
+      resolve();
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const text = `Pengingat acara. Waktunya ${ev.title}${ev.location ? ' di ' + ev.location : ''}.`;
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'id-ID';
+    utterance.rate = 0.95;
+    utterance.pitch = 0.9;
+
+    // Try Indonesian voice
+    const voices = window.speechSynthesis.getVoices();
+    const idVoice = voices.find(v => v.lang.startsWith('id'));
+    if (idVoice) utterance.voice = idVoice;
+
+    utterance.onend = () => resolve();
+    utterance.onerror = () => resolve();
+
+    // Safety timeout in case onend never fires
+    const timeout = setTimeout(() => resolve(), 15000);
+    utterance.onend = () => { clearTimeout(timeout); resolve(); };
+    utterance.onerror = () => { clearTimeout(timeout); resolve(); };
+
+    window.speechSynthesis.speak(utterance);
+  });
+}
+
+/**
+ * Play the full alarm sequence:
+ * 1. Tone pembuka (beep sedang)
+ * 2. TTS ucapan pengingat
+ * 3. (Tone + Alarm) × 3
+ */
+async function playAlarmSequence(abortRef: { current: boolean }, ev: CalendarEvent) {
+  // 1. Tone pembuka
+  if (abortRef.current) return;
+  await playBeepTone(500, 660);
+
+  // 2. TTS
+  if (abortRef.current) return;
+  await speakReminder(ev, abortRef);
+
+  // 3. (Tone + Alarm) × 3
   for (let i = 0; i < 3; i++) {
     if (abortRef.current) return;
-    await playBeepTone(250, 880);
+    await playBeepTone(300, 880);
     if (abortRef.current) return;
     await playAlarmTone(700);
-    if (abortRef.current) return;
   }
 }
 
@@ -127,7 +171,7 @@ export function useEventAlarm() {
     abortRef.current = false;
     setIsPlaying(true);
     const ref = abortRef;
-    playAlarmSequence(ref).then(() => {
+    playAlarmSequence(ref, ev).then(() => {
       if (!ref.current) {
         setIsPlaying(false);
       }
