@@ -134,6 +134,10 @@ const NATIONAL_MOTIVATIONS: Record<string, GoldenMotivation[]> = {
     { icon: '🕌', text: 'Selamat Hari Santri Nasional. Santri adalah penjaga peradaban dan pilar keberkahan negeri.' },
     { icon: '🕌', text: 'Hari Santri Nasional. Semoga semangat menuntut ilmu agama terus menyala di bumi pertiwi.' },
   ],
+  '9-30': [
+    { icon: '🇮🇩', text: 'Hari Peringatan G30S PKI. Semoga kita selalu menjaga keutuhan NKRI dan mengambil hikmah dari sejarah.' },
+    { icon: '🇮🇩', text: 'Mengenang peristiwa G30S PKI. Semoga bangsa ini selalu bersatu dan waspada terhadap ancaman perpecahan.' },
+  ],
   '10-28': [
     { icon: '🇮🇩', text: 'Selamat Hari Sumpah Pemuda. Semangat persatuan pemuda adalah kekuatan bangsa.' },
   ],
