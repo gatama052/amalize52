@@ -9,6 +9,21 @@ const PRAYER_NAMES: Record<string, string> = {
 
 const AZAN_AUDIO_PATH = '/audio/adzan.mp3';
 
+let audioContext: AudioContext | null = null;
+let gainNode: GainNode | null = null;
+
+function getAudioContext(): { ctx: AudioContext; gain: GainNode } {
+  if (!audioContext || audioContext.state === 'closed') {
+    audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    gainNode = audioContext.createGain();
+    gainNode.connect(audioContext.destination);
+  }
+  if (audioContext.state === 'suspended') {
+    audioContext.resume();
+  }
+  return { ctx: audioContext, gain: gainNode! };
+}
+
 function formatTime(h: number, m: number): string {
   return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
 }
@@ -162,11 +177,12 @@ export function useAzanNotification(timings: PrayerTimings | null) {
     }
   }, [timings, enabled]);
 
-  // Pre-load audio
+  // Pre-load audio with Web Audio API for independent volume
   useEffect(() => {
     const audio = new Audio(AZAN_AUDIO_PATH);
     audio.preload = 'auto';
-    audio.volume = volume / 100;
+    // Set HTML element volume to max; actual volume controlled via GainNode
+    audio.volume = 1.0;
     audio.addEventListener('ended', () => setIsPlaying(false));
     audio.addEventListener('pause', () => setIsPlaying(false));
     audioRef.current = audio;
@@ -179,11 +195,10 @@ export function useAzanNotification(timings: PrayerTimings | null) {
     };
   }, []);
 
-  // Update volume when changed
+  // Update GainNode volume when slider changes
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = volume / 100;
-    }
+    const { gain } = getAudioContext();
+    gain.gain.value = volume / 100;
   }, [volume]);
 
   // MAIN: Check prayer times every 10 seconds (foreground)
@@ -229,34 +244,46 @@ export function useAzanNotification(timings: PrayerTimings | null) {
 
   const playAzan = useCallback(() => {
     try {
-      const vol = volume / 100;
-      console.log('[Azan] Attempting to play audio, volume:', vol);
-      
+      const { ctx, gain } = getAudioContext();
+      gain.gain.value = volume / 100;
+      console.log('[Azan] Playing audio via AudioContext, gain:', gain.gain.value);
+
+      const connectToContext = (audio: HTMLAudioElement) => {
+        try {
+          const source = ctx.createMediaElementSource(audio);
+          source.connect(gain);
+        } catch {
+          // Already connected — that's fine
+        }
+      };
+
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
-        audioRef.current.volume = vol;
+        audioRef.current.volume = 1.0; // Max HTML volume; GainNode controls actual volume
+        connectToContext(audioRef.current);
         setIsPlaying(true);
         audioRef.current.play().catch((err) => {
           console.warn('[Azan] Autoplay blocked, trying fallback:', err);
           setIsPlaying(false);
-          // Fallback: create new audio element
           const fallback = new Audio(AZAN_AUDIO_PATH);
-          fallback.volume = vol;
+          fallback.volume = 1.0;
           fallback.addEventListener('ended', () => setIsPlaying(false));
           fallback.addEventListener('pause', () => setIsPlaying(false));
+          connectToContext(fallback);
+          audioRef.current = fallback;
           setIsPlaying(true);
           fallback.play().catch((e2) => {
             console.warn('[Azan] Fallback also blocked:', e2);
             setIsPlaying(false);
           });
-          audioRef.current = fallback;
         });
       } else {
         const audio = new Audio(AZAN_AUDIO_PATH);
-        audio.volume = vol;
+        audio.volume = 1.0;
         audio.addEventListener('ended', () => setIsPlaying(false));
         audio.addEventListener('pause', () => setIsPlaying(false));
+        connectToContext(audio);
         audioRef.current = audio;
         setIsPlaying(true);
         audio.play().catch((e) => {
