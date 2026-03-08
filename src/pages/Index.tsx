@@ -59,8 +59,8 @@ export default function Home() {
       Maghrib: timings.Maghrib,
       Isha: timings.Isha,
     } : undefined;
-    return getMotivation(new Date(), prayerData);
-  }, [timings]);
+    return getMotivation(new Date(), prayerData, hijri?.month.number, hijri ? parseInt(hijri.day) : undefined);
+  }, [timings, hijri]);
   const today = new Date();
   const [upcomingEvents, setUpcomingEvents] = useState<(CalendarEvent & { countdownStr: string })[]>([]);
 
