@@ -26,11 +26,16 @@ export const ISLAMIC_DATES: Record<string, ImportantDate> = {
 // Gregorian national holidays (month-day as key)
 export const NATIONAL_DATES: Record<string, ImportantDate> = {
   '1-1': { name: 'Tahun Baru Masehi', type: 'national' },
+  '4-21': { name: 'Hari Kartini', type: 'national' },
   '5-1': { name: 'Hari Buruh', type: 'national' },
+  '5-2': { name: 'Hari Pendidikan Nasional', type: 'national' },
+  '5-20': { name: 'Hari Kebangkitan Nasional', type: 'national' },
   '6-1': { name: 'Hari Lahir Pancasila', type: 'national' },
   '8-17': { name: 'Hari Kemerdekaan RI', type: 'national' },
+  '10-22': { name: 'Hari Santri Nasional', type: 'national' },
   '10-28': { name: 'Hari Sumpah Pemuda', type: 'national' },
   '11-10': { name: 'Hari Pahlawan', type: 'national' },
+  '12-22': { name: 'Hari Ibu', type: 'national' },
   '12-25': { name: 'Hari Natal', type: 'national' },
 };
 
