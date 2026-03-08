@@ -177,11 +177,12 @@ export function useAzanNotification(timings: PrayerTimings | null) {
     }
   }, [timings, enabled]);
 
-  // Pre-load audio
+  // Pre-load audio with Web Audio API for independent volume
   useEffect(() => {
     const audio = new Audio(AZAN_AUDIO_PATH);
     audio.preload = 'auto';
-    audio.volume = volume / 100;
+    // Set HTML element volume to max; actual volume controlled via GainNode
+    audio.volume = 1.0;
     audio.addEventListener('ended', () => setIsPlaying(false));
     audio.addEventListener('pause', () => setIsPlaying(false));
     audioRef.current = audio;
@@ -194,11 +195,10 @@ export function useAzanNotification(timings: PrayerTimings | null) {
     };
   }, []);
 
-  // Update volume when changed
+  // Update GainNode volume when slider changes
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = volume / 100;
-    }
+    const { gain } = getAudioContext();
+    gain.gain.value = volume / 100;
   }, [volume]);
 
   // MAIN: Check prayer times every 10 seconds (foreground)
