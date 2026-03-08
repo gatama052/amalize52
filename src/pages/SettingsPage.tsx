@@ -196,23 +196,31 @@ export default function SettingsPage() {
           </svg>
         </button>
         {showPrivacy && (
-          <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
-            <p className="text-xs">Terakhir diperbarui: 3 Maret 2026</p>
-            <p>Selamat datang di Amalize. Kami berkomitmen untuk menjaga privasi Anda dengan prinsip transparansi penuh.</p>
-            <p className="font-semibold text-muted-foreground">1. Tanpa Akun & Tanpa Login</p>
-            <p>Amalize sepenuhnya bersifat offline-first. Anda tidak perlu membuat akun, mendaftar, atau melakukan login.</p>
-            <p className="font-semibold text-muted-foreground">2. Penyimpanan Data Lokal</p>
-            <p>Seluruh data disimpan secara eksklusif di penyimpanan lokal perangkat Anda.</p>
-            <p><span className="font-medium">Penting:</span> Jika Anda reset pabrik, hapus cache, atau uninstall aplikasi, data akan hilang permanen.</p>
-            <p className="font-semibold text-muted-foreground">3. Informasi Lokasi</p>
-            <p>Akses lokasi hanya untuk menghitung jadwal sholat yang akurat. Data tidak dikirim ke server.</p>
-            <p className="font-semibold text-muted-foreground">4. Analisis Penggunaan</p>
-            <p>Kami tidak menggunakan pelacak pihak ketiga.</p>
-            <p className="font-semibold text-muted-foreground">5. Keamanan Perangkat</p>
-            <p>Keamanan data bergantung pada keamanan perangkat Anda.</p>
-            <p className="font-semibold text-muted-foreground">6. Perubahan Kebijakan</p>
-            <p>Kami dapat memperbarui kebijakan ini sewaktu-waktu melalui pembaruan aplikasi.</p>
-            <p>Dengan menggunakan Amalize, Anda setuju dengan kebijakan ini. Hubungi kami: <a href="mailto:amalize52@gmail.com" className="text-accent underline">amalize52@gmail.com</a></p>
+          <div className="text-sm text-muted-foreground leading-[1.6]">
+            <p className="font-bold text-foreground text-base">Kebijakan Privasi</p>
+            <p className="text-xs mt-1">Terakhir diperbarui: 3 Maret 2026</p>
+            <p className="mt-3">Selamat datang di Amalize. Kami berkomitmen untuk menjaga privasi Anda dengan prinsip transparansi penuh.</p>
+            <p className="font-bold text-foreground mt-4">1. Tanpa Akun & Tanpa Login</p>
+            <p className="mt-1">Amalize sepenuhnya bersifat offline-first. Anda tidak perlu membuat akun, mendaftar, atau melakukan login.</p>
+            <p className="font-bold text-foreground mt-4">2. Penyimpanan Data Lokal</p>
+            <p className="mt-1">Seluruh data disimpan secara eksklusif di penyimpanan lokal perangkat Anda.</p>
+            <p className="mt-1"><span className="font-medium">Penting:</span> Jika Anda reset pabrik, hapus cache, atau uninstall aplikasi, data akan hilang permanen.</p>
+            <p className="font-bold text-foreground mt-4">3. Informasi Lokasi</p>
+            <p className="mt-1">Akses lokasi hanya untuk menghitung jadwal sholat yang akurat. Data tidak dikirim ke server.</p>
+            <p className="font-bold text-foreground mt-4">4. Analisis Penggunaan</p>
+            <p className="mt-1">Kami tidak menggunakan pelacak pihak ketiga.</p>
+            <p className="font-bold text-foreground mt-4">5. Keamanan Perangkat</p>
+            <p className="mt-1">Keamanan data bergantung pada keamanan perangkat Anda.</p>
+            <p className="font-bold text-foreground mt-4">6. Perubahan Kebijakan</p>
+            <p className="mt-1">Kami dapat memperbarui kebijakan ini sewaktu-waktu melalui pembaruan aplikasi.</p>
+            <p className="mt-3">Dengan menggunakan Amalize, Anda dianggap telah memahami dan menyetujui kebijakan privasi ini. Jika Anda mengalami kendala dalam penggunaan aplikasi atau memiliki saran untuk pengembangan Amalize ke depannya, kami dengan senang hati siap membantu dan mendengarkan masukan Anda.</p>
+            <p className="mt-3 flex items-center gap-1.5">
+              Silakan hubungi kami melalui email:
+              <a href="mailto:inspirelimadua@gmail.com" className="inline-flex items-center gap-1 text-accent underline">
+                <img src={inspireLogo} alt="" className="w-4 h-4 rounded-full inline-block" />
+                inspirelimadua@gmail.com
+              </a>
+            </p>
           </div>
         )}
       </div>
