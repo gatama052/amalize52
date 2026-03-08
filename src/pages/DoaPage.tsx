@@ -103,9 +103,9 @@ export default function DoaPage() {
     let groupResults: DoaSholatGroup[];
 
     if (sq) {
-      // Use Fuse.js fuzzy search
-      doaResults = fuseDoaList.search(sq).map(r => r.item);
-      groupResults = fuseSholatGroups.search(sq).map(r => r.item);
+      // Use priority search: exact > partial > fuzzy
+      doaResults = prioritySearch(fuseDoaList, doaList, sq, 'title');
+      groupResults = prioritySearch(fuseSholatGroups, doaSholatGroups, sq, 'title');
     } else {
       doaResults = doaList;
       groupResults = doaSholatGroups;
