@@ -110,7 +110,7 @@ function showEventNotification(ev: CalendarEvent) {
 export function useEventAlarm() {
   const [alarmState, setAlarmState] = useState<EventAlarmState>({ active: false, event: null });
   const [isPlaying, setIsPlaying] = useState(false);
-  const abortRef = useRef({ current: false });
+  const abortRef = useRef(false);
   const snoozeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const triggeredRef = useRef<Set<string>>(new Set());
 
