@@ -45,13 +45,13 @@ function showNotification(key: string, time: string) {
   const name = PRAYER_NAMES[key] || key;
 
   if ('Notification' in window && Notification.permission === 'granted') {
-    const options: NotificationOptions = {
+    const options = {
       body: `Waktu sholat ${name} telah tiba – ${time}`,
       icon: '/icon-512.png',
       tag: `azan-${key}`,
       requireInteraction: true,
       vibrate: [200, 100, 200, 100, 200],
-    };
+    } as any;
 
     if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
       navigator.serviceWorker.ready.then((reg) => {

@@ -116,3 +116,16 @@
   0% { opacity: 0; transform: translateY(10px); }
   100% { opacity: 1; transform: translateY(0); }
 }
+
+@keyframes soundWave {
+  0% { transform: scaleY(0.3); }
+  100% { transform: scaleY(1); }
+}
+
+.adhan-bg {
+  background: linear-gradient(180deg, hsl(215 75% 6%), hsl(215 70% 12%), hsl(215 75% 8%));
+}
+
+.adhan-glow {
+  background: radial-gradient(circle, hsl(43 65% 52% / 0.15) 0%, transparent 70%);
+}
