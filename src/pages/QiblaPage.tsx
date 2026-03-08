@@ -24,19 +24,18 @@ function getDirectionLabel(deg: number): string {
   return dirs[idx];
 }
 
-// Normalize angle difference to [-180, 180]
-function angleDiff(a: number, b: number): number {
-  let d = a - b;
+// Shortest angular difference [-180, 180]
+function angleDiff(target: number, current: number): number {
+  let d = target - current;
   while (d > 180) d -= 360;
   while (d < -180) d += 360;
   return d;
 }
 
-// Low-pass filter with shortest-path rotation
+// Smooth interpolation respecting shortest path
 function lerpAngle(current: number, target: number, factor: number): number {
   const diff = angleDiff(target, current);
-  let result = current + diff * factor;
-  return ((result % 360) + 360) % 360;
+  return ((current + diff * factor) % 360 + 360) % 360;
 }
 
 export default function QiblaPage() {
@@ -51,6 +50,8 @@ export default function QiblaPage() {
   const smoothedRef = useRef<number>(0);
   const animFrame = useRef<number>(0);
   const dataReceived = useRef(false);
+  // Track whether we have absolute orientation data — if so, ignore relative
+  const hasAbsolute = useRef(false);
 
   const qiblaAngle = loc ? calculateQiblaDirection(loc.latitude, loc.longitude) : 0;
 
@@ -77,30 +78,52 @@ export default function QiblaPage() {
       .catch(() => setFullAddress(loc.city));
   }, [loc]);
 
-  // Smooth animation loop — runs continuously
+  // Animation loop with smoothing factor 0.12 (responsive yet smooth)
   const animate = useCallback(() => {
-    // Low-pass filter: factor 0.08 for very smooth movement
-    smoothedRef.current = lerpAngle(smoothedRef.current, rawHeading.current, 0.08);
+    smoothedRef.current = lerpAngle(smoothedRef.current, rawHeading.current, 0.12);
     setSmoothHeading(smoothedRef.current);
     animFrame.current = requestAnimationFrame(animate);
   }, []);
 
-  // Handle device orientation
+  // Handler for ABSOLUTE orientation (Android deviceorientationabsolute)
+  const handleAbsoluteOrientation = useCallback((e: DeviceOrientationEvent) => {
+    if (e.alpha == null) return;
+    hasAbsolute.current = true;
+    const heading = (360 - e.alpha) % 360;
+    if (!isNaN(heading)) {
+      if (!dataReceived.current) {
+        dataReceived.current = true;
+        setHasCompass(true);
+        smoothedRef.current = heading;
+      }
+      rawHeading.current = heading;
+    }
+  }, []);
+
+  // Handler for regular deviceorientation (iOS webkitCompassHeading, or fallback)
   const handleOrientation = useCallback((e: DeviceOrientationEvent) => {
+    // If we already have absolute data from deviceorientationabsolute, skip relative
+    if (hasAbsolute.current) return;
+
     let heading: number | null = null;
 
-    // iOS: webkitCompassHeading is already absolute
+    // iOS provides webkitCompassHeading which is absolute
     if ((e as any).webkitCompassHeading != null) {
       heading = (e as any).webkitCompassHeading;
     } else if (e.alpha != null) {
-      heading = (360 - e.alpha) % 360;
+      // Check if this event itself is absolute
+      if ((e as any).absolute === true) {
+        heading = (360 - e.alpha) % 360;
+      } else {
+        // Relative fallback — less accurate but better than nothing
+        heading = (360 - e.alpha) % 360;
+      }
     }
 
     if (heading != null && !isNaN(heading)) {
       if (!dataReceived.current) {
         dataReceived.current = true;
         setHasCompass(true);
-        // Initialize smoothed to first reading to avoid spin from 0
         smoothedRef.current = heading;
       }
       rawHeading.current = heading;
@@ -110,26 +133,25 @@ export default function QiblaPage() {
   const startCompass = useCallback(() => {
     animFrame.current = requestAnimationFrame(animate);
 
+    // Prefer absolute orientation (Android) — separate handler
     if ('ondeviceorientationabsolute' in window) {
-      window.addEventListener('deviceorientationabsolute', handleOrientation as any, true);
+      window.addEventListener('deviceorientationabsolute', handleAbsoluteOrientation as any, true);
     }
+    // Also listen to regular (for iOS + fallback), but handler checks hasAbsolute flag
     window.addEventListener('deviceorientation', handleOrientation, true);
 
-    // If no data after 4s, mark as unavailable
     setTimeout(() => {
-      if (!dataReceived.current) {
-        setHasCompass(false);
-      }
+      if (!dataReceived.current) setHasCompass(false);
     }, 4000);
 
     return () => {
       if ('ondeviceorientationabsolute' in window) {
-        window.removeEventListener('deviceorientationabsolute', handleOrientation as any, true);
+        window.removeEventListener('deviceorientationabsolute', handleAbsoluteOrientation as any, true);
       }
       window.removeEventListener('deviceorientation', handleOrientation, true);
       if (animFrame.current) cancelAnimationFrame(animFrame.current);
     };
-  }, [animate, handleOrientation]);
+  }, [animate, handleAbsoluteOrientation, handleOrientation]);
 
   useEffect(() => {
     const needsPermission = typeof (DeviceOrientationEvent as any).requestPermission === 'function';
@@ -192,13 +214,10 @@ export default function QiblaPage() {
       {/* Compass */}
       <div className="rounded-xl bg-card p-6 shadow-sm flex flex-col items-center gap-5">
         <div className="relative w-72 h-72">
-          {/* Outer ring */}
           <div className="absolute inset-0 rounded-full border-4" style={{ borderColor: 'hsl(var(--accent) / 0.3)' }} />
 
-          {/* Compass dial */}
           <div className="absolute inset-3 rounded-full bg-card border-2 border-border overflow-hidden">
             <div className="absolute inset-0" style={{ transform: `rotate(${dialRotation}deg)` }}>
-              {/* Degree marks */}
               {Array.from({ length: 36 }).map((_, i) => (
                 <div key={i} className="absolute inset-0" style={{ transform: `rotate(${i * 10}deg)` }}>
                   <div className={`absolute left-1/2 -translate-x-1/2 ${
@@ -206,15 +225,12 @@ export default function QiblaPage() {
                   }`} />
                 </div>
               ))}
-
-              {/* Cardinal directions */}
               <span className="absolute left-1/2 top-5 -translate-x-1/2 text-xs font-bold text-accent">U</span>
               <span className="absolute right-5 top-1/2 -translate-y-1/2 text-[10px] font-semibold text-muted-foreground">T</span>
               <span className="absolute left-1/2 bottom-5 -translate-x-1/2 text-[10px] font-semibold text-muted-foreground">S</span>
               <span className="absolute left-5 top-1/2 -translate-y-1/2 text-[10px] font-semibold text-muted-foreground">B</span>
             </div>
 
-            {/* Qibla needle */}
             <div className="absolute inset-0" style={{ transform: `rotate(${needleRotation}deg)` }}>
               <div className="absolute left-1/2 top-4 h-[calc(50%-16px)] w-0.5 -translate-x-1/2 rounded-full bg-accent" />
               <div className="absolute left-1/2 top-0 -translate-x-1/2">
@@ -225,16 +241,12 @@ export default function QiblaPage() {
               <div className="absolute left-1/2 bottom-4 h-[calc(50%-16px)] w-px -translate-x-1/2 rounded-full bg-muted-foreground/30" />
             </div>
 
-            {/* Center dot */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-accent border-2 border-card shadow" />
-
-            {/* Inner rings */}
             <div className="absolute inset-[30%] rounded-full border border-border/30" />
             <div className="absolute inset-[45%] rounded-full border border-border/15" />
           </div>
         </div>
 
-        {/* Info */}
         <div className="text-center space-y-1.5">
           <p className="text-2xl font-bold text-foreground">{qiblaAngle.toFixed(1)}°</p>
           <p className="text-sm font-medium text-muted-foreground">{getDirectionLabel(qiblaAngle)} dari Utara</p>
@@ -245,7 +257,6 @@ export default function QiblaPage() {
           )}
         </div>
 
-        {/* iOS permission */}
         {needsIOSPermission && (
           <button
             onClick={requestPermission}
