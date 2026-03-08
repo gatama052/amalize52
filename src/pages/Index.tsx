@@ -4,6 +4,7 @@ import { useLocation } from '@/hooks/useLocation';
 import { usePrayerTimes } from '@/hooks/usePrayerTimes';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { HIJRI_MONTHS } from '@/data/important-dates';
+import { getMotivation } from '@/data/motivations';
 
 import type { CalendarEvent } from '@/pages/DailyDetail';
 
