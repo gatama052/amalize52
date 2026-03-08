@@ -24,17 +24,33 @@ function getDirectionLabel(deg: number): string {
   return dirs[idx];
 }
 
+// Normalize angle difference to [-180, 180]
+function angleDiff(a: number, b: number): number {
+  let d = a - b;
+  while (d > 180) d -= 360;
+  while (d < -180) d += 360;
+  return d;
+}
+
+// Low-pass filter with shortest-path rotation
+function lerpAngle(current: number, target: number, factor: number): number {
+  const diff = angleDiff(target, current);
+  let result = current + diff * factor;
+  return ((result % 360) + 360) % 360;
+}
+
 export default function QiblaPage() {
   const navigate = useNavigate();
   const { location: loc } = useUserLocation();
-  const [compass, setCompass] = useState<number | null>(null);
+  const [smoothHeading, setSmoothHeading] = useState<number>(0);
+  const [hasCompass, setHasCompass] = useState<boolean | null>(null);
   const [permissionState, setPermissionState] = useState<'idle' | 'requesting' | 'granted' | 'denied'>('idle');
   const [fullAddress, setFullAddress] = useState<string>('');
 
-  const rawCompass = useRef<number>(0);
-  const smoothedCompass = useRef<number>(0);
+  const rawHeading = useRef<number>(0);
+  const smoothedRef = useRef<number>(0);
   const animFrame = useRef<number>(0);
-  const hasData = useRef(false);
+  const dataReceived = useRef(false);
 
   const qiblaAngle = loc ? calculateQiblaDirection(loc.latitude, loc.longitude) : 0;
 
@@ -61,57 +77,50 @@ export default function QiblaPage() {
       .catch(() => setFullAddress(loc.city));
   }, [loc]);
 
-  // Smooth animation loop
+  // Smooth animation loop — runs continuously
   const animate = useCallback(() => {
-    const target = rawCompass.current;
-    const current = smoothedCompass.current;
-    let diff = target - current;
-    if (diff > 180) diff -= 360;
-    if (diff < -180) diff += 360;
-    smoothedCompass.current = (current + diff * 0.12 + 360) % 360;
-    setCompass(smoothedCompass.current);
+    // Low-pass filter: factor 0.08 for very smooth movement
+    smoothedRef.current = lerpAngle(smoothedRef.current, rawHeading.current, 0.08);
+    setSmoothHeading(smoothedRef.current);
     animFrame.current = requestAnimationFrame(animate);
   }, []);
 
-  // Handle orientation events
+  // Handle device orientation
   const handleOrientation = useCallback((e: DeviceOrientationEvent) => {
     let heading: number | null = null;
 
+    // iOS: webkitCompassHeading is already absolute
     if ((e as any).webkitCompassHeading != null) {
       heading = (e as any).webkitCompassHeading;
     } else if (e.alpha != null) {
-      // Check if absolute
-      if ((e as any).absolute === true || (e as any).webkitCompassHeading != null) {
-        heading = (360 - e.alpha) % 360;
-      } else {
-        // Relative orientation fallback
-        heading = (360 - e.alpha) % 360;
-      }
+      heading = (360 - e.alpha) % 360;
     }
 
     if (heading != null && !isNaN(heading)) {
-      hasData.current = true;
-      rawCompass.current = heading;
+      if (!dataReceived.current) {
+        dataReceived.current = true;
+        setHasCompass(true);
+        // Initialize smoothed to first reading to avoid spin from 0
+        smoothedRef.current = heading;
+      }
+      rawHeading.current = heading;
     }
   }, []);
 
-  // Setup sensor listeners
   const startCompass = useCallback(() => {
     animFrame.current = requestAnimationFrame(animate);
 
-    // Try absolute orientation first (Android)
     if ('ondeviceorientationabsolute' in window) {
       window.addEventListener('deviceorientationabsolute', handleOrientation as any, true);
     }
-    // Also listen to regular deviceorientation (iOS + fallback)
     window.addEventListener('deviceorientation', handleOrientation, true);
 
-    // Timeout: if no data after 5 seconds, mark denied
+    // If no data after 4s, mark as unavailable
     setTimeout(() => {
-      if (!hasData.current) {
-        setPermissionState('denied');
+      if (!dataReceived.current) {
+        setHasCompass(false);
       }
-    }, 5000);
+    }, 4000);
 
     return () => {
       if ('ondeviceorientationabsolute' in window) {
@@ -124,13 +133,10 @@ export default function QiblaPage() {
 
   useEffect(() => {
     const needsPermission = typeof (DeviceOrientationEvent as any).requestPermission === 'function';
-
     if (needsPermission) {
       setPermissionState('idle');
       animFrame.current = requestAnimationFrame(animate);
-      return () => {
-        if (animFrame.current) cancelAnimationFrame(animFrame.current);
-      };
+      return () => { if (animFrame.current) cancelAnimationFrame(animFrame.current); };
     } else {
       setPermissionState('granted');
       return startCompass();
@@ -151,8 +157,8 @@ export default function QiblaPage() {
       .catch(() => setPermissionState('denied'));
   };
 
-  const dialRotation = compass !== null ? -compass : 0;
-  const needleRotation = compass !== null ? qiblaAngle - compass : qiblaAngle;
+  const dialRotation = -smoothHeading;
+  const needleRotation = qiblaAngle - smoothHeading;
   const needsIOSPermission = typeof (DeviceOrientationEvent as any).requestPermission === 'function' && permissionState === 'idle';
 
   return (
@@ -191,7 +197,7 @@ export default function QiblaPage() {
 
           {/* Compass dial */}
           <div className="absolute inset-3 rounded-full bg-card border-2 border-border overflow-hidden">
-            <div className="absolute inset-0" style={{ transform: `rotate(${dialRotation}deg)`, transition: 'transform 0.08s linear' }}>
+            <div className="absolute inset-0" style={{ transform: `rotate(${dialRotation}deg)` }}>
               {/* Degree marks */}
               {Array.from({ length: 36 }).map((_, i) => (
                 <div key={i} className="absolute inset-0" style={{ transform: `rotate(${i * 10}deg)` }}>
@@ -209,7 +215,7 @@ export default function QiblaPage() {
             </div>
 
             {/* Qibla needle */}
-            <div className="absolute inset-0" style={{ transform: `rotate(${needleRotation}deg)`, transition: 'transform 0.08s linear' }}>
+            <div className="absolute inset-0" style={{ transform: `rotate(${needleRotation}deg)` }}>
               <div className="absolute left-1/2 top-4 h-[calc(50%-16px)] w-0.5 -translate-x-1/2 rounded-full bg-accent" />
               <div className="absolute left-1/2 top-0 -translate-x-1/2">
                 <div className="w-8 h-8 rounded-full flex items-center justify-center shadow-md bg-accent">
@@ -219,7 +225,7 @@ export default function QiblaPage() {
               <div className="absolute left-1/2 bottom-4 h-[calc(50%-16px)] w-px -translate-x-1/2 rounded-full bg-muted-foreground/30" />
             </div>
 
-            {/* Center */}
+            {/* Center dot */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-accent border-2 border-card shadow" />
 
             {/* Inner rings */}
@@ -232,15 +238,11 @@ export default function QiblaPage() {
         <div className="text-center space-y-1.5">
           <p className="text-2xl font-bold text-foreground">{qiblaAngle.toFixed(1)}°</p>
           <p className="text-sm font-medium text-muted-foreground">{getDirectionLabel(qiblaAngle)} dari Utara</p>
-          <p className="text-xs text-muted-foreground">
-            {compass !== null && hasData.current
-              ? '✅ Kompas aktif — putar perangkat ke arah 🕋'
-              : needsIOSPermission
-              ? 'Ketuk tombol di bawah untuk mengaktifkan kompas'
-              : permissionState === 'denied'
-              ? '⚠️ Kompas tidak tersedia di perangkat ini — gunakan derajat di atas sebagai acuan manual'
-              : '⏳ Mendeteksi sensor kompas...'}
-          </p>
+          {hasCompass === false && !needsIOSPermission && (
+            <p className="text-xs text-muted-foreground">
+              ⚠️ Kompas tidak tersedia — gunakan derajat di atas sebagai acuan manual
+            </p>
+          )}
         </div>
 
         {/* iOS permission */}
@@ -251,15 +253,6 @@ export default function QiblaPage() {
           >
             Aktifkan Kompas
           </button>
-        )}
-
-        {/* Calibration tip */}
-        {compass !== null && hasData.current && (
-          <div className="rounded-lg bg-secondary/50 px-3 py-2 text-center">
-            <p className="text-[10px] text-muted-foreground">
-              💡 Kalibrasi: Gerakkan perangkat membentuk angka 8 untuk akurasi lebih baik
-            </p>
-          </div>
         )}
       </div>
     </div>
