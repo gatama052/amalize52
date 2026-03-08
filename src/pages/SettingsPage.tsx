@@ -4,6 +4,7 @@ import { useAzanNotification } from '@/hooks/useAzanNotification';
 import { usePrayerTimes } from '@/hooks/usePrayerTimes';
 import { Switch } from '@/components/ui/switch';
 import { useState } from 'react';
+import inspireLogo from '@/assets/inspire-logo.png';
 
 export default function SettingsPage() {
   const [darkMode, setDarkMode] = useLocalStorage('deenflow_dark', true);
