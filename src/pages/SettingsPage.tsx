@@ -198,23 +198,24 @@ export default function SettingsPage() {
         </button>
         {showPrivacy && (
           <div className="text-sm text-muted-foreground leading-[1.6]">
-            <p className="font-bold text-foreground text-base">Kebijakan Privasi</p>
-            <p className="text-xs mt-1">Terakhir diperbarui: 3 Maret 2026</p>
-            <p className="mt-3">Selamat datang di Amalize. Kami berkomitmen untuk menjaga privasi Anda dengan prinsip transparansi penuh.</p>
+            <p className="font-bold text-foreground text-base">Kebijakan Privasi Amalize</p>
+            <p className="text-xs mt-1">Terakhir diperbarui: 3 Maret 2026 | Versi 1.0.0</p>
+            <p className="mt-3">Selamat datang di Amalize. Kami berkomitmen untuk menjaga privasi Anda dengan prinsip transparansi penuh. Mohon luangkan waktu sejenak untuk membaca kebijakan ini.</p>
             <p className="font-bold text-foreground mt-4">1. Tanpa Akun & Tanpa Login</p>
-            <p className="mt-1">Amalize sepenuhnya bersifat offline-first. Anda tidak perlu membuat akun, mendaftar, atau melakukan login.</p>
-            <p className="font-bold text-foreground mt-4">2. Penyimpanan Data Lokal</p>
-            <p className="mt-1">Seluruh data disimpan secara eksklusif di penyimpanan lokal perangkat Anda.</p>
-            <p className="mt-1"><span className="font-medium">Penting:</span> Jika Anda reset pabrik, hapus cache, atau uninstall aplikasi, data akan hilang permanen.</p>
+            <p className="mt-1">Amalize sepenuhnya bersifat offline-first. Anda tidak perlu membuat akun, mendaftar, atau melakukan login untuk menggunakan fitur apa pun di aplikasi ini. Kami tidak mengumpulkan atau menyimpan informasi identitas pribadi (nama, email, nomor telepon) Anda di server kami.</p>
+            <p className="font-bold text-foreground mt-4">2. Penyimpanan Data Lokal (Local Storage) & Risiko Kehilangan Data</p>
+            <p className="mt-1">Seluruh data yang Anda masukkan ke dalam Amalize (seperti progres tracker ibadah, catatan acara, dan pengaturan jadwal) disimpan secara eksklusif di penyimpanan lokal perangkat Anda.</p>
+            <p className="mt-1"><span className="font-medium">Penting untuk diketahui:</span> Karena data tersimpan di perangkat Anda, maka jika Anda melakukan reset pabrik (factory reset) pada ponsel, menghapus cache atau data aplikasi secara manual, mencopot pemasangan (uninstall) aplikasi, atau berganti perangkat, maka seluruh data yang telah Anda catat akan hilang secara permanen.</p>
+            <p className="mt-1">Kami tidak memiliki akses untuk mencadangkan (backup) atau memulihkan data tersebut dari server kami. Harap bijak dalam mengelola data Anda di perangkat.</p>
             <p className="font-bold text-foreground mt-4">3. Informasi Lokasi</p>
-            <p className="mt-1">Akses lokasi hanya untuk menghitung jadwal sholat yang akurat. Data tidak dikirim ke server.</p>
+            <p className="mt-1">Aplikasi menggunakan akses lokasi perangkat Anda hanya untuk menghitung jadwal sholat yang akurat di posisi Anda saat ini. Data lokasi ini diproses secara instan di perangkat Anda dan tidak dikirimkan atau disimpan ke server pihak ketiga mana pun.</p>
             <p className="font-bold text-foreground mt-4">4. Analisis Penggunaan</p>
-            <p className="mt-1">Kami tidak menggunakan pelacak pihak ketiga.</p>
+            <p className="mt-1">Kami tidak menggunakan pelacak atau analisis pihak ketiga untuk memantau aktivitas pribadi Anda. Fokus kami adalah privasi penuh di tangan Anda.</p>
             <p className="font-bold text-foreground mt-4">5. Keamanan Perangkat</p>
-            <p className="mt-1">Keamanan data bergantung pada keamanan perangkat Anda.</p>
+            <p className="mt-1">Karena data tersimpan di ponsel Anda, keamanan data tersebut sepenuhnya bergantung pada keamanan perangkat Anda. Kami menyarankan Anda untuk selalu menjaga keamanan akses ke perangkat Anda sendiri.</p>
             <p className="font-bold text-foreground mt-4">6. Perubahan Kebijakan</p>
-            <p className="mt-1">Kami dapat memperbarui kebijakan ini sewaktu-waktu melalui pembaruan aplikasi.</p>
-            <p className="mt-3">Dengan menggunakan Amalize, Anda dianggap telah memahami dan menyetujui kebijakan privasi ini. Jika Anda mengalami kendala dalam penggunaan aplikasi atau memiliki saran untuk pengembangan Amalize ke depannya, kami dengan senang hati siap membantu dan mendengarkan masukan Anda.</p>
+            <p className="mt-1">Kami dapat memperbarui kebijakan privasi ini sewaktu-waktu. Informasi mengenai perubahan akan diumumkan melalui pembaruan di dalam aplikasi.</p>
+            <p className="mt-3">Dengan menggunakan Amalize, Anda menyetujui kebijakan privasi ini. Jika Anda mengalami kendala dalam penggunaan aplikasi atau memiliki saran untuk pengembangan Amalize ke depannya, kami dengan senang hati siap membantu serta menerima setiap masukan yang Anda berikan.</p>
             <p className="mt-3">Silakan hubungi kami melalui email:</p>
             <a href="mailto:inspirelimadua@gmail.com" className="mt-2 inline-flex items-center gap-1.5 text-accent hover:underline">
               <img src={inspireLogo} alt="" className="w-4 h-4 rounded-full" />
