@@ -3,7 +3,7 @@
  * Each slot has 5+ variations per day type for variety.
  */
 
-export type DayType = 'biasa' | 'seninkamis' | 'jumat';
+export type DayType = 'biasa' | 'seninkamis' | 'jumat' | 'ramadan';
 export type TimeSlot =
   | 'tahajud'
   | 'menjelangSubuh'
