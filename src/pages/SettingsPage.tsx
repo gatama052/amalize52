@@ -167,18 +167,18 @@ export default function SettingsPage() {
         {showAbout && (
           <div className="text-sm text-muted-foreground leading-[1.6]">
             <p className="font-bold text-foreground text-base mb-3">Amalize: Your deen daily companion</p>
-            <p>Assalamu'alaikum Warahmatullahi Wabarakatuh.</p>
+            <p>Assalamu'alaikum Warahmatullahi Wabarakatuh</p>
             <p className="mt-3">Di tengah kesibukan dunia yang padat, menjaga konsistensi ibadah adalah tantangan tersendiri. Amalize hadir sebagai sahabat digital yang dirancang khusus untuk membantu Anda menjalankan ibadah dengan lebih teratur, terarah, dan penuh kesadaran. Kami percaya bahwa perubahan besar dalam hidup dimulai dari kebiasaan-kebiasaan kecil yang dilakukan secara istiqomah.</p>
             <p className="font-bold text-foreground text-[15px] mt-5">Mengapa Amalize?</p>
             <p className="mt-1">Amalize memadukan teknologi modern dengan nilai-nilai spiritual untuk menciptakan sistem yang sederhana, nyaman, dan relevan dengan kebutuhan Muslim masa kini. Seluruh fitur kami terintegrasi dalam satu dashboard terpadu, memberikan Anda kemudahan untuk memantau perjalanan spiritual Anda dalam satu genggaman.</p>
             <p className="font-bold text-foreground text-[15px] mt-5">Fitur Unggulan Kami:</p>
             <ul className="list-disc ml-5 mt-1 space-y-1.5">
-              <li><span className="font-medium">Jadwal Sholat & Arah Kiblat:</span> Pengingat waktu sholat yang akurat berbasis lokasi.</li>
-              <li><span className="font-medium">Kalender Islam & Agenda:</span> Kalender hijriah terintegrasi dengan manajemen acara pribadi.</li>
-              <li><span className="font-medium">Pusat Doa & Dzikir:</span> Koleksi doa harian, doa sholat, serta dzikir pagi dan petang.</li>
-              <li><span className="font-medium">Tracker Ibadah:</span> Alat bantu untuk memantau progres ibadah harian Anda.</li>
+              <li><span className="font-medium">Jadwal Sholat & Arah Kiblat:</span> Pengingat waktu sholat yang akurat berbasis lokasi, memastikan Anda selalu tepat waktu dalam melaksanakan ibadah sholat wajib (5 waktu).</li>
+              <li><span className="font-medium">Kalender Islam & Agenda:</span> Kalender hijriah yang terintegrasi dengan manajemen acara pribadi, menjaga keseimbangan antara urusan dunia dan akhirat.</li>
+              <li><span className="font-medium">Pusat Doa & Dzikir:</span> Koleksi doa harian, doa sholat, serta dzikir pagi dan petang yang disusun rapi dan mudah diamalkan dalam kehidupan sehari-hari.</li>
+              <li><span className="font-medium">Tracker Ibadah:</span> Alat bantu untuk memantau progres ibadah harian Anda. Lihat statistik dan rekapitulasi perkembangan ibadah Anda untuk menjaga motivasi tetap terjaga.</li>
             </ul>
-            <p className="mt-3">Dengan memberikan dorongan spiritual yang lembut dan relevan, Amalize hadir untuk mendukung perjalanan ibadah Anda agar lebih disiplin, tenang, dan insya Allah penuh keberkahan.</p>
+            <p className="mt-3">Dengan memberikan dorongan spiritual yang lembut dan relevan sesuai waktu serta momentum ibadah, Amalize hadir untuk mendukung perjalanan ibadah Anda agar lebih disiplin, tenang, dan insya Allah penuh keberkahan.</p>
             <p className="mt-3">Wassalamu'alaikum Warahmatullahi Wabarakatuh.</p>
             <p className="text-xs mt-3">Dirancang dengan ❤️ untuk mendukung perjalanan ibadah umat Muslim di seluruh dunia.</p>
           </div>
