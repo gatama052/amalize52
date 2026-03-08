@@ -6,26 +6,56 @@ export interface EventAlarmState {
   event: CalendarEvent | null;
 }
 
+// Pre-load audio files to eliminate loading delay
+let preloadedOpener: HTMLAudioElement | null = null;
+let preloadedRingtone: HTMLAudioElement | null = null;
+
+function preloadAudioFiles() {
+  if (!preloadedOpener) {
+    preloadedOpener = new Audio('/audio/event-opener.mp4');
+    preloadedOpener.preload = 'auto';
+    preloadedOpener.load();
+  }
+  if (!preloadedRingtone) {
+    preloadedRingtone = new Audio('/audio/event-ringtone.mp4');
+    preloadedRingtone.preload = 'auto';
+    preloadedRingtone.load();
+  }
+}
+
+// Preload on module load
+preloadAudioFiles();
+
 /**
- * Generate a short beep tone using Web Audio API
+ * Play a preloaded audio element (clone for concurrent use), seamlessly
  */
-function playBeepTone(duration = 300, frequency = 880): Promise<void> {
+function playAudioFile(src: string, abortRef: { current: boolean }, volume = 0.7): Promise<void> {
   return new Promise((resolve) => {
+    if (abortRef.current) { resolve(); return; }
     try {
-      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.value = frequency;
-      gain.gain.value = 0.5;
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      setTimeout(() => {
-        osc.stop();
-        ctx.close();
+      const audio = new Audio(src);
+      audio.volume = volume;
+      audio.preload = 'auto';
+
+      const done = () => {
+        clearInterval(abortCheck);
+        audio.removeEventListener('ended', done);
+        audio.removeEventListener('error', done);
         resolve();
-      }, duration);
+      };
+
+      audio.addEventListener('ended', done);
+      audio.addEventListener('error', done);
+
+      const abortCheck = setInterval(() => {
+        if (abortRef.current) {
+          audio.pause();
+          audio.currentTime = 0;
+          done();
+        }
+      }, 100);
+
+      audio.play().catch(() => done());
     } catch {
       resolve();
     }
@@ -33,44 +63,7 @@ function playBeepTone(duration = 300, frequency = 880): Promise<void> {
 }
 
 /**
- * Generate alarm sound using Web Audio API (longer, more urgent)
- */
-function playAlarmTone(duration = 800): Promise<void> {
-  return new Promise((resolve) => {
-    try {
-      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'square';
-      osc.frequency.value = 660;
-      gain.gain.value = 0.4;
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      // Modulate frequency for alarm effect
-      const lfo = ctx.createOscillator();
-      const lfoGain = ctx.createGain();
-      lfo.frequency.value = 8;
-      lfoGain.gain.value = 200;
-      lfo.connect(lfoGain);
-      lfoGain.connect(osc.frequency);
-      lfo.start();
-      osc.start();
-
-      setTimeout(() => {
-        osc.stop();
-        lfo.stop();
-        ctx.close();
-        resolve();
-      }, duration);
-    } catch {
-      resolve();
-    }
-  });
-}
-
-/**
- * Speak event reminder using SpeechSynthesis TTS
+ * Speak event reminder using SpeechSynthesis TTS - optimized for zero delay
  */
 function speakReminder(ev: CalendarEvent, abortRef: { current: boolean }): Promise<void> {
   return new Promise((resolve) => {
@@ -85,97 +78,45 @@ function speakReminder(ev: CalendarEvent, abortRef: { current: boolean }): Promi
     utterance.rate = 0.95;
     utterance.pitch = 0.9;
 
-    // Try Indonesian voice
     const voices = window.speechSynthesis.getVoices();
     const idVoice = voices.find(v => v.lang.startsWith('id'));
     if (idVoice) utterance.voice = idVoice;
 
-    utterance.onend = () => resolve();
-    utterance.onerror = () => resolve();
-
-    // Safety timeout in case onend never fires
     const timeout = setTimeout(() => resolve(), 15000);
-    utterance.onend = () => { clearTimeout(timeout); resolve(); };
-    utterance.onerror = () => { clearTimeout(timeout); resolve(); };
+    const done = () => { clearTimeout(timeout); clearInterval(abortCheck); resolve(); };
+
+    utterance.onend = done;
+    utterance.onerror = done;
+
+    const abortCheck = setInterval(() => {
+      if (abortRef.current) {
+        window.speechSynthesis.cancel();
+        done();
+      }
+    }, 100);
 
     window.speechSynthesis.speak(utterance);
   });
 }
 
 /**
- * Play ringtone audio file
- */
-function playRingtone(abortRef: { current: boolean }): Promise<void> {
-  return new Promise((resolve) => {
-    try {
-      const audio = new Audio('/audio/event-ringtone.mp4');
-      audio.volume = 0.7;
-
-      const onEnd = () => { cleanup(); resolve(); };
-      const onError = () => { cleanup(); resolve(); };
-      const cleanup = () => {
-        audio.removeEventListener('ended', onEnd);
-        audio.removeEventListener('error', onError);
-      };
-
-      audio.addEventListener('ended', onEnd);
-      audio.addEventListener('error', onError);
-
-      // Check abort during playback
-      const checkAbort = setInterval(() => {
-        if (abortRef.current) {
-          clearInterval(checkAbort);
-          audio.pause();
-          cleanup();
-          resolve();
-        }
-      }, 200);
-
-      audio.addEventListener('ended', () => clearInterval(checkAbort));
-      audio.addEventListener('error', () => clearInterval(checkAbort));
-
-      audio.play().catch(() => { clearInterval(checkAbort); resolve(); });
-    } catch {
-      resolve();
-    }
-  });
-}
-
-/**
- * Play the full alarm sequence:
- * 1. Tone pembuka (beep sedang)
- * 2. (TTS + Ringtone) × 3
+ * Seamless alarm sequence with zero gaps:
+ * Beep pembuka → TTS → Ringtone → TTS → Ringtone → TTS → Ringtone
  */
 async function playAlarmSequence(abortRef: { current: boolean }, ev: CalendarEvent) {
-  // 1. Audio pembuka
-  if (abortRef.current) return;
-  await new Promise<void>((resolve) => {
-    try {
-      const audio = new Audio('/audio/event-opener.mp4');
-      audio.volume = 0.7;
-      audio.addEventListener('ended', () => resolve());
-      audio.addEventListener('error', () => resolve());
-      const checkAbort = setInterval(() => {
-        if (abortRef.current) {
-          clearInterval(checkAbort);
-          audio.pause();
-          resolve();
-        }
-      }, 200);
-      audio.addEventListener('ended', () => clearInterval(checkAbort));
-      audio.addEventListener('error', () => clearInterval(checkAbort));
-      audio.play().catch(() => resolve());
-    } catch {
-      resolve();
-    }
-  });
+  // Ensure audio is preloaded
+  preloadAudioFiles();
 
-  // 2. (TTS + Ringtone) × 3
+  // 1. Beep pembuka
+  if (abortRef.current) return;
+  await playAudioFile('/audio/event-opener.mp4', abortRef);
+
+  // 2. (TTS + Ringtone) × 3 — seamless, no gaps
   for (let i = 0; i < 3; i++) {
     if (abortRef.current) return;
     await speakReminder(ev, abortRef);
     if (abortRef.current) return;
-    await playRingtone(abortRef);
+    await playAudioFile('/audio/event-ringtone.mp4', abortRef);
   }
 }
 
