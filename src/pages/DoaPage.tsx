@@ -343,15 +343,17 @@ export default function DoaPage() {
 
       {/* Search bar */}
       {searchOpen && (
-        <form onSubmit={(e) => { e.preventDefault(); }} className="relative">
+        <form onSubmit={(e) => { e.preventDefault(); searchInputRef.current?.blur(); }} className="relative">
           <input
             ref={searchInputRef}
             type="search"
             enterKeyHint="search"
+            inputMode="search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); searchInputRef.current?.blur(); } }}
             placeholder="Cari doa atau dzikir..."
-            className="w-full rounded-xl bg-secondary px-4 py-2.5 pl-10 pr-10 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-accent/30"
+            className="w-full rounded-xl bg-secondary px-4 py-2.5 pl-10 pr-10 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-accent/30 [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden"
             autoFocus
           />
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">

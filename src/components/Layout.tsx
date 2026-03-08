@@ -2,6 +2,8 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '@/assets/logo.png';
 import mosqueLogo from '@/assets/mosque-logo.png';
+import splashTitle from '@/assets/splash-amalize-text.png';
+import splashTagline from '@/assets/splash-tagline.png';
 import BottomNav from './BottomNav';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useEventReminder } from '@/hooks/useEventReminder';
@@ -34,17 +36,20 @@ export default function Layout({ children }: { children: ReactNode }) {
         <img
           src={mosqueLogo}
           alt="Amalize"
-          className="h-32 w-32 object-contain mb-4 animate-[splash-logo_0.8s_ease-out_both]"
+          className="h-28 w-28 object-contain mb-3 animate-[splash-logo_0.8s_ease-out_both]"
         />
-        {/* AMALIZE text: AMAL=gold, IZE=white */}
-        <h1 className="text-4xl font-extrabold tracking-wider animate-[splash-text_0.6s_ease-out_0.3s_both]">
-          <span style={{ color: '#D4AF37' }}>AMAL</span>
-          <span className="text-white">IZE</span>
-        </h1>
-        {/* Tagline */}
-        <p className="mt-3 text-sm text-white/60 text-center px-8 animate-[splash-text_0.6s_ease-out_0.6s_both]">
-          Langkah Kecil, Ibadah Konsisten, Tuk Raih Berkah
-        </p>
+        {/* AMALIZE text image */}
+        <img
+          src={splashTitle}
+          alt="AMALIZE"
+          className="h-10 object-contain animate-[splash-text_0.6s_ease-out_0.3s_both]"
+        />
+        {/* Tagline image */}
+        <img
+          src={splashTagline}
+          alt="Your Daily Deen Companion"
+          className="mt-1.5 h-5 object-contain animate-[splash-text_0.6s_ease-out_0.6s_both]"
+        />
       </div>
     );
   }
