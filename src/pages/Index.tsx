@@ -4,6 +4,7 @@ import { useLocation } from '@/hooks/useLocation';
 import { usePrayerTimes } from '@/hooks/usePrayerTimes';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { HIJRI_MONTHS } from '@/data/important-dates';
+import { getMotivation } from '@/data/motivations';
 
 import type { CalendarEvent } from '@/pages/DailyDetail';
 
@@ -34,23 +35,7 @@ function addMinutes(timeStr: string, mins: number): string {
   return `${nh.toString().padStart(2, '0')}:${nm.toString().padStart(2, '0')}`;
 }
 
-function getAIReminder(isRamadan: boolean): string[] {
-  const now = new Date();
-  const day = now.getDay();
-  const reminders: string[] = [];
-
-  if (day === 5) reminders.push('📖 Hari Jumat — Baca Surah Al-Kahfi');
-  if (!isRamadan && (day === 1 || day === 4)) reminders.push('🌙 Senin/Kamis — Hari sunnah puasa');
-  
-  const hour = now.getHours();
-  if (hour < 6) reminders.push('🌅 Jangan lupa sholat Subuh & dzikir pagi');
-  else if (hour < 12) reminders.push('☀️ Semangat beraktivitas, jaga sholat tepat waktu');
-  else if (hour >= 15 && hour < 18) reminders.push('🕌 Waktu Ashar, perbanyak istighfar');
-  else if (hour >= 18) reminders.push('🌙 Malam hari, luangkan waktu untuk tilawah');
-  
-  if (reminders.length === 0) reminders.push('💡 Perbanyak dzikir & istighfar hari ini');
-  return reminders;
-}
+// Removed old getAIReminder - now using getMotivation from motivations.ts
 
 export default function Home() {
   const navigate = useNavigate();
@@ -62,7 +47,16 @@ export default function Home() {
   const [corrections] = useLocalStorage<Record<string, number>>('prayer_corrections', {});
   
   const isRamadan = hijri?.month.number === 9;
-  const reminders = useMemo(() => getAIReminder(isRamadan), [isRamadan]);
+  const motivation = useMemo(() => {
+    const prayerData = timings ? {
+      Fajr: timings.Fajr,
+      Dhuhr: timings.Dhuhr,
+      Asr: timings.Asr,
+      Maghrib: timings.Maghrib,
+      Isha: timings.Isha,
+    } : undefined;
+    return getMotivation(new Date(), prayerData);
+  }, [timings]);
   const today = new Date();
   const [upcomingEvents, setUpcomingEvents] = useState<(CalendarEvent & { countdownStr: string })[]>([]);
 
@@ -242,12 +236,11 @@ export default function Home() {
         )}
       </div>
 
-      {/* AI Reminders */}
+      {/* Motivasi */}
       <div className="rounded-xl bg-card p-4 shadow-sm">
-        <div className="space-y-2">
-          {reminders.map((r, i) => (
-            <p key={i} className="text-sm text-muted-foreground">{r}</p>
-          ))}
+        <div className="flex items-start gap-3">
+          <span className="text-2xl leading-none mt-0.5">{motivation.icon}</span>
+          <p className="text-sm text-muted-foreground italic leading-relaxed">"{motivation.text}"</p>
         </div>
       </div>
 
