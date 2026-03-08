@@ -70,7 +70,7 @@ export default function SettingsPage() {
                 max={100}
                 step={5}
                 value={volume}
-                onChange={(e)preview setVolume(Number(e.target.value))}
+                onChange={(e) => previewVolume(Number(e.target.value))}
                 className="w-full h-1.5 bg-secondary rounded-full appearance-none cursor-pointer accent-accent"
               />
             </div>
