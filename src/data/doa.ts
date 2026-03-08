@@ -5,6 +5,7 @@ export interface Doa {
   arabic: string;
   latin: string;
   translation: string;
+  keywords?: string[];
 }
 
 export interface AlMatsuratItem {
