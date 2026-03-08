@@ -89,6 +89,12 @@ export default function PrayerSchedule() {
                 <div className="fixed inset-0 z-40" onClick={() => setShowSettings(false)} />
                 <div className="absolute right-0 top-10 z-50 w-72 rounded-xl bg-card p-4 shadow-lg border border-border space-y-4 max-h-[70vh] overflow-y-auto">
                   <p className="text-xs font-semibold text-foreground">Koreksi Waktu (menit)</p>
+                  <p className="text-[10px] leading-snug text-muted-foreground mt-1 mb-1">
+                    Koreksi waktu digunakan untuk menyesuaikan jadwal sholat agar lebih akurat sesuai kondisi lokasi Anda atau mengikuti jadwal masjid setempat.
+                  </p>
+                  <p className="text-[10px] leading-snug text-muted-foreground mb-2">
+                    Contoh: Jika Maghrib berbeda 2 menit dari masjid, tambahkan +2. Jika lebih cepat, kurangi menitnya.
+                  </p>
                   {ALL_PRAYERS.map(p => (
                     <div key={p.key} className="flex items-center justify-between">
                       <span className="text-sm text-foreground">{p.label}</span>
