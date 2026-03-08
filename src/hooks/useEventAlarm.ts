@@ -147,9 +147,28 @@ function playRingtone(abortRef: { current: boolean }): Promise<void> {
  * 2. (TTS + Ringtone) × 3
  */
 async function playAlarmSequence(abortRef: { current: boolean }, ev: CalendarEvent) {
-  // 1. Tone pembuka
+  // 1. Audio pembuka
   if (abortRef.current) return;
-  await playBeepTone(500, 660);
+  await new Promise<void>((resolve) => {
+    try {
+      const audio = new Audio('/audio/event-opener.mp4');
+      audio.volume = 0.7;
+      audio.addEventListener('ended', () => resolve());
+      audio.addEventListener('error', () => resolve());
+      const checkAbort = setInterval(() => {
+        if (abortRef.current) {
+          clearInterval(checkAbort);
+          audio.pause();
+          resolve();
+        }
+      }, 200);
+      audio.addEventListener('ended', () => clearInterval(checkAbort));
+      audio.addEventListener('error', () => clearInterval(checkAbort));
+      audio.play().catch(() => resolve());
+    } catch {
+      resolve();
+    }
+  });
 
   // 2. (TTS + Ringtone) × 3
   for (let i = 0; i < 3; i++) {
