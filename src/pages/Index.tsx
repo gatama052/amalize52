@@ -35,23 +35,7 @@ function addMinutes(timeStr: string, mins: number): string {
   return `${nh.toString().padStart(2, '0')}:${nm.toString().padStart(2, '0')}`;
 }
 
-function getAIReminder(isRamadan: boolean): string[] {
-  const now = new Date();
-  const day = now.getDay();
-  const reminders: string[] = [];
-
-  if (day === 5) reminders.push('📖 Hari Jumat — Baca Surah Al-Kahfi');
-  if (!isRamadan && (day === 1 || day === 4)) reminders.push('🌙 Senin/Kamis — Hari sunnah puasa');
-  
-  const hour = now.getHours();
-  if (hour < 6) reminders.push('🌅 Jangan lupa sholat Subuh & dzikir pagi');
-  else if (hour < 12) reminders.push('☀️ Semangat beraktivitas, jaga sholat tepat waktu');
-  else if (hour >= 15 && hour < 18) reminders.push('🕌 Waktu Ashar, perbanyak istighfar');
-  else if (hour >= 18) reminders.push('🌙 Malam hari, luangkan waktu untuk tilawah');
-  
-  if (reminders.length === 0) reminders.push('💡 Perbanyak dzikir & istighfar hari ini');
-  return reminders;
-}
+// Removed old getAIReminder - now using getMotivation from motivations.ts
 
 export default function Home() {
   const navigate = useNavigate();
