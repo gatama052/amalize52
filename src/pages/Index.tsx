@@ -4,6 +4,7 @@ import { useLocation } from '@/hooks/useLocation';
 import { usePrayerTimes } from '@/hooks/usePrayerTimes';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { HIJRI_MONTHS } from '@/data/important-dates';
+import { getGoldenMotivation } from '@/data/golden-motivations';
 import { getMotivation } from '@/data/motivations';
 
 import type { CalendarEvent } from '@/pages/DailyDetail';
@@ -47,6 +48,9 @@ export default function Home() {
   const [corrections] = useLocalStorage<Record<string, number>>('prayer_corrections', {});
   
   const isRamadan = hijri?.month.number === 9;
+  const goldenMotivation = useMemo(() => {
+    return getGoldenMotivation(new Date(), hijri?.month.number, hijri ? parseInt(hijri.day) : undefined);
+  }, [hijri]);
   const motivation = useMemo(() => {
     const prayerData = timings ? {
       Fajr: timings.Fajr,
@@ -199,13 +203,25 @@ export default function Home() {
         <p className="mt-2 font-mono text-4xl font-bold tracking-widest text-white">{countdown}</p>
       </div>
 
-      {/* Ramadan Banner */}
-      {isRamadan && (
-        <div className="rounded-xl gold-gradient p-4 text-accent-foreground">
-          <p className="text-sm font-bold">🌙 Ramadhan Mubarak!</p>
-          <p className="mt-1 text-xs">Perbanyak tilawah, tarawih, dan ibadah di bulan penuh berkah ini.</p>
+      {/* Kolom Emas - Golden Motivation */}
+      <div className={`rounded-xl p-4 shadow-sm ${
+        goldenMotivation.type === 'islamic' || goldenMotivation.type === 'ramadan'
+          ? 'gold-gradient text-accent-foreground'
+          : goldenMotivation.type === 'national'
+          ? 'bg-card border border-accent/30'
+          : 'bg-card'
+      }`}>
+        <div className="flex items-start gap-3">
+          <span className="text-2xl leading-none mt-0.5">{goldenMotivation.motivation.icon}</span>
+          <p className={`text-sm leading-relaxed ${
+            goldenMotivation.type === 'islamic' || goldenMotivation.type === 'ramadan'
+              ? 'font-semibold'
+              : 'text-muted-foreground italic'
+          }`}>
+            "{goldenMotivation.motivation.text}"
+          </p>
         </div>
-      )}
+      </div>
 
       {/* Prayer Times */}
       <div className="rounded-xl bg-card p-4 shadow-sm">
