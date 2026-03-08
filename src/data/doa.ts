@@ -294,7 +294,8 @@ export const doaList: Doa[] = [
     title: "Doa Pagi Hari",
     arabic: "\u0627\u0644\u0644\u0651\u064E\u0647\u064F\u0645\u0651\u064E \u0628\u0650\u0643\u064E \u0623\u0635\u0652\u0628\u064E\u062D\u0652\u0646\u0627 \u0648\u064E\u0628\u0650\u0643\u064E \u0623\u0645\u0652\u0633\u064E\u064A\u0652\u0646\u0627\u060C \u0648\u064E\u0628\u0650\u0643\u064E \u0646\u064E\u062D\u0652\u064A\u0627\u060C \u0648\u064E\u0628\u0650\u0643\u064E \u0646\u064E\u0645\u064F\u0648\u062A\u064F\u060C \u0648\u064E\u0625\u0650\u0644\u064E\u064A\u0652\u0643\u064E \u0627\u0644\u0646\u0651\u064F\u0634\u064F\u0648\u0631\u064F",
     latin: "All\u0101humma bika ashbahn\u0101, wa bika amsain\u0101, wa bika nahy\u0101, wa bika nam\u016btu, wa ilaikal nusy\u016bru",
-    translation: "Ya Allah, karena Engkau kami mengalami waktu pagi dan waktu petang dan karena Engkau kami hidup dan mati, dan kepada-Mu juga kami akan kembali."
+    translation: "Ya Allah, karena Engkau kami mengalami waktu pagi dan waktu petang dan karena Engkau kami hidup dan mati, dan kepada-Mu juga kami akan kembali.",
+    keywords: ["pagi", "doa pagi", "dzikir pagi", "bangun pagi"]
   },
   {
     id: 'petang-1',
