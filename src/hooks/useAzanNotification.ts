@@ -246,7 +246,7 @@ export function useAzanNotification(timings: PrayerTimings | null) {
       } else {
         const audio = new Audio(AZAN_AUDIO_PATH);
         audio.volume = 1.0;
-        audio.addEventListener('ended', () => setIsPlaying(false));
+        audio.addEventListener('ended', () => { setIsPlaying(false); setAdhanMode({ active: false, prayerKey: '', prayerName: '', prayerTime: '' }); });
         audio.addEventListener('pause', () => setIsPlaying(false));
         connectToContext(audio);
         audioRef.current = audio;
