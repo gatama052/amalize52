@@ -53,17 +53,11 @@ export default function AdhanMode({ state, isPlaying, onStop, onSnooze }: AdhanM
           </div>
         )}
 
-        {/* Buttons */}
-        <div className="flex gap-4 w-full">
-          <button
-            onClick={onSnooze}
-            className="flex-1 rounded-xl py-3.5 px-4 text-sm font-semibold bg-muted text-foreground border border-border active:scale-95 transition-transform"
-          >
-            ⏰ Tunda 5 Menit
-          </button>
+        {/* Button */}
+        <div className="w-full">
           <button
             onClick={onStop}
-            className="flex-1 rounded-xl py-3.5 px-4 text-sm font-semibold bg-primary text-primary-foreground active:scale-95 transition-transform"
+            className="w-full rounded-xl py-3.5 px-4 text-sm font-semibold bg-primary text-primary-foreground active:scale-95 transition-transform"
           >
             ⏹ Hentikan
           </button>
