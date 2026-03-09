@@ -36,18 +36,16 @@ Menampilkan kalender Hijriah dan Masehi untuk memudahkan pengguna mengetahui tan
 ---
 
 ## 📊 Tracker Ibadah
-Membantu pengguna memantau progres ibadah harian agar lebih konsisten dalam menjalankan ibadah.
-
----
-
-##Tampilan Aplikasi
-
-![Tampilanaplikasi](images/tampilanaplikasi.png)
+Membantu pengguna memantau progres ibadah harian agar lebih konsisten 
 
 ---
 
 ## 🏠 Dashboard
 Tampilan utama aplikasi yang menampilkan ringkasan fitur dan informasi penting bagi pengguna.
+
+
+## 🌐 Tampilan Aplikasi/Web
+![Tampilanaplikasi](images/tampilanaplikasi.png)
 
 ---
 
