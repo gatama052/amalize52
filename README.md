@@ -45,7 +45,7 @@ Tampilan utama aplikasi yang menampilkan ringkasan fitur dan informasi penting b
 
 
 ## 🌐 Tampilan Aplikasi/Web
-![Tampilanaplikasi](images/tampilanaplikasi.png)
+![Tampilanaplikasi](images/Tampilanaplikasi.png)
 
 ---
 
