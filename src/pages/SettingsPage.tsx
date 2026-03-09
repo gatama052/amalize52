@@ -28,7 +28,15 @@ export default function SettingsPage() {
   };
 
   const handleShare = async () => {
-    const shareText = `Assalamu'alaikum!👋🏻\n\nJangan sampai ibadah dan aktivitasmu terlewat!\nDengan Amalize, kamu bisa:\n•Pantau Jadwal Sholat dan Arah Kiblat secara akurat.\n•Lihat Kalender Hijriah & Masehi termasuk Hari Besar Islam dan Hari Nasional.\n•Baca Doa Harian & Dzikir praktis kapan saja\n•Atur Reminder Kegiatan dan Ibadah agar hari-harimu teratur dan jadwal tidak terlewat.\n•Pantau progres ibadah dengan Tracker Ibadah}
+    const shareText = "Assalamu'alaikum!\u{1F44B}\u{1F3FB}\n\nJangan sampai ibadah dan aktivitasmu terlewat!\nDengan Amalize, kamu bisa:\n\u2022Pantau Jadwal Sholat dan Arah Kiblat secara akurat.\n\u2022Lihat Kalender Hijriah & Masehi termasuk Hari Besar Islam dan Hari Nasional.\n\u2022Baca Doa Harian & Dzikir praktis kapan saja\n\u2022Atur Reminder Kegiatan dan Ibadah agar hari-harimu teratur dan jadwal tidak terlewat.\n\u2022Pantau progres ibadah dengan Tracker Ibadah\n\nSatu aplikasi simpel, lengkap, dan siap membantu setiap langkah ibadahmu. \u2728\n\n\u{1F449} Cek dan coba Aplikasinya di sini:\nhttps://amalize.vercel.app\n\nSemoga bermanfaat! \u{1F932}\u263A\uFE0F";
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: 'Amalize', text: shareText });
+      } catch {}
+    } else {
+      await navigator.clipboard.writeText(shareText);
+      alert('Teks berhasil disalin!');
+    }
   };
 
   return (
