@@ -12,7 +12,7 @@ export const ISLAMIC_DATES: Record<string, ImportantDate> = {
   '8-15': { name: 'Nisfu Sya\'ban', type: 'islamic' },
   '9-1': { name: 'Awal Ramadhan', type: 'islamic' },
   '9-17': { name: 'Nuzulul Quran', type: 'islamic' },
-  '9-21': { name: 'Lailatul Qadr (perkiraan)', type: 'islamic' },
+  
   '10-1': { name: 'Idul Fitri', type: 'islamic' },
   '10-2': { name: 'Idul Fitri (hari ke-2)', type: 'islamic' },
   '12-8': { name: 'Hari Tarwiyah', type: 'islamic' },
