@@ -28,15 +28,7 @@ export default function SettingsPage() {
   };
 
   const handleShare = async () => {
-    const shareText = `Assalamu'alaikum!👋🏻\n\nJangan sampai ibadah dan aktivitasmu terlewat!\nDengan Amalize, kamu bisa:\n•Pantau Jadwal Sholat dan Arah Kiblat secara akurat.\n•Lihat Kalender Hijriah & Masehi termasuk Hari Besar Islam dan Hari Nasional.\n•Baca Doa Harian & Dzikir praktis kapan saja\n•Atur Reminder Kegiatan dan Ibadah agar hari-harimu teratur dan jadwal tidak terlewat.\n•Pantau progres ibadah dengan Tracker Ibadah\n\nSatu aplikasi simpel, lengkap, dan siap membantu setiap langkah ibadahmu. ✨\n\n👉 Cek dan coba Aplikasinya di sini:\nhttps://amalize.vercel.app\n\nSemoga bermanfaat! 🤲☺️`;
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: 'Amalize', text: shareText });
-      } catch {}
-    } else {
-      await navigator.clipboard.writeText(shareText);
-      alert('Teks berhasil disalin!');
-    }
+    const shareText = `Assalamu'alaikum!👋🏻\n\nJangan sampai ibadah dan aktivitasmu terlewat!\nDengan Amalize, kamu bisa:\n•Pantau Jadwal Sholat dan Arah Kiblat secara akurat.\n•Lihat Kalender Hijriah & Masehi termasuk Hari Besar Islam dan Hari Nasional.\n•Baca Doa Harian & Dzikir praktis kapan saja\n•Atur Reminder Kegiatan dan Ibadah agar hari-harimu teratur dan jadwal tidak terlewat.\n•Pantau progres ibadah dengan Tracker Ibadah}
   };
 
   return (
@@ -202,7 +194,7 @@ export default function SettingsPage() {
             <p className="text-xs mt-1">Terakhir diperbarui: 3 Maret 2026 | Versi 1.0.0</p>
             <p className="mt-3">Selamat datang di Amalize. Kami berkomitmen untuk menjaga privasi Anda dengan prinsip transparansi penuh. Mohon luangkan waktu sejenak untuk membaca kebijakan ini.</p>
             <p className="font-bold text-foreground mt-4">1. Tanpa Akun & Tanpa Login</p>
-            <p className="mt-1">Amalize sepenuhnya bersifat offline-first. Anda tidak perlu membuat akun, mendaftar, atau melakukan login untuk menggunakan fitur apa pun di aplikasi ini. Kami tidak mengumpulkan atau menyimpan informasi identitas pribadi (nama, email, nomor telepon) Anda di server kami.</p>
+            <p className="mt-1">Amalize sepenuhnya bersifat offline-first. Anda tidak perlu membuat ak09n, mendaftar, atau melakukan login untuk menggunakan fitur apa pun di aplikasi ini. Kami tidak mengumpulkan atau menyimpan informasi identitas pribadi (nama, email, nomor telepon) Anda di server kami.</p>
             <p className="font-bold text-foreground mt-4">2. Penyimpanan Data Lokal (Local Storage) & Risiko Kehilangan Data</p>
             <p className="mt-1">Seluruh data yang Anda masukkan ke dalam Amalize (seperti progres tracker ibadah, catatan acara, dan pengaturan jadwal) disimpan secara eksklusif di penyimpanan lokal perangkat Anda.</p>
             <p className="mt-1"><span className="font-medium">Penting untuk diketahui:</span> Karena data tersimpan di perangkat Anda, maka jika Anda melakukan reset pabrik (factory reset) pada ponsel, menghapus cache atau data aplikasi secara manual, mencopot pemasangan (uninstall) aplikasi, atau berganti perangkat, maka seluruh data yang telah Anda catat akan hilang secara permanen.</p>
