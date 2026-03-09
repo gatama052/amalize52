@@ -16,37 +16,31 @@ https://amalize.vercel.app
 # ✨ Fitur Utama
 
 ## 🕌 Jadwal Sholat
-![Jadwal Sholat](images/Jadwal%20Sholat.png)
 Menampilkan waktu sholat yang akurat berdasarkan lokasi pengguna sehingga pengguna dapat mengetahui waktu sholat secara tepat.
 
 ---
 
 ## 🧭 Arah Kiblat
-![Kiblat](images/Kiblat.png)
 Fitur kompas yang membantu pengguna menentukan arah kiblat dengan cepat dan akurat.
 
 ---
 
 ## 📖 Dzikir dan Doa Harian
-![Dzikir dan Doa](images/Dizikir%20dan%20Doa.png)
 Berisi kumpulan doa dan dzikir harian yang dapat dibaca kapan saja untuk membantu meningkatkan ibadah.
 
 ---
 
 ## 📅 Kalender Hijriah & Masehi
-![Calendar](images/Calender.png)
 Menampilkan kalender Hijriah dan Masehi untuk memudahkan pengguna mengetahui tanggal penting dalam Islam.
 
 ---
 
 ## 📊 Tracker Ibadah
-![Tracker](images/Tracker.png)
 Membantu pengguna memantau progres ibadah harian agar lebih konsisten dalam menjalankan ibadah.
 
 ---
 
 ## 🏠 Dashboard
-![Dashboard](images/Dasboard.png)
 Tampilan utama aplikasi yang menampilkan ringkasan fitur dan informasi penting bagi pengguna.
 
 ---
@@ -72,19 +66,6 @@ Project ini dibangun menggunakan teknologi web modern:
 
 # 📂 Struktur Project
 Amalize │ ├── images │   ├── Banner.png │   ├── Calender.png │   ├── Dasboard.png │   ├── Dizikir dan Doa.png │   ├── Jadwal Sholat.png │   ├── Kiblat.png │   └── Tracker.png │ ├── index.html ├── style.css ├── script.js └── README.md
-
----
-
-# 📸 Tampilan Aplikasi
-
-### Dashboard
-![Dashboard](images/Dasboard.png)
-
-### Tracker Ibadah
-![Tracker](images/Tracker.png)
-
-### Kalender
-![Calendar](images/Calender.png)
 
 ---
 
