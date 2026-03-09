@@ -28,7 +28,7 @@ export default function SettingsPage() {
   };
 
   const handleShare = async () => {
-    const shareText = `Assalamu'alaikum! 👋\n\nJangan sampai ibadah & kegiatanmu terlewat! Dengan Amalize, semua jadi lebih mudah:\n🕌 Pantau Jadwal Sholat & Arah Kiblat secara akurat.\n📅 Kalender Hijriah & Masehi untuk memudahkan perencanaan harian dan memantau hari besar islam & hari nasional.\n⏰ Atur Reminder Kegiatan & Ibadah agar hari-harimu lebih teratur dan jadwal kegiatanmu tidak terlewat.\n📖 Baca Doa Harian & Dzikir praktis di genggaman.\n📊 Tracker Ibadah untuk memantau progres ibadahmu setiap hari\n\nSatu aplikasi simpel, lengkap, dan siap membantu setiap langkah ibadahmu. ✨\n\n👉 Cek dan coba Aplikasinya di sini:\nhttps://amalize.vercel.app\n\nSemoga bermanfaat! 🤲☺️`;
+    const shareText = `Assalamu'alaikum! 👋\n\nJangan sampai ibadah & kegiatanmu terlewat! Dengan Amalize, semua jadi lebih mudah:\n🕌 Pantau Jadwal Sholat & Arah Kiblat secara akurat.\n📅 Kalender Hijriah & Masehi untuk memudahkan perencanaan harian dan memantau hari besar islam & hari nasional.\n⏰ Atur Reminder Kegiatan & Ibadah agar hari-harimu lebih teratur dan jadwal kegiatanmu tidak terlewat.\n📖 Baca Doa Harian & Dzikir praktis di genggaman.\n📊 Tracker Ibadah untuk memantau progres ibadahmu setiap hari\n\nSatu aplikasi simpel, lengkap, dan siap membantu setiap langkah ibadahmu. ✨\n\n👉 Cek dan coba Aplikasinya di sini:\nhttps://amalize.vercel.app\n\nSemoga bermanfaat! 🤲☺️ratur dan jadwal kegiatanmu tidak terlewat.\n📖 Baca Doa Harian & Dzikir praktis di genggaman.\n📊 Tracker Ibadah untuk memantau progres ibadahmu setiap hari\n\nSatu aplikasi simpel, lengkap, dan siap membantu setiap langkah ibadahmu. ✨\n\n👉 Cek dan coba Aplikasinya di sini:\nhttps://amalize.vercel.app\n\nSemoga bermanfaat! 🤲☺️`;
     if (navigator.share) {
       try {
         await navigator.share({ title: 'Amalize', text: shareText });
@@ -192,7 +192,7 @@ export default function SettingsPage() {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Kebijakan Privasi
           </h3>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={`text-muted-foreground transition-transform ${showPrivacy ? 'rotate-180' : ''}`}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={`text-muted-foreground transition-transform ${showPrivacy ? 'rotate-180' 9 ''}`}>
             <polyline points="6 9 12 15 18 9" />
           </svg>
         </button>
