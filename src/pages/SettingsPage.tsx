@@ -199,7 +199,7 @@ export default function SettingsPage() {
         {showPrivacy && (
           <div className="text-sm text-muted-foreground leading-[1.6]">
             <p className="font-bold text-foreground text-base">Kebijakan Privasi Amalize</p>
-            <p className="text-xs mt-1">Terakhir diperbarui: 3 Maret 2026 | Versi 1.0.0</p>
+            <p className="text-xs mt-1"><p className="text-xs mt-1">Terakhir diperbarui: 9 Maret 2026 | Versi 1.0.0</p></p>
             <p className="mt-3">Selamat datang di Amalize. Kami berkomitmen untuk menjaga privasi Anda dengan prinsip transparansi penuh. Mohon luangkan waktu sejenak untuk membaca kebijakan ini.</p>
             <p className="font-bold text-foreground mt-4">1. Tanpa Akun & Tanpa Login</p>
             <p className="mt-1">Amalize sepenuhnya bersifat offline-first. Anda tidak perlu membuat ak09n, mendaftar, atau melakukan login untuk menggunakan fitur apa pun di aplikasi ini. Kami tidak mengumpulkan atau menyimpan informasi identitas pribadi (nama, email, nomor telepon) Anda di server kami.</p>
