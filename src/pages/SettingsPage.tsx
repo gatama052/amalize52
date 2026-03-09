@@ -28,7 +28,7 @@ export default function SettingsPage() {
   };
 
   const handleShare = async () => {
-    const shareText = `Assalamu'alaikum! 👋\n\nYuk, bikin harimu lebih teratur dengan Amalize. Aplikasi simpel untuk memantau progres ibadah harian, akses jadwal sholat & koleksi doa, serta dilengkapi kalender Hijriah/Masehi & reminder agenda agar jadwal kegiatanmu tidak terlewat.\n\nCek aplikasinya di sini ya: https://deenlyapp.lovable.app\n\nSemoga bermanfaat!`;
+    const shareText = `Assalamu'alaikum! 👋\n\nJangan sampai ibadah & kegiatanmu terlewat! Dengan Amalize, semua jadi lebih mudah:\n🕌 Pantau Jadwal Sholat & Arah Kiblat secara akurat.\n📅 Kalender Hijriah & Masehi untuk memudahkan perencanaan harian dan memantau hari besar islam & hari nasional.\n⏰ Atur Reminder Kegiatan & Ibadah agar hari-harimu lebih teratur dan jadwal kegiatanmu tidak terlewat.\n📖 Baca Doa Harian & Dzikir praktis di genggaman.\n📊 Tracker Ibadah untuk memantau progres ibadahmu setiap hari\n\nSatu aplikasi simpel, lengkap, dan siap membantu setiap langkah ibadahmu. ✨\n\n👉 Cek dan coba Aplikasinya di sini:\nhttps://amalize.vercel.app\n\nSemoga bermanfaat! 🤲☺️ratur dan jadwal kegiatanmu tidak terlewat.\n📖 Baca Doa Harian & Dzikir praktis di genggaman.\n📊 Tracker Ibadah untuk memantau progres ibadahmu setiap hari\n\nSatu aplikasi simpel, lengkap, dan siap membantu setiap langkah ibadahmu. ✨\n\n👉 Cek dan coba Aplikasinya di sini:\nhttps://amalize.vercel.app\n\nSemoga bermanfaat! 🤲☺️`;
     if (navigator.share) {
       try {
         await navigator.share({ title: 'Amalize', text: shareText });
