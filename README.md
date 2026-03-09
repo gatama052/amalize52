@@ -40,6 +40,12 @@ Membantu pengguna memantau progres ibadah harian agar lebih konsisten dalam menj
 
 ---
 
+##Tampilan Aplikasi
+
+![Tampilanaplikasi](images/tampilanaplikasi.png)
+
+---
+
 ## 🏠 Dashboard
 Tampilan utama aplikasi yang menampilkan ringkasan fitur dan informasi penting bagi pengguna.
 
