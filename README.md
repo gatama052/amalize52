@@ -1,67 +1,75 @@
-# Welcome to your Lovable project
+🕌 Amalize
+Amalize adalah aplikasi yang membantu kamu mengatur aktivitas harian sekaligus meningkatkan kualitas ibadah dalam satu tempat yang sederhana dan praktis.
+Dengan Amalize, kamu bisa memantau jadwal sholat, membaca doa harian, melihat kalender Hijriah, dan mengatur reminder kegiatan agar tidak ada aktivitas yang terlewat.
+🌐 Live Demo
+Coba langsung aplikasinya:
+https://deenlyapp.lovable.app⁠
+📱 Preview Aplikasi
+Tambahkan screenshot aplikasi di sini agar orang langsung melihat tampilannya.
 
-## How can I edit this code?
+Jika ingin menambahkan lebih banyak gambar:
 
-There are several ways of editing your application.
+✨ Fitur Utama
+Amalize menyediakan berbagai fitur penting dalam satu aplikasi:
+🕌 Jadwal Sholat
+Menampilkan waktu sholat yang akurat sesuai lokasi pengguna.
+🧭 Arah Kiblat
+Memudahkan pengguna menemukan arah kiblat dengan cepat.
+📖 Doa & Dzikir Harian
+Kumpulan doa dan dzikir yang bisa dibaca kapan saja.
+⏰ Reminder Kegiatan & Ibadah
+Mengatur pengingat agar aktivitas harian dan ibadah tidak terlewat.
+📅 Kalender Hijriah & Masehi
+Menampilkan kalender lengkap untuk memudahkan perencanaan aktivitas.
+⭐ Hari Besar Islam & Nasional
+Mengetahui hari penting seperti Idul Fitri, Maulid Nabi, dan hari nasional.
+📊 Tracker Ibadah
+Membantu memantau progres ibadah harian agar lebih konsisten.
 
-**Use Lovable**
+🎯 Tujuan Proyek
+Tujuan dari Amalize adalah membantu pengguna:
+Menjaga konsistensi ibadah
+Mengatur aktivitas harian dengan lebih baik
+Mengetahui informasi penting dalam kalender Islam
+Memiliki pengingat kegiatan yang praktis
+Semua fitur dikemas dalam satu aplikasi ringan dan mudah digunakan.
 
-Changes made via Lovable will be committed automatically to this repo.
+🛠️ Teknologi yang Digunakan
+Proyek ini dibangun menggunakan teknologi web modern:
+HTML
+CSS
+JavaScript
+AI Assisted Development
+Web App / Progressive Web App (PWA)
 
-**Use your preferred IDE**
+📂 Struktur Folder
+Contoh struktur project:
+Amalize
+│
+├── images
+│   ├── amalize-preview.png
+│   ├── dashboard.png
+│   ├── tracker.png
+│   └── calendar.png
+│
+├── index.html
+├── style.css
+├── script.js
+│
+└── README.md
+🤝
+Kontribusi
+Kontribusi selalu terbuka.
+Jika ingin membantu mengembangkan Amalize, silakan:
+Fork repository
+Buat branch baru
+Kirim pull request
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+📜 Lisensi
+Project ini dibuat untuk pembelajaran dan pengembangan aplikasi bermanfaat bagi umat.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+🤲 Penutup
+Semoga Amalize bisa membantu banyak orang untuk lebih teratur dalam aktivitas dan lebih semangat dalam beribadah.
+Jika kamu merasa aplikasi ini bermanfaat, jangan lupa untuk membagikannya kepada teman-temanmu.
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable] and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+*✨ Amalize — Make Your Day More Meaningful*
