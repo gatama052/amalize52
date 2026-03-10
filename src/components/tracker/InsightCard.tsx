@@ -10,13 +10,14 @@ interface InsightCardProps {
 
 export default function InsightCard({ completed, total, progress, uncheckedLabels }: InsightCardProps) {
   const daySeed = new Date().getDate();
+  const hour = new Date().getHours();
 
   const insight = useMemo(() => {
     const motivation = getMotivationByProgress(progress, daySeed);
     const analysis = getAnalysis(completed, total);
-    const suggestion = getSuggestion(completed, total, progress, uncheckedLabels);
+    const suggestion = getSuggestion(completed, total, progress, uncheckedLabels, hour);
     return { analysis, suggestion, motivation };
-  }, [completed, total, progress, uncheckedLabels, daySeed]);
+  }, [completed, total, progress, uncheckedLabels, daySeed, hour]);
 
   return (
     <div className="rounded-xl bg-card p-4 shadow-sm border border-accent/20">
