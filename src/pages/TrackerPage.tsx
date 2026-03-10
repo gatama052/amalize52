@@ -54,6 +54,8 @@ export default function TrackerPage() {
   const [customItems, setCustomItems] = useLocalStorage<CustomItem[]>('deenflow_custom_ibadah', []);
   const [showSettings, setShowSettings] = useState(false);
   const [newLabel, setNewLabel] = useState('');
+  const [showCelebration, setShowCelebration] = useState(false);
+  const celebratedRef = useRef(false);
   const { location: loc } = useUserLocation();
   const { hijri } = usePrayerTimes(loc?.latitude, loc?.longitude);
   const isRamadan = hijri?.month.number === 9;
