@@ -4,7 +4,6 @@ import { usePrayerTimes } from '@/hooks/usePrayerTimes';
 import { useLocation as useUserLocation } from '@/hooks/useLocation';
 import InsightCard from '@/components/tracker/InsightCard';
 import CelebrationOverlay from '@/components/tracker/CelebrationOverlay';
-import { useLocation as useUserLocation } from '@/hooks/useLocation';
 
 const BASE_ITEMS = [
   { id: 'subuh', label: 'Sholat Subuh' },
