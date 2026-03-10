@@ -17,7 +17,7 @@ export const MOTIVATIONS_20_50: InsightMotivation[] = [
   { text: 'Dan orang-orang yang berjihad di jalan Kami, sungguh akan Kami tunjukkan kepada mereka jalan-jalan Kami.', source: 'QS. Al-Ankabut: 69' },
   { text: 'Maukah aku tunjukkan kepadamu suatu amalan yang paling dicintai Allah? Yaitu sholat pada waktunya.', source: 'HR. Bukhari & Muslim' },
   { text: 'Sesungguhnya Allah tidak menyia-nyiakan pahala orang yang berbuat kebaikan.', source: 'QS. At-Taubah: 120' },
-  { text: 'Bacalah Al-Qur'an, karena sesungguhnya ia akan datang pada hari kiamat sebagai pemberi syafaat bagi yang membacanya.', source: 'HR. Muslim' },
+  { text: "Bacalah Al-Qur'an, karena sesungguhnya ia akan datang pada hari kiamat sebagai pemberi syafaat bagi yang membacanya.", source: 'HR. Muslim' },
   { text: 'Barangsiapa bertakwa kepada Allah, niscaya Dia akan membukakan jalan keluar baginya.', source: 'QS. At-Talaq: 2' },
 ];
 
