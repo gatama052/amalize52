@@ -55,79 +55,24 @@ export function getMotivationByProgress(progress: number, seed: number): Insight
 }
 
 export function getAnalysis(completed: number, total: number): string {
-  if (completed === 0) return 'Kamu belum memulai ibadah hari ini. Yuk mulai dari yang ringan!';
+  if (completed === 0) return `Kamu belum memulai ibadah hari ini. Yuk mulai dari yang ringan!`;
   return `Kamu sudah menyelesaikan ${completed} dari ${total} ibadah hari ini.`;
-}
-
-// Time period detection
-export type TimePeriod = 'pagi' | 'siang' | 'malam' | 'tidur';
-
-export function getTimePeriod(hour: number): TimePeriod {
-  if (hour >= 22 || hour < 4) return 'tidur';
-  if (hour >= 4 && hour < 10) return 'pagi';
-  if (hour >= 10 && hour < 15) return 'siang';
-  return 'malam'; // 15-22
-}
-
-// Map of which items are appropriate for each time period
-const TIME_APPROPRIATE_ITEMS: Record<TimePeriod, string[]> = {
-  pagi: ['dzikir', 'tilawah', 'dhuha', 'sedekah', 'subuh', 'rawatib'],
-  siang: ['tilawah', 'sedekah', 'dzikir', 'rawatib', 'dzuhur', 'ashar'],
-  malam: ['dzikir', 'tilawah', 'rawatib', 'maghrib', 'isya', 'sedekah', 'tarawih'],
-  tidur: ['rawatib', 'tilawah'],
-};
-
-const TIME_SUGGESTIONS: Record<TimePeriod, string[]> = {
-  pagi: ['Dzikir Pagi', 'Tilawah Al-Quran', 'Sholat Dhuha', 'Sedekah'],
-  siang: ['Tilawah Al-Quran', 'Sedekah', 'Dzikir', 'Sunnah Rawatib'],
-  malam: ['Dzikir Petang', 'Tilawah Al-Quran', 'Istighfar', 'Persiapan Tahajud'],
-  tidur: ['Persiapan Sholat Tahajud', 'Persiapan Sholat Subuh', 'Sunnah Rawatib', 'Tilawah Al-Quran'],
-};
-
-export function getTimeLabel(period: TimePeriod): string {
-  switch (period) {
-    case 'pagi': return 'pagi ini';
-    case 'siang': return 'siang ini';
-    case 'malam': return 'malam ini';
-    case 'tidur': return 'menjelang tidur';
-  }
 }
 
 export function getSuggestion(
   completed: number,
   total: number,
   progress: number,
-  uncheckedItems: string[],
-  hour: number
+  uncheckedItems: string[]
 ): string {
   if (progress === 100) return 'Alhamdulillah, semua ibadah hari ini sudah selesai!';
-
-  const period = getTimePeriod(hour);
-  const timeLabel = getTimeLabel(period);
-  const appropriate = TIME_APPROPRIATE_ITEMS[period];
-  const timeSuggestions = TIME_SUGGESTIONS[period];
-
-  // Filter unchecked items that are appropriate for current time
-  const relevantUnchecked = uncheckedItems.filter(label => {
-    const lower = label.toLowerCase();
-    return appropriate.some(key => lower.includes(key.toLowerCase()));
-  });
-
   if (progress >= 80) {
     const remaining = total - completed;
     return `Tinggal ${remaining} ibadah lagi. Semangat menyelesaikannya!`;
   }
-
-  if (relevantUnchecked.length > 0) {
-    const picks = relevantUnchecked.slice(0, 2).join(' atau ');
-    return `Masih ada amalan yang bisa dilakukan ${timeLabel} seperti ${picks}.`;
-  }
-
   if (uncheckedItems.length > 0) {
-    // Fallback to generic time-based suggestions
-    const genericPicks = timeSuggestions.slice(0, 2).join(' atau ');
-    return `${timeLabel.charAt(0).toUpperCase() + timeLabel.slice(1)}, coba lanjutkan dengan ${genericPicks}.`;
+    const suggestions = uncheckedItems.slice(0, 2).join(' atau ');
+    return `Coba lanjutkan dengan ${suggestions} untuk meningkatkan progres ibadahmu.`;
   }
-
   return 'Lanjutkan ibadahmu satu per satu, pasti bisa!';
 }

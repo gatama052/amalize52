@@ -268,11 +268,7 @@ export default function TrackerPage() {
       </div>
 
       {/* Celebration overlay */}
-      <CelebrationOverlay
-        show={showCelebration}
-        onComplete={handleCelebrationComplete}
-        completedItems={allItems.map(item => item.label)}
-      />
+      <CelebrationOverlay show={showCelebration} onComplete={handleCelebrationComplete} />
     </div>
   );
 }
