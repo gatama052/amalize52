@@ -266,6 +266,9 @@ export default function TrackerPage() {
         </div>
         <p className="mt-2 text-xs text-muted-foreground">{activeDays} dari {totalPast} hari aktif beribadah</p>
       </div>
+
+      {/* Celebration overlay */}
+      <CelebrationOverlay show={showCelebration} onComplete={handleCelebrationComplete} />
     </div>
   );
 }
