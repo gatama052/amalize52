@@ -1,7 +1,9 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback, useRef } from 'react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { usePrayerTimes } from '@/hooks/usePrayerTimes';
 import { useLocation as useUserLocation } from '@/hooks/useLocation';
+import InsightCard from '@/components/tracker/InsightCard';
+import CelebrationOverlay from '@/components/tracker/CelebrationOverlay';
 
 const BASE_ITEMS = [
   { id: 'subuh', label: 'Sholat Subuh' },
@@ -52,6 +54,8 @@ export default function TrackerPage() {
   const [customItems, setCustomItems] = useLocalStorage<CustomItem[]>('deenflow_custom_ibadah', []);
   const [showSettings, setShowSettings] = useState(false);
   const [newLabel, setNewLabel] = useState('');
+  const [showCelebration, setShowCelebration] = useState(false);
+  const celebratedRef = useRef(false);
   const { location: loc } = useUserLocation();
   const { hijri } = usePrayerTimes(loc?.latitude, loc?.longitude);
   const isRamadan = hijri?.month.number === 9;
@@ -62,9 +66,25 @@ export default function TrackerPage() {
     return [...items, ...customItems];
   }, [isRamadan, customItems]);
 
-  const toggle = (id: string) => setChecks({ ...checks, [id]: !checks[id] });
+  const toggle = (id: string) => {
+    const newChecks = { ...checks, [id]: !checks[id] };
+    setChecks(newChecks);
+    // Check if all items completed after this toggle
+    const newCompleted = allItems.filter((item) => newChecks[item.id]).length;
+    if (newCompleted === allItems.length && allItems.length > 0 && !celebratedRef.current) {
+      celebratedRef.current = true;
+      setShowCelebration(true);
+    }
+  };
   const completed = allItems.filter((item) => checks[item.id]).length;
   const progress = allItems.length > 0 ? Math.round((completed / allItems.length) * 100) : 0;
+
+  const uncheckedLabels = useMemo(
+    () => allItems.filter((item) => !checks[item.id]).map((item) => item.label),
+    [allItems, checks]
+  );
+
+  const handleCelebrationComplete = useCallback(() => setShowCelebration(false), []);
 
   const addCustomItem = () => {
     const label = newLabel.trim();
@@ -186,6 +206,14 @@ export default function TrackerPage() {
         <p className="mt-2 text-xs text-muted-foreground">{completed}/{allItems.length} ibadah tercatat</p>
       </div>
 
+      {/* Insight Card */}
+      <InsightCard
+        completed={completed}
+        total={allItems.length}
+        progress={progress}
+        uncheckedLabels={uncheckedLabels}
+      />
+
       {/* Checklist */}
       <div className="rounded-xl bg-card p-4 shadow-sm">
         <h3 className="mb-3 text-sm font-semibold text-foreground">Checklist Harian</h3>
@@ -238,6 +266,9 @@ export default function TrackerPage() {
         </div>
         <p className="mt-2 text-xs text-muted-foreground">{activeDays} dari {totalPast} hari aktif beribadah</p>
       </div>
+
+      {/* Celebration overlay */}
+      <CelebrationOverlay show={showCelebration} onComplete={handleCelebrationComplete} />
     </div>
   );
 }
