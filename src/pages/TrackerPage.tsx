@@ -66,9 +66,25 @@ export default function TrackerPage() {
     return [...items, ...customItems];
   }, [isRamadan, customItems]);
 
-  const toggle = (id: string) => setChecks({ ...checks, [id]: !checks[id] });
+  const toggle = (id: string) => {
+    const newChecks = { ...checks, [id]: !checks[id] };
+    setChecks(newChecks);
+    // Check if all items completed after this toggle
+    const newCompleted = allItems.filter((item) => newChecks[item.id]).length;
+    if (newCompleted === allItems.length && allItems.length > 0 && !celebratedRef.current) {
+      celebratedRef.current = true;
+      setShowCelebration(true);
+    }
+  };
   const completed = allItems.filter((item) => checks[item.id]).length;
   const progress = allItems.length > 0 ? Math.round((completed / allItems.length) * 100) : 0;
+
+  const uncheckedLabels = useMemo(
+    () => allItems.filter((item) => !checks[item.id]).map((item) => item.label),
+    [allItems, checks]
+  );
+
+  const handleCelebrationComplete = useCallback(() => setShowCelebration(false), []);
 
   const addCustomItem = () => {
     const label = newLabel.trim();
