@@ -206,6 +206,14 @@ export default function TrackerPage() {
         <p className="mt-2 text-xs text-muted-foreground">{completed}/{allItems.length} ibadah tercatat</p>
       </div>
 
+      {/* Insight Card */}
+      <InsightCard
+        completed={completed}
+        total={allItems.length}
+        progress={progress}
+        uncheckedLabels={uncheckedLabels}
+      />
+
       {/* Checklist */}
       <div className="rounded-xl bg-card p-4 shadow-sm">
         <h3 className="mb-3 text-sm font-semibold text-foreground">Checklist Harian</h3>
