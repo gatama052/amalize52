@@ -1,6 +1,9 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback, useRef } from 'react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { usePrayerTimes } from '@/hooks/usePrayerTimes';
+import { useLocation as useUserLocation } from '@/hooks/useLocation';
+import InsightCard from '@/components/tracker/InsightCard';
+import CelebrationOverlay from '@/components/tracker/CelebrationOverlay';
 import { useLocation as useUserLocation } from '@/hooks/useLocation';
 
 const BASE_ITEMS = [
