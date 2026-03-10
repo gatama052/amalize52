@@ -33,7 +33,7 @@ export const MOTIVATIONS_80_100: InsightMotivation[] = [
   { text: 'Amalan yang paling dicintai Allah adalah yang dilakukan terus menerus walaupun sedikit.', source: 'HR. Bukhari & Muslim' },
   { text: 'Dan orang-orang yang sabar, sesungguhnya Allah beserta orang-orang yang sabar.', source: 'QS. Al-Baqarah: 153' },
   { text: 'Barangsiapa menjaga sholat, maka sholat itu akan menjadi cahaya, bukti, dan keselamatan baginya di hari kiamat.', source: 'HR. Ahmad' },
-  { text: 'Sesungguhnya Allah tidak akan mengubah keadaan suatu kaum sehingga mereka mengubah keadaan yang ada pada diri mereka sendiri.', source: 'QS. Ar-Ra'd: 11' },
+  { text: 'Sesungguhnya Allah tidak akan mengubah keadaan suatu kaum sehingga mereka mengubah keadaan yang ada pada diri mereka sendiri.', source: "QS. Ar-Ra'd: 11" },
   { text: 'Setiap amal anak Adam akan dilipatgandakan, satu kebaikan akan dicatat sepuluh hingga tujuh ratus kali lipat.', source: 'HR. Muslim' },
 ];
 
