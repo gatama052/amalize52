@@ -50,10 +50,23 @@ export default function QiblaPage() {
   const smoothedRef = useRef<number>(0);
   const animFrame = useRef<number>(0);
   const dataReceived = useRef(false);
-  // Track whether we have absolute orientation data — if so, ignore relative
   const hasAbsolute = useRef(false);
+  const lastHaptic = useRef<number>(0);
 
   const qiblaAngle = loc ? calculateQiblaDirection(loc.latitude, loc.longitude) : 0;
+  const needleRotation = qiblaAngle - smoothHeading;
+  const alignmentDiff = Math.abs(angleDiff(qiblaAngle, smoothHeading));
+  const isAligned = alignmentDiff <= 2;
+
+  // Haptic feedback when aligned
+  useEffect(() => {
+    if (isAligned && Date.now() - lastHaptic.current > 1000) {
+      lastHaptic.current = Date.now();
+      if (navigator.vibrate) {
+        navigator.vibrate([30, 50, 30]);
+      }
+    }
+  }, [isAligned]);
 
   // Reverse geocoding
   useEffect(() => {
@@ -78,14 +91,12 @@ export default function QiblaPage() {
       .catch(() => setFullAddress(loc.city));
   }, [loc]);
 
-  // Animation loop with smoothing factor 0.12 (responsive yet smooth)
   const animate = useCallback(() => {
     smoothedRef.current = lerpAngle(smoothedRef.current, rawHeading.current, 0.12);
     setSmoothHeading(smoothedRef.current);
     animFrame.current = requestAnimationFrame(animate);
   }, []);
 
-  // Handler for ABSOLUTE orientation (Android deviceorientationabsolute)
   const handleAbsoluteOrientation = useCallback((e: DeviceOrientationEvent) => {
     if (e.alpha == null) return;
     hasAbsolute.current = true;
@@ -100,26 +111,14 @@ export default function QiblaPage() {
     }
   }, []);
 
-  // Handler for regular deviceorientation (iOS webkitCompassHeading, or fallback)
   const handleOrientation = useCallback((e: DeviceOrientationEvent) => {
-    // If we already have absolute data from deviceorientationabsolute, skip relative
     if (hasAbsolute.current) return;
-
     let heading: number | null = null;
-
-    // iOS provides webkitCompassHeading which is absolute
     if ((e as any).webkitCompassHeading != null) {
       heading = (e as any).webkitCompassHeading;
     } else if (e.alpha != null) {
-      // Check if this event itself is absolute
-      if ((e as any).absolute === true) {
-        heading = (360 - e.alpha) % 360;
-      } else {
-        // Relative fallback — less accurate but better than nothing
-        heading = (360 - e.alpha) % 360;
-      }
+      heading = (360 - e.alpha) % 360;
     }
-
     if (heading != null && !isNaN(heading)) {
       if (!dataReceived.current) {
         dataReceived.current = true;
@@ -132,18 +131,13 @@ export default function QiblaPage() {
 
   const startCompass = useCallback(() => {
     animFrame.current = requestAnimationFrame(animate);
-
-    // Prefer absolute orientation (Android) — separate handler
     if ('ondeviceorientationabsolute' in window) {
       window.addEventListener('deviceorientationabsolute', handleAbsoluteOrientation as any, true);
     }
-    // Also listen to regular (for iOS + fallback), but handler checks hasAbsolute flag
     window.addEventListener('deviceorientation', handleOrientation, true);
-
     setTimeout(() => {
       if (!dataReceived.current) setHasCompass(false);
     }, 4000);
-
     return () => {
       if ('ondeviceorientationabsolute' in window) {
         window.removeEventListener('deviceorientationabsolute', handleAbsoluteOrientation as any, true);
@@ -180,7 +174,6 @@ export default function QiblaPage() {
   };
 
   const dialRotation = -smoothHeading;
-  const needleRotation = qiblaAngle - smoothHeading;
   const needsIOSPermission = typeof (DeviceOrientationEvent as any).requestPermission === 'function' && permissionState === 'idle';
 
   return (
@@ -214,44 +207,99 @@ export default function QiblaPage() {
       {/* Compass */}
       <div className="rounded-xl bg-card p-6 shadow-sm flex flex-col items-center gap-5">
         <div className="relative w-72 h-72">
-          <div className="absolute inset-0 rounded-full border-4" style={{ borderColor: 'hsl(var(--accent) / 0.3)' }} />
 
-          <div className="absolute inset-3 rounded-full bg-card border-2 border-border overflow-hidden">
+          {/* Outer ring with depth shadow */}
+          <div
+            className="absolute inset-0 rounded-full"
+            style={{
+              border: '4px solid hsl(var(--accent) / 0.35)',
+              boxShadow: '0 4px 20px hsl(var(--accent) / 0.15), inset 0 2px 8px hsl(var(--foreground) / 0.06)',
+            }}
+          />
+
+          {/* Static phone indicator at 12 o'clock */}
+          <div className="absolute left-1/2 -top-1 -translate-x-1/2 z-20 flex flex-col items-center">
+            <div
+              className="w-0 h-0"
+              style={{
+                borderLeft: '6px solid transparent',
+                borderRight: '6px solid transparent',
+                borderTop: '10px solid hsl(var(--accent))',
+                filter: 'drop-shadow(0 1px 3px hsl(var(--accent) / 0.4))',
+              }}
+            />
+          </div>
+
+          {/* Inner compass area */}
+          <div className="absolute inset-3 rounded-full bg-card border-2 border-border overflow-hidden"
+            style={{ boxShadow: 'inset 0 1px 6px hsl(var(--foreground) / 0.05)' }}
+          >
+            {/* Rotating dial */}
             <div className="absolute inset-0" style={{ transform: `rotate(${dialRotation}deg)` }}>
               {Array.from({ length: 36 }).map((_, i) => (
                 <div key={i} className="absolute inset-0" style={{ transform: `rotate(${i * 10}deg)` }}>
                   <div className={`absolute left-1/2 -translate-x-1/2 ${
-                    i % 9 === 0 ? 'top-1.5 h-3 w-0.5 bg-accent' : 'top-2 h-2 w-px bg-border'
+                    i % 9 === 0 ? 'top-1.5 h-3.5 w-[2px] bg-accent' : 'top-2 h-2 w-px bg-border'
                   }`} />
                 </div>
               ))}
-              <span className="absolute left-1/2 top-5 -translate-x-1/2 text-xs font-bold text-accent">U</span>
-              <span className="absolute right-5 top-1/2 -translate-y-1/2 text-[10px] font-semibold text-muted-foreground">T</span>
-              <span className="absolute left-1/2 bottom-5 -translate-x-1/2 text-[10px] font-semibold text-muted-foreground">S</span>
-              <span className="absolute left-5 top-1/2 -translate-y-1/2 text-[10px] font-semibold text-muted-foreground">B</span>
+              {/* Cardinal directions - larger and bolder */}
+              <span className="absolute left-1/2 top-5 -translate-x-1/2 text-sm font-bold text-accent drop-shadow-sm">U</span>
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-foreground/70">T</span>
+              <span className="absolute left-1/2 bottom-5 -translate-x-1/2 text-xs font-bold text-foreground/70">S</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xs font-bold text-foreground/70">B</span>
             </div>
 
+            {/* Qibla needle */}
             <div className="absolute inset-0" style={{ transform: `rotate(${needleRotation}deg)` }}>
-              <div className="absolute left-1/2 top-4 h-[calc(50%-16px)] w-0.5 -translate-x-1/2 rounded-full bg-accent" />
+              {/* Needle line with shadow */}
+              <div
+                className="absolute left-1/2 top-4 h-[calc(50%-16px)] w-0.5 -translate-x-1/2 rounded-full transition-colors duration-300"
+                style={{
+                  backgroundColor: isAligned ? 'hsl(43 80% 55%)' : 'hsl(var(--accent))',
+                  boxShadow: isAligned ? '0 0 10px hsl(43 80% 55% / 0.6)' : '0 1px 3px hsl(var(--foreground) / 0.1)',
+                }}
+              />
+              {/* Ka'bah icon */}
               <div className="absolute left-1/2 top-0 -translate-x-1/2">
-                <div className="w-8 h-8 rounded-full flex items-center justify-center shadow-md bg-accent">
+                <div
+                  className="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300"
+                  style={{
+                    backgroundColor: isAligned ? 'hsl(43 80% 55%)' : 'hsl(var(--accent))',
+                    boxShadow: isAligned
+                      ? '0 0 16px hsl(43 80% 55% / 0.7), 0 0 30px hsl(43 80% 55% / 0.3)'
+                      : '0 2px 8px hsl(var(--foreground) / 0.15)',
+                  }}
+                >
                   <span className="text-base">🕋</span>
                 </div>
               </div>
+              {/* Opposite tail */}
               <div className="absolute left-1/2 bottom-4 h-[calc(50%-16px)] w-px -translate-x-1/2 rounded-full bg-muted-foreground/30" />
             </div>
 
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-accent border-2 border-card shadow" />
+            {/* Center dot */}
+            <div
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-accent border-2 border-card"
+              style={{ boxShadow: '0 1px 4px hsl(var(--foreground) / 0.15)' }}
+            />
+            {/* Inner rings */}
             <div className="absolute inset-[30%] rounded-full border border-border/30" />
             <div className="absolute inset-[45%] rounded-full border border-border/15" />
           </div>
         </div>
 
+        {/* Info below compass */}
         <div className="text-center space-y-1.5">
           <p className="text-2xl font-bold text-foreground">{qiblaAngle.toFixed(1)}°</p>
-          <p className="text-sm font-medium text-muted-foreground">{getDirectionLabel(qiblaAngle)} dari Utara</p>
+          <p className="text-sm font-semibold text-foreground/65">{getDirectionLabel(qiblaAngle)} dari Utara</p>
+          {isAligned && (
+            <p className="text-xs font-medium text-accent animate-fade-in">
+              ✓ Arah kiblat tepat
+            </p>
+          )}
           {hasCompass === false && !needsIOSPermission && (
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-foreground/50">
               ⚠️ Kompas tidak tersedia — gunakan derajat di atas sebagai acuan manual
             </p>
           )}
