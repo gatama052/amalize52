@@ -117,6 +117,20 @@
   100% { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes scale-in {
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slide-up {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-scale-in { animation: scale-in 0.3s ease-out both; }
+.animate-slide-up { animation: slide-up 0.4s ease-out both; }
+.animate-fade-in { animation: splash-text 0.3s ease-out both; }
+
 @keyframes soundWave {
   0% { transform: scaleY(0.3); }
   100% { transform: scaleY(1); }

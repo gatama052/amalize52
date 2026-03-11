@@ -7,6 +7,7 @@ import splashTagline from '@/assets/splash-tagline.png';
 import BottomNav from './BottomNav';
 import AdhanMode from './AdhanMode';
 import EventReminderOverlay from './EventReminderOverlay';
+import PwaInstallPrompt from './PwaInstallPrompt';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useLocation as useUserLocation } from '@/hooks/useLocation';
 import { usePrayerTimes } from '@/hooks/usePrayerTimes';
@@ -106,6 +107,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <BottomNav />
       <AdhanMode state={adhanMode} isPlaying={isPlaying} onStop={stopAzan} onSnooze={snoozeAzan} />
       <EventReminderOverlay state={alarmState} isPlaying={alarmPlaying} onStop={stopAlarm} onSnooze={snoozeAlarm} />
+      <PwaInstallPrompt />
     </div>
   );
 }
