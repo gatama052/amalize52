@@ -7,6 +7,7 @@ import splashTagline from '@/assets/splash-tagline.png';
 import BottomNav from './BottomNav';
 import AdhanMode from './AdhanMode';
 import EventReminderOverlay from './EventReminderOverlay';
+import PwaInstallPrompt from './PwaInstallPrompt';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useLocation as useUserLocation } from '@/hooks/useLocation';
 import { usePrayerTimes } from '@/hooks/usePrayerTimes';
