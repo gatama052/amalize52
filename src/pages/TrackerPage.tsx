@@ -1,7 +1,8 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { usePrayerTimes } from '@/hooks/usePrayerTimes';
 import { useLocation as useUserLocation } from '@/hooks/useLocation';
+import TrackerCelebration from '@/components/TrackerCelebration';
 
 const WAJIB_ITEMS = [
   { id: 'subuh', label: 'Sholat Subuh' },
@@ -50,6 +51,12 @@ function getLast7Days() {
 
 const DAY_SHORT = ['Aha', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
 
+const TrashIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+  </svg>
+);
+
 export default function TrackerPage() {
   const today = new Date();
   const isFriday = today.getDay() === 5;
@@ -59,11 +66,13 @@ export default function TrackerPage() {
   const [customItems, setCustomItems] = useLocalStorage<CustomItem[]>('deenflow_custom_ibadah', []);
   const [showSettings, setShowSettings] = useState(false);
   const [newLabel, setNewLabel] = useState('');
+  const [showCelebration, setShowCelebration] = useState(false);
+  const [celebratedToday, setCelebratedToday] = useLocalStorage<string>('amalize_celebrated_date', '');
+  const hasCelebratedRef = useRef(celebratedToday === todayStr);
   const { location: loc } = useUserLocation();
   const { hijri } = usePrayerTimes(loc?.latitude, loc?.longitude);
   const isRamadan = hijri?.month.number === 9;
 
-  // Build wajib items with Friday logic
   const wajibItems = useMemo(() => {
     return WAJIB_ITEMS.map(item => {
       if (item.id === 'dzuhur' && isFriday) {
@@ -73,18 +82,15 @@ export default function TrackerPage() {
     });
   }, [isFriday]);
 
-  // All available optional items (including ramadan if active)
   const allOptionalAvailable = useMemo(() => {
     const items = [...AVAILABLE_OPTIONAL];
     if (isRamadan) items.push(...RAMADAN_OPTIONAL);
     return items;
   }, [isRamadan]);
 
-  // Items currently in tracker
   const allItems = useMemo(() => {
     const items = [...wajibItems];
     if (isRamadan) items.push(...RAMADAN_WAJIB);
-    // Add enabled optional items
     const optionalInTracker = allOptionalAvailable.filter(item => enabledOptional.includes(item.id));
     items.push(...optionalInTracker);
     items.push(...customItems);
@@ -94,6 +100,15 @@ export default function TrackerPage() {
   const toggle = (id: string) => setChecks({ ...checks, [id]: !checks[id] });
   const completed = allItems.filter((item) => checks[item.id]).length;
   const progress = allItems.length > 0 ? Math.round((completed / allItems.length) * 100) : 0;
+
+  // Celebration trigger
+  useEffect(() => {
+    if (progress === 100 && allItems.length > 0 && !hasCelebratedRef.current) {
+      hasCelebratedRef.current = true;
+      setCelebratedToday(todayStr);
+      setShowCelebration(true);
+    }
+  }, [progress, allItems.length, todayStr, setCelebratedToday]);
 
   const toggleOptional = (id: string) => {
     if (enabledOptional.includes(id)) {
@@ -157,6 +172,10 @@ export default function TrackerPage() {
 
   return (
     <div className="animate-fade-in space-y-4">
+      {showCelebration && (
+        <TrackerCelebration onClose={() => setShowCelebration(false)} />
+      )}
+
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold text-foreground">Tracker Ibadah</h2>
         <div className="relative">
@@ -176,22 +195,25 @@ export default function TrackerPage() {
 
                 {/* Available optional items */}
                 <div className="space-y-1">
-                  <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Ibadah Tambahan</p>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Rekomendasi Ibadah</p>
                   {allOptionalAvailable.map(item => {
                     const isEnabled = enabledOptional.includes(item.id);
                     return (
                       <div key={item.id} className="flex items-center justify-between py-1.5 px-1">
                         <span className="text-sm text-foreground">{item.label}</span>
-                        <button
-                          onClick={() => toggleOptional(item.id)}
-                          className={`rounded-lg px-2.5 py-1 text-xs font-medium transition-colors ${
-                            isEnabled
-                              ? 'bg-destructive/10 text-destructive hover:bg-destructive/20'
-                              : 'bg-accent/10 text-accent hover:bg-accent/20'
-                          }`}
-                        >
-                          {isEnabled ? 'Hapus' : 'Tambah'}
-                        </button>
+                        {isEnabled ? (
+                          <button
+                            onClick={() => toggleOptional(item.id)}
+                            className="rounded p-1 text-muted-foreground hover:text-destructive transition-colors"
+                          >
+                            <TrashIcon />
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => toggleOptional(item.id)}
+                            className="rounded-lg bg-accent px-3 py-1.5 text-xs font-semibold text-accent-foreground hover:bg-accent/80"
+                          >+</button>
+                        )}
                       </div>
                     );
                   })}
@@ -217,10 +239,8 @@ export default function TrackerPage() {
                   {customItems.map(item => (
                     <div key={item.id} className="flex items-center justify-between py-1 px-1">
                       <span className="text-sm text-foreground">{item.label}</span>
-                      <button onClick={() => removeCustomItem(item.id)} className="rounded p-1 text-muted-foreground hover:text-destructive">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                        </svg>
+                      <button onClick={() => removeCustomItem(item.id)} className="rounded p-1 text-muted-foreground hover:text-destructive transition-colors">
+                        <TrashIcon />
                       </button>
                     </div>
                   ))}
