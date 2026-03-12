@@ -3,27 +3,32 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { usePrayerTimes } from '@/hooks/usePrayerTimes';
 import { useLocation as useUserLocation } from '@/hooks/useLocation';
 
-const BASE_ITEMS = [
+const WAJIB_ITEMS = [
   { id: 'subuh', label: 'Sholat Subuh' },
   { id: 'dzuhur', label: 'Sholat Dzuhur' },
   { id: 'ashar', label: 'Sholat Ashar' },
   { id: 'maghrib', label: 'Sholat Maghrib' },
   { id: 'isya', label: 'Sholat Isya' },
-  { id: 'tilawah', label: 'Tilawah Al-Quran' },
 ];
 
-const OPTIONAL_ITEMS = [
+const AVAILABLE_OPTIONAL = [
+  { id: 'tilawah', label: 'Tilawah Al-Quran' },
+  { id: 'tahajud', label: 'Sholat Tahajud' },
   { id: 'rawatib', label: 'Sunnah Rawatib' },
   { id: 'dhuha', label: 'Sholat Dhuha' },
-  { id: 'dzikir', label: 'Dzikir Pagi/Petang' },
+  { id: 'dzikir_pagi', label: 'Dzikir Pagi' },
+  { id: 'dzikir_petang', label: 'Dzikir Petang' },
   { id: 'sedekah', label: 'Sedekah' },
 ];
 
-const RAMADAN_ITEMS = [
+const RAMADAN_WAJIB = [
   { id: 'puasa', label: 'Puasa Ramadhan' },
+];
+
+const RAMADAN_OPTIONAL = [
   { id: 'tarawih', label: 'Sholat Tarawih' },
+  { id: 'khataman', label: 'Khataman (Baca Al-Quran per Juz)' },
   { id: 'itikaf', label: "I'tikaf" },
-  { id: 'khatam', label: 'Khatam Al-Quran' },
 ];
 
 interface CustomItem {
@@ -47,8 +52,10 @@ const DAY_SHORT = ['Aha', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
 
 export default function TrackerPage() {
   const today = new Date();
+  const isFriday = today.getDay() === 5;
   const todayStr = dateStr(today);
   const [checks, setChecks] = useLocalStorage<Record<string, boolean>>(`tracker_${todayStr}`, {});
+  const [enabledOptional, setEnabledOptional] = useLocalStorage<string[]>('amalize_enabled_optional', []);
   const [customItems, setCustomItems] = useLocalStorage<CustomItem[]>('deenflow_custom_ibadah', []);
   const [showSettings, setShowSettings] = useState(false);
   const [newLabel, setNewLabel] = useState('');
@@ -56,15 +63,48 @@ export default function TrackerPage() {
   const { hijri } = usePrayerTimes(loc?.latitude, loc?.longitude);
   const isRamadan = hijri?.month.number === 9;
 
+  // Build wajib items with Friday logic
+  const wajibItems = useMemo(() => {
+    return WAJIB_ITEMS.map(item => {
+      if (item.id === 'dzuhur' && isFriday) {
+        return { ...item, label: 'Sholat Dzuhur/Jum\'at' };
+      }
+      return item;
+    });
+  }, [isFriday]);
+
+  // All available optional items (including ramadan if active)
+  const allOptionalAvailable = useMemo(() => {
+    const items = [...AVAILABLE_OPTIONAL];
+    if (isRamadan) items.push(...RAMADAN_OPTIONAL);
+    return items;
+  }, [isRamadan]);
+
+  // Items currently in tracker
   const allItems = useMemo(() => {
-    const items = [...BASE_ITEMS, ...OPTIONAL_ITEMS];
-    if (isRamadan) items.push(...RAMADAN_ITEMS);
-    return [...items, ...customItems];
-  }, [isRamadan, customItems]);
+    const items = [...wajibItems];
+    if (isRamadan) items.push(...RAMADAN_WAJIB);
+    // Add enabled optional items
+    const optionalInTracker = allOptionalAvailable.filter(item => enabledOptional.includes(item.id));
+    items.push(...optionalInTracker);
+    items.push(...customItems);
+    return items;
+  }, [wajibItems, isRamadan, enabledOptional, allOptionalAvailable, customItems]);
 
   const toggle = (id: string) => setChecks({ ...checks, [id]: !checks[id] });
   const completed = allItems.filter((item) => checks[item.id]).length;
   const progress = allItems.length > 0 ? Math.round((completed / allItems.length) * 100) : 0;
+
+  const toggleOptional = (id: string) => {
+    if (enabledOptional.includes(id)) {
+      setEnabledOptional(enabledOptional.filter(i => i !== id));
+      const newChecks = { ...checks };
+      delete newChecks[id];
+      setChecks(newChecks);
+    } else {
+      setEnabledOptional([...enabledOptional, id]);
+    }
+  };
 
   const addCustomItem = () => {
     const label = newLabel.trim();
@@ -119,7 +159,6 @@ export default function TrackerPage() {
     <div className="animate-fade-in space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold text-foreground">Tracker Ibadah</h2>
-        {/* 3-dot settings */}
         <div className="relative">
           <button
             onClick={() => setShowSettings(!showSettings)}
@@ -132,39 +171,60 @@ export default function TrackerPage() {
           {showSettings && (
             <>
               <div className="fixed inset-0 z-40" onClick={() => setShowSettings(false)} />
-              <div className="absolute right-0 top-10 z-50 w-72 rounded-xl bg-card p-4 shadow-lg border border-border space-y-3 max-h-[70vh] overflow-y-auto">
+              <div className="absolute right-0 top-10 z-50 w-80 rounded-xl bg-card p-4 shadow-lg border border-border space-y-3 max-h-[70vh] overflow-y-auto">
                 <p className="text-xs font-semibold text-foreground">Kelola Checklist</p>
-                {/* Add custom */}
-                <div className="flex gap-2">
-                  <input
-                    value={newLabel}
-                    onChange={(e) => setNewLabel(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && addCustomItem()}
-                    placeholder="Tambah ibadah baru..."
-                    className="flex-1 rounded-lg border border-border bg-background px-3 py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-accent"
-                  />
-                  <button
-                    onClick={addCustomItem}
-                    disabled={!newLabel.trim()}
-                    className="rounded-lg bg-accent px-3 py-1.5 text-xs font-semibold text-accent-foreground hover:bg-accent/80 disabled:opacity-40"
-                  >+</button>
-                </div>
-                {/* Custom items with delete */}
-                {customItems.length > 0 && (
-                  <div className="space-y-1 border-t border-border pt-2">
-                    <p className="text-[10px] text-muted-foreground">Ibadah Kustom</p>
-                    {customItems.map(item => (
-                      <div key={item.id} className="flex items-center justify-between py-1">
+
+                {/* Available optional items */}
+                <div className="space-y-1">
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Ibadah Tambahan</p>
+                  {allOptionalAvailable.map(item => {
+                    const isEnabled = enabledOptional.includes(item.id);
+                    return (
+                      <div key={item.id} className="flex items-center justify-between py-1.5 px-1">
                         <span className="text-sm text-foreground">{item.label}</span>
-                        <button onClick={() => removeCustomItem(item.id)} className="rounded p-1 text-muted-foreground hover:text-destructive">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                          </svg>
+                        <button
+                          onClick={() => toggleOptional(item.id)}
+                          className={`rounded-lg px-2.5 py-1 text-xs font-medium transition-colors ${
+                            isEnabled
+                              ? 'bg-destructive/10 text-destructive hover:bg-destructive/20'
+                              : 'bg-accent/10 text-accent hover:bg-accent/20'
+                          }`}
+                        >
+                          {isEnabled ? 'Hapus' : 'Tambah'}
                         </button>
                       </div>
-                    ))}
+                    );
+                  })}
+                </div>
+
+                {/* Custom items */}
+                <div className="space-y-2 border-t border-border pt-3">
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Ibadah Kustom</p>
+                  <div className="flex gap-2">
+                    <input
+                      value={newLabel}
+                      onChange={(e) => setNewLabel(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && addCustomItem()}
+                      placeholder="Tambah ibadah baru..."
+                      className="flex-1 rounded-lg border border-border bg-background px-3 py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-accent"
+                    />
+                    <button
+                      onClick={addCustomItem}
+                      disabled={!newLabel.trim()}
+                      className="rounded-lg bg-accent px-3 py-1.5 text-xs font-semibold text-accent-foreground hover:bg-accent/80 disabled:opacity-40"
+                    >+</button>
                   </div>
-                )}
+                  {customItems.map(item => (
+                    <div key={item.id} className="flex items-center justify-between py-1 px-1">
+                      <span className="text-sm text-foreground">{item.label}</span>
+                      <button onClick={() => removeCustomItem(item.id)} className="rounded p-1 text-muted-foreground hover:text-destructive">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        </svg>
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
             </>
           )}
