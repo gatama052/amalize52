@@ -337,9 +337,9 @@ export const doaList: Doa[] = [
     id: 'aktivitas-3',
     category: 'Doa Harian',
     title: "Doa Bercermin",
-    arabic: "\u0627\u0644\u0644\u0651\u064E\u0647\u064F\u0645\u0651\u064E \u0623\u064E\u0646\u0652\u062A\u064E \u062D\u064E\u0633\u0651\u064E\u0646\u0652\u062A\u064E \u062E\u064E\u0644\u0652\u0642\u0650\u064A \u0641\u064E\u062D\u064E\u0633\u0651\u0650\u0646\u0652 \u062E\u064F\u0644\u064F\u0642\u0650\u064A",
-    latin: "Allahumma anta hassanta khalqii fahassin khuluqii",
-    translation: "Ya Allah, Engkau telah membaguskan penciptaanku, maka baguskanlah pula akhlakku.",
+    arabic: "اَللّٰهُمَّ كَمَا حَسَّنْتَ خَلْقِيْ فَحَسِّنْ خُلُقِيْ",
+    latin: "Allahumma kamaa hassanta khalqii fahassin khuluqii",
+    translation: "Ya Allah, Sebagaimana Engkau telah membaguskan penciptaanku, maka baguskanlah pula akhlakku.",
     keywords: ["cermin", "bercermin", "kaca", "melihat cermin", "doa cermin"]
   },
   {
