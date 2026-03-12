@@ -34,8 +34,8 @@ export default function Layout({ children }: { children: ReactNode }) {
 
   // Splash screen: 2 seconds then fade out
   useEffect(() => {
-    const fadeTimer = setTimeout(() => setSplashFade(true), 1600);
-    const hideTimer = setTimeout(() => setShowSplash(false), 2000);
+    const fadeTimer = setTimeout(() => setSplashFade(true), 2100);
+    const hideTimer = setTimeout(() => setShowSplash(false), 2500);
     return () => { clearTimeout(fadeTimer); clearTimeout(hideTimer); };
   }, []);
 
