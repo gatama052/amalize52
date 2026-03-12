@@ -17,11 +17,11 @@ interface Particle {
 const COLORS = [
   'hsl(43 70% 50%)',   // gold
   'hsl(43 60% 65%)',   // light gold
-  'hsl(40 30% 90%)',   // cream
-  'hsl(0 0% 95%)',     // white
-  'hsl(210 60% 75%)',  // light blue
   'hsl(43 80% 55%)',   // bright gold
-  'hsl(215 40% 70%)',  // soft navy
+  'hsl(140 45% 55%)',  // green
+  'hsl(140 35% 65%)',  // light green
+  'hsl(0 0% 95%)',     // white
+  'hsl(40 30% 90%)',   // cream
 ];
 
 export default function Confetti({ duration = 2500 }: { duration?: number }) {
