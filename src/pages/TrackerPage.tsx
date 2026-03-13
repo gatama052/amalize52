@@ -173,6 +173,7 @@ export default function TrackerPage() {
 
   return (
     <div className="animate-fade-in space-y-4">
+      <SEOHead title="Tracker Ibadah Harian — Amalize | Pantau Progress Ibadahmu" description="Pantau dan catat ibadah harianmu: sholat 5 waktu, dzikir, tilawah, dan ibadah sunnah lainnya. Tracker ibadah muslim gratis dari Amalize." path="/tracker" />
       {showCelebration && (
         <TrackerCelebration onClose={() => setShowCelebration(false)} />
       )}

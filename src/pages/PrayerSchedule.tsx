@@ -66,6 +66,7 @@ export default function PrayerSchedule() {
 
   return (
     <div className="animate-fade-in space-y-4">
+      <SEOHead title={seoTitle} description={seoDesc} path="/jadwal" />
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold text-foreground">Jadwal Sholat</h2>
         <div className="flex items-center gap-2">
