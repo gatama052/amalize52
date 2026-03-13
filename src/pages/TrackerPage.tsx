@@ -1,3 +1,4 @@
+import SEOHead from '@/components/SEOHead';
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { usePrayerTimes } from '@/hooks/usePrayerTimes';

@@ -1,3 +1,4 @@
+import SEOHead from '@/components/SEOHead';
 import { useState, useCallback, useRef, useMemo } from 'react';
 import Fuse from 'fuse.js';
 import { doaList, alMatsuratList, doaSholatGroups, DOA_CATEGORIES, type Doa, type DoaSholatGroup, type AlMatsuratItem } from '@/data/doa';

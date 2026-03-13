@@ -1,3 +1,4 @@
+import SEOHead from '@/components/SEOHead';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocation as useUserLocation } from '@/hooks/useLocation';
