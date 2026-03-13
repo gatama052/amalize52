@@ -259,6 +259,7 @@ export default function DoaPage() {
 
   return (
     <div className="animate-fade-in space-y-4">
+      <SEOHead title="Doa & Dzikir Harian — Amalize | Kumpulan Doa Muslim Lengkap" description="Kumpulan doa harian, dzikir pagi petang, doa sholat, dan Al-Ma'tsurat lengkap dengan teks Arab, latin, dan terjemahan. Gratis dari Amalize." path="/doa" />
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold text-foreground">Dzikir & Do'a</h2>
         <div className="flex items-center gap-1">
