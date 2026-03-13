@@ -26,6 +26,8 @@ function addMinutes(timeStr: string, mins: number): string {
 }
 
 export default function PrayerSchedule() {
+  const seoTitle = "Jadwal Sholat Hari Ini — Amalize | Waktu Sholat Akurat";
+  const seoDesc = "Cek jadwal sholat hari ini berdasarkan lokasimu. Waktu Subuh, Dzuhur, Ashar, Maghrib, Isya akurat dengan koreksi manual. Amalize — aplikasi ibadah muslim.";
   const today = new Date();
   const navigate = useNavigate();
   const { location: loc } = useUserLocation();
