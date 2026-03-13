@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import Layout from "./components/Layout";
 import Index from "./pages/Index";
 import CalendarPage from "./pages/CalendarPage";
@@ -14,6 +15,7 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => (
+  <HelmetProvider>
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <Layout>
@@ -31,6 +33,7 @@ const App = () => (
       </Layout>
     </BrowserRouter>
   </QueryClientProvider>
+  </HelmetProvider>
 );
 
 export default App;

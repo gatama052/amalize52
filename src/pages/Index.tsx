@@ -1,3 +1,4 @@
+import SEOHead from '@/components/SEOHead';
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from '@/hooks/useLocation';
@@ -178,7 +179,7 @@ export default function Home() {
 
   return (
     <div className="space-y-4 animate-fade-in">
-      {/* Date & Location */}
+      <SEOHead />
       <div className="rounded-xl bg-card p-4 shadow-sm">
         <p className="text-sm text-muted-foreground">
           {today.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).replace('Minggu', 'Ahad')}
