@@ -29,6 +29,7 @@ const App = () => (
           <Route path="/doa" element={<DoaPage />} />
           <Route path="/tracker" element={<TrackerPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
