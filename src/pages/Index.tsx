@@ -262,6 +262,14 @@ export default function Home() {
         </div>
       </div>
 
+      {/* SEO Section - Tentang Amalize */}
+      <div className="rounded-xl bg-card p-4 shadow-sm">
+        <h2 className="mb-2 text-sm font-semibold text-foreground">Tentang Amalize</h2>
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          Amalize adalah aplikasi web muslim yang membantu memantau ibadah harian seperti sholat 5 waktu, membaca doa harian, dzikir, melihat arah kiblat, jadwal sholat, kalender hijriyah, serta reminder kegiatan agar aktivitas dan ibadah lebih teratur.
+        </p>
+      </div>
+
       {/* Upcoming Events */}
       {upcomingEvents.length > 0 && (
         <div className="rounded-xl bg-card p-4 shadow-sm">
