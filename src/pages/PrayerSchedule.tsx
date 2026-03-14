@@ -1,4 +1,3 @@
-import SEOHead from '@/components/SEOHead';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocation as useUserLocation } from '@/hooks/useLocation';
@@ -26,8 +25,6 @@ function addMinutes(timeStr: string, mins: number): string {
 }
 
 export default function PrayerSchedule() {
-  const seoTitle = "Jadwal Sholat Hari Ini — Amalize | Waktu Sholat Akurat";
-  const seoDesc = "Halaman jadwal sholat menampilkan waktu sholat harian berdasarkan lokasi pengguna agar tidak melewatkan waktu sholat.";
   const today = new Date();
   const navigate = useNavigate();
   const { location: loc } = useUserLocation();
@@ -66,7 +63,6 @@ export default function PrayerSchedule() {
 
   return (
     <div className="animate-fade-in space-y-4">
-      <SEOHead title={seoTitle} description={seoDesc} path="/jadwal" />
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold text-foreground">Jadwal Sholat</h2>
         <div className="flex items-center gap-2">

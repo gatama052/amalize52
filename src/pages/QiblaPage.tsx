@@ -1,4 +1,3 @@
-import SEOHead from '@/components/SEOHead';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocation as useUserLocation } from '@/hooks/useLocation';
@@ -179,7 +178,6 @@ export default function QiblaPage() {
 
   return (
     <div className="animate-fade-in space-y-4">
-      <SEOHead title="Arah Kiblat — Amalize | Kompas Kiblat Akurat" description="Fitur arah kiblat membantu pengguna menentukan arah kiblat dengan akurat menggunakan kompas digital." path="/qibla" />
       {/* Header */}
       <div className="flex items-center gap-3">
         <button onClick={() => navigate('/jadwal')} className="rounded-lg p-2 text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors">

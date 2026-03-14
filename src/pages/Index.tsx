@@ -1,4 +1,3 @@
-import SEOHead from '@/components/SEOHead';
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from '@/hooks/useLocation';
@@ -179,11 +178,7 @@ export default function Home() {
 
   return (
     <div className="space-y-4 animate-fade-in">
-      <SEOHead
-        title="Amalize – Aplikasi Ibadah Harian, Tracker Sholat, Doa, Kiblat & Jadwal Sholat"
-        description="Amalize adalah aplikasi web muslim untuk membantu memantau ibadah harian seperti sholat 5 waktu, dzikir, doa harian, arah kiblat, jadwal sholat, kalender hijriyah, dan reminder kegiatan agar ibadah lebih teratur."
-        path="/"
-      />
+      {/* Date & Location */}
       <div className="rounded-xl bg-card p-4 shadow-sm">
         <p className="text-sm text-muted-foreground">
           {today.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).replace('Minggu', 'Ahad')}

@@ -1,4 +1,3 @@
-import SEOHead from '@/components/SEOHead';
 import { useState, useCallback, useRef, useMemo } from 'react';
 import Fuse from 'fuse.js';
 import { doaList, alMatsuratList, doaSholatGroups, DOA_CATEGORIES, type Doa, type DoaSholatGroup, type AlMatsuratItem } from '@/data/doa';
@@ -259,7 +258,6 @@ export default function DoaPage() {
 
   return (
     <div className="animate-fade-in space-y-4">
-      <SEOHead title="Doa & Dzikir Harian — Amalize | Kumpulan Doa Muslim Lengkap" description="Halaman doa harian berisi kumpulan doa dan dzikir yang dapat dibaca setiap hari." path="/doa" />
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold text-foreground">Dzikir & Do'a</h2>
         <div className="flex items-center gap-1">

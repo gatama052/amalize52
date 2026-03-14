@@ -1,4 +1,3 @@
-import SEOHead from '@/components/SEOHead';
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { usePrayerTimes } from '@/hooks/usePrayerTimes';
@@ -173,7 +172,6 @@ export default function TrackerPage() {
 
   return (
     <div className="animate-fade-in space-y-4">
-      <SEOHead title="Tracker Ibadah Harian — Amalize | Pantau Progress Ibadahmu" description="Tracker Ibadah pada Amalize membantu pengguna memantau ibadah harian seperti sholat 5 waktu dan ibadah lainnya agar lebih konsisten." path="/tracker" />
       {showCelebration && (
         <TrackerCelebration onClose={() => setShowCelebration(false)} />
       )}
