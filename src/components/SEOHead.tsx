@@ -11,8 +11,8 @@ const BASE_URL = 'https://amalize.vercel.app';
 const OG_IMAGE = 'https://storage.googleapis.com/gpt-engineer-file-uploads/lBkixGQUa9TSLEJbdkFLQvnx4f63/social-images/social-1772617050045-1000170236.webp';
 
 export default function SEOHead({
-  title = 'Amalize — Aplikasi Ibadah Muslim Harian | Jadwal Sholat, Doa, Tracker',
-  description = 'Amalize adalah aplikasi ibadah muslim harian lengkap: jadwal sholat akurat, arah kiblat, doa & dzikir harian, kalender Hijriah, dan tracker ibadah. Gratis & mudah digunakan.',
+  title = 'Amalize – Aplikasi Ibadah Harian, Tracker Sholat, Doa, Kiblat & Jadwal Sholat',
+  description = 'Amalize adalah aplikasi web muslim untuk membantu memantau ibadah harian seperti sholat 5 waktu, dzikir, doa harian, arah kiblat, jadwal sholat, kalender hijriyah, dan reminder kegiatan agar ibadah lebih teratur.',
   path = '/',
   type = 'website',
 }: SEOHeadProps) {
@@ -22,10 +22,10 @@ export default function SEOHead({
     <Helmet>
       <title>{title}</title>
       <meta name="description" content={description} />
+      <meta name="robots" content="index, follow" />
       <link rel="canonical" href={url} />
 
-      {/* Keywords */}
-      <meta name="keywords" content="aplikasi ibadah muslim, tracker ibadah harian, jadwal sholat, reminder sholat, doa harian, arah kiblat, kalender hijriah, dzikir harian, amalize, islamic app" />
+      <meta name="keywords" content="aplikasi ibadah muslim, tracker ibadah harian, aplikasi sholat, pengingat sholat, doa harian islam, arah kiblat online, jadwal sholat online, kalender hijriyah, dzikir harian, amalize" />
 
       <meta property="og:type" content={type} />
       <meta property="og:url" content={url} />

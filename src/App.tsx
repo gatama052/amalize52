@@ -11,6 +11,7 @@ import DoaPage from "./pages/DoaPage";
 import TrackerPage from "./pages/TrackerPage";
 import SettingsPage from "./pages/SettingsPage";
 import NotFound from "./pages/NotFound";
+import AboutPage from "./pages/AboutPage";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/doa" element={<DoaPage />} />
           <Route path="/tracker" element={<TrackerPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>

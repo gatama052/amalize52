@@ -179,7 +179,11 @@ export default function Home() {
 
   return (
     <div className="space-y-4 animate-fade-in">
-      <SEOHead />
+      <SEOHead
+        title="Amalize – Aplikasi Ibadah Harian, Tracker Sholat, Doa, Kiblat & Jadwal Sholat"
+        description="Amalize adalah aplikasi web muslim untuk membantu memantau ibadah harian seperti sholat 5 waktu, dzikir, doa harian, arah kiblat, jadwal sholat, kalender hijriyah, dan reminder kegiatan agar ibadah lebih teratur."
+        path="/"
+      />
       <div className="rounded-xl bg-card p-4 shadow-sm">
         <p className="text-sm text-muted-foreground">
           {today.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).replace('Minggu', 'Ahad')}
@@ -260,6 +264,14 @@ export default function Home() {
           <span className="text-2xl leading-none mt-0.5">{motivation.icon}</span>
           <p className="text-sm text-muted-foreground italic leading-relaxed">"{motivation.text}"</p>
         </div>
+      </div>
+
+      {/* SEO Section - Tentang Amalize */}
+      <div className="rounded-xl bg-card p-4 shadow-sm">
+        <h2 className="mb-2 text-sm font-semibold text-foreground">Tentang Amalize</h2>
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          Amalize adalah aplikasi web muslim yang membantu memantau ibadah harian seperti sholat 5 waktu, membaca doa harian, dzikir, melihat arah kiblat, jadwal sholat, kalender hijriyah, serta reminder kegiatan agar aktivitas dan ibadah lebih teratur.
+        </p>
       </div>
 
       {/* Upcoming Events */}
