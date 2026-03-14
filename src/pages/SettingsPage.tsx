@@ -61,6 +61,7 @@ https://amalize.vercel.app
 
   return (
     <div className="animate-fade-in space-y-4">
+      <SEOHead title="Pengaturan — Amalize" description="Pengaturan aplikasi untuk menyesuaikan preferensi pengguna seperti lokasi, pengingat, dan preferensi lainnya." path="/settings" />
       <h2 className="text-lg font-bold text-foreground">Pengaturan</h2>
 
       {/* Notifications */}
