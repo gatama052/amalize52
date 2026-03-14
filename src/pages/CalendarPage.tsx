@@ -54,7 +54,7 @@ export default function CalendarPage() {
 
   return (
     <div className="animate-fade-in">
-      <SEOHead title="Kalender Hijriah & Masehi — Amalize | Tanggal Islam Hari Ini" description="Kalender Hijriah dan Masehi lengkap dengan hari besar Islam dan hari libur nasional. Amalize — aplikasi ibadah muslim harian." path="/calendar" />
+      <SEOHead title="Kalender Hijriah & Masehi — Amalize | Tanggal Islam Hari Ini" description="Kalender hijriyah dan masehi untuk melihat tanggal penting serta hari besar Islam." path="/calendar" />
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
         <button onClick={prev} className="rounded-lg p-2 text-muted-foreground hover:bg-secondary hover:text-foreground">

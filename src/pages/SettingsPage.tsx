@@ -1,3 +1,4 @@
+import SEOHead from '@/components/SEOHead';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useLocation as useUserLocation } from '@/hooks/useLocation';
 import { useAzanNotification } from '@/hooks/useAzanNotification';
