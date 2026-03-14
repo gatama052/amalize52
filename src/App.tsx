@@ -11,6 +11,7 @@ import DoaPage from "./pages/DoaPage";
 import TrackerPage from "./pages/TrackerPage";
 import SettingsPage from "./pages/SettingsPage";
 import NotFound from "./pages/NotFound";
+import AboutPage from "./pages/AboutPage";
 
 const queryClient = new QueryClient();
 
