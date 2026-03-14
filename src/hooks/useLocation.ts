@@ -28,10 +28,19 @@ export function useLocation() {
         let city = 'Lokasi Terdeteksi';
         try {
           const res = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=id`
+            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=id&zoom=18&addressdetails=1`
           );
           const data = await res.json();
-          city = data.address?.city || data.address?.town || data.address?.village || data.address?.county || city;
+          const a = data.address || {};
+          // Prioritaskan tingkat terkecil: hamlet/suburb/village
+          const detail = a.hamlet || a.suburb || a.neighbourhood || a.village || '';
+          const area = a.village || a.town || a.city || a.county || '';
+          // Gabungkan detail + area jika berbeda
+          if (detail && area && detail !== area) {
+            city = `${detail}, ${area}`;
+          } else {
+            city = detail || area || city;
+          }
         } catch {}
         const loc = { latitude, longitude, city };
         setLocation(loc);
