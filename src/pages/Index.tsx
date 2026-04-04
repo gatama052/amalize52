@@ -204,22 +204,11 @@ export default function Home() {
       </div>
 
       {/* Kolom Emas - Golden Motivation */}
-      <div className={`rounded-xl p-4 shadow-sm ${
-        goldenMotivation.type === 'islamic' || goldenMotivation.type === 'ramadan'
-          ? 'gold-gradient text-accent-foreground'
-          : goldenMotivation.type === 'national'
-          ? 'bg-card border border-accent/30'
-          : 'bg-card'
-      }`}>
-        {goldenMotivation.title && (
-          <p className="text-sm font-bold flex items-center gap-2 mb-1">
-            {goldenMotivation.motivation.icon} {goldenMotivation.title}
-          </p>
-        )}
-        <p className={`text-xs leading-relaxed ${
-          !goldenMotivation.title ? 'flex items-start gap-2' : ''
-        }`}>
-          {!goldenMotivation.title && <span className="text-lg leading-none">{goldenMotivation.motivation.icon}</span>}
+      <div className="rounded-xl p-4 shadow-sm gold-gradient text-accent-foreground">
+        <p className="text-sm font-bold flex items-center gap-2 mb-1">
+          {goldenMotivation.motivation.icon} {goldenMotivation.title || 'Motivasi Harian'}
+        </p>
+        <p className="text-xs leading-relaxed">
           {goldenMotivation.motivation.text}
         </p>
       </div>
