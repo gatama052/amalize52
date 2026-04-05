@@ -206,7 +206,7 @@ export default function Home() {
       {/* Kolom Emas - Golden Motivation */}
       <div className="rounded-xl p-4 shadow-sm gold-gradient text-accent-foreground">
         <p className="text-sm font-bold flex items-center gap-2 mb-1">
-          {goldenMotivation.motivation.icon} {goldenMotivation.title || 'Motivasi Harian'}
+          {goldenMotivation.motivation.icon} {goldenMotivation.title || 'Kata-Kata Hari Ini'}
         </p>
         <p className="text-xs leading-relaxed">
           {goldenMotivation.motivation.text}
