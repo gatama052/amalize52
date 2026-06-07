@@ -62,8 +62,10 @@ export default function EventReminderOverlay({ state, isPlaying, onStop, onSnooz
         )}
 
         {/* Diamond audio visualizer */}
-        <div className="mb-8 flex items-center justify-center">
-          <AudioVisualizer active={isPlaying} size={200} />
+        <div className="mb-8 flex items-center justify-center min-h-[200px]">
+          <SafeBoundary>
+            <AudioVisualizer active={isPlaying} size={200} />
+          </SafeBoundary>
         </div>
 
         {/* Buttons */}
