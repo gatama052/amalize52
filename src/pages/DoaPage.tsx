@@ -577,12 +577,11 @@ function DoaGroupCard({ group, isFav, onToggleFav, arabicSize, showLatin, showTr
   );
 }
 
-function DoaCard({ doa, isFav, onToggleFav, arabicSize, showLatin, showTranslation }: { doa: Doa; isFav: boolean; onToggleFav: () => void } & DisplayProps) {
-  const [expanded, setExpanded] = useState(false);
+function DoaCard({ doa, isFav, onToggleFav, arabicSize, showLatin, showTranslation, expanded, onToggleExpand }: { doa: Doa; isFav: boolean; onToggleFav: () => void; expanded: boolean; onToggleExpand: () => void } & DisplayProps) {
   return (
     <div className="rounded-xl bg-card p-4 shadow-sm">
       <div className="flex items-start justify-between gap-2">
-        <button onClick={() => setExpanded(!expanded)} className="flex-1 text-left">
+        <button onClick={onToggleExpand} className="flex-1 text-left">
           <p className="text-sm font-semibold text-foreground">{doa.title}</p>
           <p className="mt-0.5 text-xs text-muted-foreground">{doa.category}</p>
         </button>
@@ -592,13 +591,13 @@ function DoaCard({ doa, isFav, onToggleFav, arabicSize, showLatin, showTranslati
           </svg>
         </button>
       </div>
-      {expanded && (
-        <div className="mt-3 space-y-3 border-t border-border pt-3">
+      <div className={`grid transition-all duration-300 ease-out ${expanded ? 'grid-rows-[1fr] opacity-100 mt-3 pt-3 border-t border-border' : 'grid-rows-[0fr] opacity-0 mt-0 pt-0 border-t-0 border-transparent'} overflow-hidden`}>
+        <div className="min-h-0 space-y-3">
           <p className="text-right font-serif leading-loose text-foreground" style={{ fontSize: arabicSize }} dir="rtl">{doa.arabic}</p>
           {showLatin && <p className="text-sm italic text-muted-foreground">{doa.latin}</p>}
           {showTranslation && renderTranslation(doa.translation)}
         </div>
-      )}
+      </div>
     </div>
   );
 }
