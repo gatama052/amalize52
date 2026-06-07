@@ -40,8 +40,10 @@ export default function AdhanMode({ state, isPlaying, onStop, onSnooze }: AdhanM
         </p>
 
         {/* Diamond audio visualizer */}
-        <div className="mb-8 flex items-center justify-center">
-          <AudioVisualizer active={isPlaying} size={200} />
+        <div className="mb-8 flex items-center justify-center min-h-[200px]">
+          <SafeBoundary>
+            <AudioVisualizer active={isPlaying} size={200} />
+          </SafeBoundary>
         </div>
 
         {/* Button */}
