@@ -1,5 +1,6 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 import type { CalendarEvent } from '@/pages/DailyDetail';
+import { connectMediaElement, getAudioBus } from '@/lib/audioBus';
 
 export interface EventAlarmState {
   active: boolean;
@@ -36,6 +37,8 @@ function playAudioFile(src: string, abortRef: { current: boolean }, volume = 0.7
       const audio = new Audio(src);
       audio.volume = volume;
       audio.preload = 'auto';
+      audio.crossOrigin = 'anonymous';
+      try { getAudioBus(); connectMediaElement(audio); } catch {}
 
       const done = () => {
         clearInterval(abortCheck);

@@ -4,7 +4,7 @@ import { useAzanNotification } from '@/hooks/useAzanNotification';
 import { usePrayerTimes } from '@/hooks/usePrayerTimes';
 import { Switch } from '@/components/ui/switch';
 import { useState } from 'react';
-import inspireLogo from '@/assets/inspire-logo.png';
+
 
 export default function SettingsPage() {
   const [darkMode, setDarkMode] = useLocalStorage('deenflow_dark', true);
@@ -236,9 +236,8 @@ https://amalize.vercel.app
             <p className="mt-1">Kami dapat memperbarui kebijakan privasi ini sewaktu-waktu. Informasi mengenai perubahan akan diumumkan melalui pembaruan di dalam aplikasi.</p>
             <p className="mt-3">Dengan menggunakan Amalize, Anda menyetujui kebijakan privasi ini. Jika Anda mengalami kendala dalam penggunaan aplikasi atau memiliki saran untuk pengembangan Amalize ke depannya, kami dengan senang hati siap membantu serta menerima setiap masukan yang Anda berikan.</p>
             <p className="mt-3">Silakan hubungi kami melalui email:</p>
-            <a href="mailto:inspirelimadua@gmail.com" className="mt-2 inline-flex items-center gap-1.5 text-accent hover:underline">
-              <img src={inspireLogo} alt="" className="w-4 h-4 rounded-full" />
-              inspirelimadua@gmail.com
+            <a href="mailto:inspirewebcraft@gmail.com" className="mt-2 inline-flex items-center gap-1.5 text-accent hover:underline">
+              inspirewebcraft@gmail.com
             </a>
           </div>
         )}
