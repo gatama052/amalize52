@@ -1,6 +1,7 @@
 import type { AdhanModeState } from '@/hooks/useAzanNotification';
 import mosqueLogo from '@/assets/mosque-logo.png';
 import AudioVisualizer from './AudioVisualizer';
+import SafeBoundary from './SafeBoundary';
 
 interface AdhanModeProps {
   state: AdhanModeState;
