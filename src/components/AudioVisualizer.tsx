@@ -30,10 +30,10 @@ export default function AudioVisualizer({ active, size = 180, bars = 21 }: Audio
     ctx2d.scale(dpr, dpr);
 
     let analyser: AnalyserNode | null = null;
-    let data: Uint8Array | null = null;
+    let data: Uint8Array<ArrayBuffer> | null = null;
     try {
       analyser = getAnalyser();
-      data = new Uint8Array(analyser.frequencyBinCount);
+      data = new Uint8Array(new ArrayBuffer(analyser.frequencyBinCount));
     } catch {}
 
     const cssColor = (v: string) =>
