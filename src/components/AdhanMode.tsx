@@ -38,21 +38,10 @@ export default function AdhanMode({ state, isPlaying, onStop, onSnooze }: AdhanM
           {isPlaying ? 'Adzan sedang berkumandang...' : 'Waktu sholat telah tiba'}
         </p>
 
-        {/* Sound wave */}
-        {isPlaying && (
-          <div className="flex items-end gap-1 mb-10 h-8">
-            {[1, 2, 3, 4, 5, 4, 3, 2, 1].map((h, i) => (
-              <div
-                key={i}
-                className="w-1 bg-primary/70 rounded-full"
-                style={{
-                  height: `${h * 6}px`,
-                  animation: `soundWave 0.8s ease-in-out ${i * 0.1}s infinite alternate`,
-                }}
-              />
-            ))}
-          </div>
-        )}
+        {/* Diamond audio visualizer */}
+        <div className="mb-8 flex items-center justify-center">
+          <AudioVisualizer active={isPlaying} size={200} />
+        </div>
 
         {/* Button */}
         <div className="w-full">
