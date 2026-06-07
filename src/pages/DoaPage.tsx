@@ -413,11 +413,13 @@ export default function DoaPage() {
           <>
             {filtered.map((doa) => (
               <DoaCard key={doa.id} doa={doa} isFav={favorites.includes(doa.id)} onToggleFav={() => toggleFav(doa.id)}
-                arabicSize={arabicSize} showLatin={showLatin} showTranslation={showTranslation} />
+                arabicSize={arabicSize} showLatin={showLatin} showTranslation={showTranslation}
+                expanded={expandedId === doa.id} onToggleExpand={() => handleToggleExpand(doa.id)} />
             ))}
             {filteredGroups.map((group) => (
               <DoaGroupCard key={group.id} group={group} isFav={favorites.includes(group.id)} onToggleFav={() => toggleFav(group.id)}
-                arabicSize={arabicSize} showLatin={showLatin} showTranslation={showTranslation} />
+                arabicSize={arabicSize} showLatin={showLatin} showTranslation={showTranslation}
+                expanded={expandedId === group.id} onToggleExpand={() => handleToggleExpand(group.id)} />
             ))}
           </>
         )}
