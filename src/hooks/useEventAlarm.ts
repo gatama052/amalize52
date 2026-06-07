@@ -1,5 +1,6 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 import type { CalendarEvent } from '@/pages/DailyDetail';
+import { connectMediaElement, getAudioBus } from '@/lib/audioBus';
 
 export interface EventAlarmState {
   active: boolean;
