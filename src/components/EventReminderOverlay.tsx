@@ -1,4 +1,5 @@
 import type { EventAlarmState } from '@/hooks/useEventAlarm';
+import AudioVisualizer from './AudioVisualizer';
 
 interface EventReminderOverlayProps {
   state: EventAlarmState;
