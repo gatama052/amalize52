@@ -82,7 +82,12 @@ export default function DoaPage() {
   const [focusDzikirTime, setFocusDzikirTime] = useState<'pagi' | 'petang'>('pagi');
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const handleToggleExpand = (id: string) => {
+    setExpandedId((prev) => (prev === id ? null : id));
+  };
 
   const toggleFav = (id: string) => {
     setFavorites(favorites.includes(id) ? favorites.filter((f) => f !== id) : [...favorites, id]);
