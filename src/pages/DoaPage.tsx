@@ -495,12 +495,11 @@ function renderTranslationInner(text: string) {
   );
 }
 
-function AlMatsuratCard({ isFav, onToggleFav, arabicSize, showLatin, showTranslation }: { isFav: boolean; onToggleFav: () => void } & DisplayProps) {
-  const [expanded, setExpanded] = useState(false);
+function AlMatsuratCard({ isFav, onToggleFav, arabicSize, showLatin, showTranslation, expanded, onToggleExpand }: { isFav: boolean; onToggleFav: () => void; expanded: boolean; onToggleExpand: () => void } & DisplayProps) {
   return (
     <div className="rounded-xl bg-card p-4 shadow-sm">
       <div className="flex items-start justify-between gap-2">
-        <button onClick={() => setExpanded(!expanded)} className="flex-1 text-left">
+        <button onClick={onToggleExpand} className="flex-1 text-left">
           <p className="text-sm font-semibold text-foreground"> Dzikir Pagi & Petang</p>
           <p className="mt-0.5 text-xs text-muted-foreground">{alMatsuratList.length} bacaan</p>
         </button>
@@ -510,13 +509,13 @@ function AlMatsuratCard({ isFav, onToggleFav, arabicSize, showLatin, showTransla
           </svg>
         </button>
       </div>
-      {expanded && (
-        <div className="mt-3 space-y-4 border-t border-border pt-3">
+      <div className={`grid transition-all duration-300 ease-out ${expanded ? 'grid-rows-[1fr] opacity-100 mt-3 pt-3 border-t border-border' : 'grid-rows-[0fr] opacity-0 mt-0 pt-0 border-t-0 border-transparent'} overflow-hidden`}>
+        <div className="min-h-0 space-y-4">
           {alMatsuratList.map((item, idx) => (
             <AlMatsuratItemView key={item.id} item={item} idx={idx} arabicSize={arabicSize} showLatin={showLatin} showTranslation={showTranslation} />
           ))}
         </div>
-      )}
+      </div>
     </div>
   );
 }
