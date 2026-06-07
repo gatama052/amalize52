@@ -428,7 +428,8 @@ export default function DoaPage() {
       {/* Al-Matsurat */}
       {(showAlMatsurat || showAlMatsuratBySearch) && (
         <AlMatsuratCard isFav={favorites.includes('al-matsurat')} onToggleFav={() => toggleFav('al-matsurat')}
-          arabicSize={arabicSize} showLatin={showLatin} showTranslation={showTranslation} />
+          arabicSize={arabicSize} showLatin={showLatin} showTranslation={showTranslation}
+          expanded={expandedId === 'al-matsurat'} onToggleExpand={() => handleToggleExpand('al-matsurat')} />
       )}
     </div>
   );
