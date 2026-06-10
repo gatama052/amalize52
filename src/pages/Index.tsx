@@ -6,6 +6,7 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { HIJRI_MONTHS } from '@/data/important-dates';
 import { getGoldenMotivation } from '@/data/golden-motivations';
 import { getMotivation } from '@/data/motivations';
+import mosqueLogo from '@/assets/mosque-logo.png';
 
 import type { CalendarEvent } from '@/pages/DailyDetail';
 
