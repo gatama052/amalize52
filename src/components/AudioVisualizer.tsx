@@ -113,18 +113,23 @@ export default function AudioVisualizer({ active, size = 180, bars = 5 }: AudioV
 
         ctx2d.clearRect(0, 0, W, H);
 
-        const gap = W / (bars * 2 + 1);
-        const barW = gap * 1.6;
+        // Diamond silhouette: tallest in center, stepped shorter towards edges
+        const barW = Math.max(4, size * 0.04);
+        const gap = barW * 1.6;
+        const totalW = bars * barW + (bars - 1) * gap;
+        const startX = (W - totalW) / 2;
         const cy = H / 2;
-        const maxH = H * 0.92;
-        const minH = H * 0.18;
+        const maxH = H * 0.95;
+        const minH = H * 0.22;
         const mid = (bars - 1) / 2;
 
         for (let i = 0; i < bars; i++) {
-          const env = 0.55 + 0.45 * (1 - Math.abs(i - mid) / (mid || 1));
+          // Diamond envelope: 1.0 center → ~0.55 next → ~0.3 outermost
+          const dist = Math.abs(i - mid) / (mid || 1);
+          const env = 1 - dist * 0.72;
           const lvl = Math.min(1, s[i]);
-          const h = Math.max(minH, maxH * env * (0.35 + 0.75 * lvl));
-          const x = gap + i * (barW + gap) + (gap * 0.5) - barW / 2;
+          const h = Math.max(minH, maxH * env * (0.55 + 0.55 * lvl));
+          const x = startX + i * (barW + gap);
           const y = cy - h / 2;
 
           const grad = ctx2d.createLinearGradient(0, y, 0, y + h);
