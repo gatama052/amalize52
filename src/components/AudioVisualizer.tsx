@@ -8,14 +8,16 @@ interface AudioVisualizerProps {
 }
 
 /**
- * Diamond (belah ketupat) shaped audio visualizer.
- * Defensive: never throws — falls back to an animated diamond if the
+ * Vertical-bar audio visualizer (like the reference screenshot):
+ * a few rounded gold bars that animate up/down with the audio rhythm.
+ * Defensive: never throws — falls back to a synthetic animation if the
  * AudioContext / analyser is unavailable.
  */
-export default function AudioVisualizer({ active, size = 180, bars = 21 }: AudioVisualizerProps) {
+export default function AudioVisualizer({ active, size = 180, bars = 5 }: AudioVisualizerProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const rafRef = useRef<number | null>(null);
-  const fallbackRef = useRef(0);
+  const tRef = useRef(0);
+  const smoothRef = useRef<number[]>(new Array(bars).fill(0));
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
@@ -27,10 +29,13 @@ export default function AudioVisualizer({ active, size = 180, bars = 21 }: Audio
     let analyser: AnalyserNode | null = null;
     let data: Uint8Array | null = null;
 
+    const W = size;
+    const H = Math.round(size * 0.6);
+
     try {
       const dpr = window.devicePixelRatio || 1;
-      canvas.width = Math.max(1, Math.floor(size * dpr));
-      canvas.height = Math.max(1, Math.floor(size * dpr));
+      canvas.width = Math.max(1, Math.floor(W * dpr));
+      canvas.height = Math.max(1, Math.floor(H * dpr));
       ctx2d = canvas.getContext('2d');
       if (!ctx2d) return;
       ctx2d.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -55,88 +60,88 @@ export default function AudioVisualizer({ active, size = 180, bars = 21 }: Audio
       }
     };
 
+    // Gold palette
+    const gold = '45 95% 58%';
+    const goldDeep = '40 85% 45%';
+    const goldGlow = cssColor('--accent', gold);
+
+    smoothRef.current = new Array(bars).fill(0);
+
     const draw = () => {
       try {
         if (!ctx2d) return;
         const levels: number[] = new Array(bars).fill(0);
+        let hasAudio = false;
 
         if (analyser && data) {
           try {
-            // @ts-ignore - lib.dom typing varies between TS versions
+            // @ts-ignore
             analyser.getByteFrequencyData(data);
-            const step = Math.max(1, Math.floor(data.length / bars));
+            // sample a few frequency bands focused on low/mid (voice + adzan)
+            const usableLen = Math.min(data.length, 48);
+            const step = Math.max(1, Math.floor(usableLen / bars));
+            let total = 0;
             for (let i = 0; i < bars; i++) {
               let sum = 0;
               for (let j = 0; j < step; j++) sum += data[i * step + j] || 0;
-              levels[i] = (sum / step) / 255;
+              const v = (sum / step) / 255;
+              levels[i] = v;
+              total += v;
             }
+            hasAudio = total / bars > 0.03;
           } catch {
-            // ignore — fall back below
+            /* ignore */
           }
         }
 
-        const avg = levels.reduce((a, b) => a + b, 0) / bars;
-        if (avg < 0.04) {
-          fallbackRef.current += 0.08;
-          const t = fallbackRef.current;
+        if (!hasAudio) {
+          // Synthetic rhythm fallback so it never looks dead
+          tRef.current += 0.12;
+          const t = tRef.current;
           for (let i = 0; i < bars; i++) {
-            levels[i] = 0.25 + 0.18 * Math.sin(t + i * 0.45);
+            levels[i] = 0.35 + 0.45 * Math.abs(Math.sin(t * 0.9 + i * 0.9));
           }
-        } else {
-          fallbackRef.current = 0;
         }
 
-        const W = size;
-        const H = size;
+        // smooth (attack fast, release slow) so bars feel musical
+        const s = smoothRef.current;
+        for (let i = 0; i < bars; i++) {
+          const target = levels[i];
+          if (target > s[i]) s[i] = s[i] + (target - s[i]) * 0.55;
+          else s[i] = s[i] + (target - s[i]) * 0.18;
+        }
+
         ctx2d.clearRect(0, 0, W, H);
 
-        const primary = cssColor('--primary', '210 90% 60%');
-        const accent = cssColor('--accent', '45 95% 55%');
-
-        // Diamond guideline
-        ctx2d.save();
-        ctx2d.translate(W / 2, H / 2);
-        ctx2d.rotate(Math.PI / 4);
-        ctx2d.strokeStyle = `hsla(${primary}, 0.18)`;
-        ctx2d.lineWidth = 1;
-        const guide = size * 0.62;
-        ctx2d.strokeRect(-guide / 2, -guide / 2, guide, guide);
-        ctx2d.restore();
-
-        const usable = size * 0.86;
-        const barW = (usable / bars) * 0.55;
-        const gap = usable / bars;
-        const maxBarH = size * 0.42;
-        const cx = W / 2;
+        const gap = W / (bars * 2 + 1);
+        const barW = gap * 1.6;
         const cy = H / 2;
+        const maxH = H * 0.92;
+        const minH = H * 0.18;
         const mid = (bars - 1) / 2;
 
         for (let i = 0; i < bars; i++) {
-          const env = 1 - Math.abs(i - mid) / mid;
-          const lvl = Math.min(1, levels[i]);
-          const h = Math.max(2, maxBarH * env * (0.25 + 0.85 * lvl));
-          const x = cx - usable / 2 + gap * (i + 0.5) - barW / 2;
+          const env = 0.55 + 0.45 * (1 - Math.abs(i - mid) / (mid || 1));
+          const lvl = Math.min(1, s[i]);
+          const h = Math.max(minH, maxH * env * (0.35 + 0.75 * lvl));
+          const x = gap + i * (barW + gap) + (gap * 0.5) - barW / 2;
+          const y = cy - h / 2;
 
-          const grad = ctx2d.createLinearGradient(0, cy - h, 0, cy + h);
-          grad.addColorStop(0, `hsl(${accent})`);
-          grad.addColorStop(0.5, `hsl(${primary})`);
-          grad.addColorStop(1, `hsl(${accent})`);
+          const grad = ctx2d.createLinearGradient(0, y, 0, y + h);
+          grad.addColorStop(0, `hsl(${gold})`);
+          grad.addColorStop(0.5, `hsl(${goldGlow})`);
+          grad.addColorStop(1, `hsl(${goldDeep})`);
+
+          ctx2d.shadowColor = `hsla(${gold}, 0.55)`;
+          ctx2d.shadowBlur = 14;
           ctx2d.fillStyle = grad;
-
-          const radius = barW / 2;
-          roundRect(ctx2d, x, cy - h, barW, h * 2, radius);
+          roundRect(ctx2d, x, y, barW, h, barW / 2);
           ctx2d.fill();
         }
-
-        const glow = ctx2d.createRadialGradient(cx, cy, 0, cx, cy, size * 0.18);
-        glow.addColorStop(0, `hsla(${accent}, 0.35)`);
-        glow.addColorStop(1, `hsla(${accent}, 0)`);
-        ctx2d.fillStyle = glow;
-        ctx2d.fillRect(0, 0, W, H);
+        ctx2d.shadowBlur = 0;
 
         rafRef.current = requestAnimationFrame(draw);
       } catch (err) {
-        // Stop the loop on unexpected error; show CSS fallback instead.
         if (rafRef.current) cancelAnimationFrame(rafRef.current);
         rafRef.current = null;
         setFailed(true);
@@ -155,18 +160,27 @@ export default function AudioVisualizer({ active, size = 180, bars = 21 }: Audio
 
   if (!active) return null;
 
-  // CSS-only fallback so the overlay is never empty/black
+  const H = Math.round(size * 0.6);
+
   if (failed) {
+    // CSS-only fallback bars
     return (
       <div
-        style={{ width: size, height: size }}
-        className="relative flex items-center justify-center"
+        style={{ width: size, height: H }}
+        className="flex items-end justify-center gap-2"
         aria-hidden
       >
-        <div
-          style={{ width: size * 0.62, height: size * 0.62 }}
-          className="rotate-45 rounded-md border border-primary/30 bg-primary/10 animate-pulse"
-        />
+        {Array.from({ length: bars }).map((_, i) => (
+          <span
+            key={i}
+            className="rounded-full bg-[hsl(45_95%_58%)] animate-pulse"
+            style={{
+              width: size / (bars * 2.2),
+              height: `${40 + (i === Math.floor(bars / 2) ? 50 : Math.abs(Math.sin(i)) * 40)}%`,
+              animationDelay: `${i * 120}ms`,
+            }}
+          />
+        ))}
       </div>
     );
   }
@@ -174,7 +188,7 @@ export default function AudioVisualizer({ active, size = 180, bars = 21 }: Audio
   return (
     <canvas
       ref={canvasRef}
-      style={{ width: size, height: size }}
+      style={{ width: size, height: H }}
       className="block"
     />
   );
