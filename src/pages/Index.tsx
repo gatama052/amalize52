@@ -235,12 +235,12 @@ export default function Home() {
       </div>
 
       {/* Prayer Times */}
-      <div className="rounded-xl bg-card p-4 shadow-sm">
+      <div className="rounded-xl border border-border/60 bg-card p-4 shadow-sm">
         <h2 className="mb-3 text-sm font-semibold text-foreground">Jadwal Sholat Hari Ini</h2>
         {prayerLoading ? (
           <p className="text-sm text-muted-foreground">Memuat jadwal...</p>
         ) : timings ? (
-          <div className="space-y-2">
+          <div className="divide-y divide-border/50">
             {visibleKeys.map((key) => {
               const displayTime = getAdjustedTime(key);
               if (!displayTime) return null;
@@ -248,7 +248,7 @@ export default function Home() {
               return (
                 <div
                   key={key}
-                  className={`flex items-center justify-between rounded-lg px-3 py-2 transition-colors ${
+                  className={`flex items-center justify-between rounded-md px-3 py-2.5 transition-colors ${
                     isNext ? 'bg-accent/15 text-accent font-semibold' : 'text-foreground'
                   }`}
                 >
@@ -264,7 +264,7 @@ export default function Home() {
       </div>
 
       {/* Motivasi */}
-      <div className="rounded-xl bg-card p-4 shadow-sm">
+      <div className="rounded-xl border border-border/60 bg-card p-4 shadow-sm">
         <div className="flex items-start gap-3">
           <span className="text-2xl leading-none mt-0.5">{motivation.icon}</span>
           <p className="text-sm text-muted-foreground italic leading-relaxed">"{motivation.text}"</p>
@@ -273,7 +273,7 @@ export default function Home() {
 
       {/* Upcoming Events */}
       {upcomingEvents.length > 0 && (
-        <div className="rounded-xl bg-card p-4 shadow-sm">
+        <div className="rounded-xl border border-border/60 bg-card p-4 shadow-sm">
           <h2 className="mb-3 text-sm font-semibold text-foreground">📅 Acara Mendatang</h2>
           <div className="space-y-2">
             {upcomingEvents.map((ev) => {
