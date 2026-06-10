@@ -130,14 +130,14 @@ export default function PrayerSchedule() {
       </p>}
 
       {/* Today */}
-      <div className="rounded-xl bg-card p-4 shadow-sm">
+      <div className="rounded-xl border border-border/60 bg-card p-4 shadow-sm">
         <h3 className="mb-3 text-sm font-semibold text-accent">Hari Ini</h3>
         {loading ? (
           <p className="text-sm text-muted-foreground">Memuat...</p>
         ) : timings ? (
-          <div className="space-y-2">
+          <div className="divide-y divide-border/50">
             {visiblePrayers.map(({ key, label }) => (
-              <div key={key} className="flex items-center justify-between rounded-lg bg-secondary px-4 py-3">
+              <div key={key} className="flex items-center justify-between px-1 py-3">
                 <div className="flex items-center gap-2">
                   <div className="h-2 w-2 rounded-full bg-accent" />
                   <span className="text-sm font-medium text-foreground">{label}</span>

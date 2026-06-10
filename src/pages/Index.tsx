@@ -180,7 +180,7 @@ export default function Home() {
   return (
     <div className="space-y-4 animate-fade-in">
       {/* Date, Location & Countdown Capsule */}
-      <div className="relative overflow-hidden rounded-2xl bg-card p-4 shadow-sm">
+      <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-card p-4 shadow-sm">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
             <p className="text-sm text-muted-foreground">
@@ -205,15 +205,15 @@ export default function Home() {
             className="relative shrink-0 rounded-2xl px-3 py-2.5 text-center backdrop-blur-md"
             style={{
               background: 'linear-gradient(145deg, hsla(215, 70%, 10%, 0.85), hsla(215, 75%, 6%, 0.7))',
-              border: '1px solid hsla(43, 65%, 52%, 0.45)',
-              boxShadow: '0 4px 20px -4px hsla(43, 65%, 52%, 0.3), inset 0 1px 0 hsla(43, 65%, 70%, 0.2)',
+              border: '1px solid hsla(43, 65%, 52%, 0.3)',
+              boxShadow: 'inset 0 1px 0 hsla(43, 65%, 70%, 0.1)',
               minWidth: '128px',
             }}
           >
             <div className="flex justify-center">
               <img src={mosqueLogo} alt="" className="h-5 w-5 object-contain opacity-90" />
             </div>
-            <p className="mt-1 font-mono text-xl font-bold tracking-wider text-accent" style={{ textShadow: '0 0 12px hsla(43, 65%, 52%, 0.5)' }}>
+            <p className="mt-1 font-mono text-xl font-bold tracking-wider text-accent">
               {countdown}
             </p>
             <p className="mt-0.5 text-[9px] font-semibold uppercase tracking-[0.15em] text-white/70">
@@ -235,12 +235,12 @@ export default function Home() {
       </div>
 
       {/* Prayer Times */}
-      <div className="rounded-xl bg-card p-4 shadow-sm">
+      <div className="rounded-xl border border-border/60 bg-card p-4 shadow-sm">
         <h2 className="mb-3 text-sm font-semibold text-foreground">Jadwal Sholat Hari Ini</h2>
         {prayerLoading ? (
           <p className="text-sm text-muted-foreground">Memuat jadwal...</p>
         ) : timings ? (
-          <div className="space-y-2">
+          <div className="divide-y divide-border/50">
             {visibleKeys.map((key) => {
               const displayTime = getAdjustedTime(key);
               if (!displayTime) return null;
@@ -248,7 +248,7 @@ export default function Home() {
               return (
                 <div
                   key={key}
-                  className={`flex items-center justify-between rounded-lg px-3 py-2 transition-colors ${
+                  className={`flex items-center justify-between rounded-md px-3 py-2.5 transition-colors ${
                     isNext ? 'bg-accent/15 text-accent font-semibold' : 'text-foreground'
                   }`}
                 >
@@ -264,7 +264,7 @@ export default function Home() {
       </div>
 
       {/* Motivasi */}
-      <div className="rounded-xl bg-card p-4 shadow-sm">
+      <div className="rounded-xl border border-border/60 bg-card p-4 shadow-sm">
         <div className="flex items-start gap-3">
           <span className="text-2xl leading-none mt-0.5">{motivation.icon}</span>
           <p className="text-sm text-muted-foreground italic leading-relaxed">"{motivation.text}"</p>
@@ -273,7 +273,7 @@ export default function Home() {
 
       {/* Upcoming Events */}
       {upcomingEvents.length > 0 && (
-        <div className="rounded-xl bg-card p-4 shadow-sm">
+        <div className="rounded-xl border border-border/60 bg-card p-4 shadow-sm">
           <h2 className="mb-3 text-sm font-semibold text-foreground">📅 Acara Mendatang</h2>
           <div className="space-y-2">
             {upcomingEvents.map((ev) => {
